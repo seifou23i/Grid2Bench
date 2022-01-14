@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "rlbenchplot"
+version = "0.1.0"
+description = "plots for reinforcement learning benchmarking in grid2op"
+authors = ["Seif-Eddine ATTOUI<es_attoui@esi.dz>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Grid2Op = "^1.6.4"
+pylint = "^2.12.2"
+jupyter = "^1.0.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
