@@ -1,0 +1,11 @@
+{
+    "agent_seed": 442153755,
+    "backend_type": "LightSimBackend_input_data_val",
+    "chronics_max_timestep": "2016",
+    "chronics_path": "/mnt/c/Users/milad.leyli-abadi/Documents/PythonScripts/Boost/PPO_Solution/input_data_val/chronics/jan32_1",
+    "cumulative_reward": 167603.375,
+    "env_seed": 71432316,
+    "env_type": "Environment_input_data_val",
+    "grid_path": "/mnt/c/Users/milad.leyli-abadi/Documents/PythonScripts/Boost/PPO_Solution/input_data_val/grid.json",
+    "nb_timestep_played": 263
+}
