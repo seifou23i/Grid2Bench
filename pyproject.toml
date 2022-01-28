@@ -11,6 +11,8 @@ pylint = "^2.12.2"
 jupyter = "^1.0.0"
 numba = "^0.55.0"
 Flat = "^0.3.2"
+plotly = "^5.5.0"
+dash = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,20 +1,35 @@
 import os
 import numpy as np
+import pandas as pd
 from grid2op.Episode import EpisodeData
-
+import plotly.express as px
 
 class BenchPlot:
     """
 
     """
-
     def __init__(self, agent_path, episode_name):
         """
 
+        :param agent_path:
+        :param episode_name:
         """
         self.agent_path = os.path.abspath(agent_path)
-        self.episode_name = os.path.join(self.agent_path, episode_name)
-        self.episode_data = EpisodeData.from_disk(agent_path=self.agent_path, name=self.episode_name)
+        self.episode_name = episode_name
+
+        self.episode_data = self.load_episode_data()
+
+        self.actions = self.get_actions()
+        self.observations = self.get_observations()
+        self.computation_times = self.get_computation_times()
+
+    def load_episode_data(self):
+        """
+
+        :return:
+        """
+
+        return EpisodeData.from_disk(agent_path=self.agent_path, name=self.episode_name)
 
     def get_observations(self):
         """
@@ -29,6 +44,15 @@ class BenchPlot:
         :return:
         """
         return [action for action in self.episode_data.actions]
+
+    def get_computation_times(self):
+        """
+
+        :return:
+        """
+
+        return [computation_time for computation_time in self.episode_data.times if not np.isnan(computation_time)]
+
 
     def get_actions_freq_by_timestamp(self):
         """
@@ -114,8 +138,8 @@ class BenchPlot:
 
         return {
             'nb_injection': nb_injection,
-            'nb_lines_forced': nb_force_line,
-            'nb_lines_switched': nb_switch_line,
+            'nb_line_forced': nb_force_line,
+            'nb_line_switched': nb_switch_line,
             'nb_topological_changes': nb_topological_changes,
             'nb_redispatching_changes': nb_redispatch_changes,
             'nb_storage_changes': nb_storage_changes,
@@ -182,3 +206,29 @@ class BenchPlot:
                 )
 
         return disconnected_lines
+
+    def plot_actions_freq_by_type(self):
+        """
+
+        :return:
+        """
+        dict_actions_freq = self.get_actions_freq_by_type()
+
+        df_actions_freq_by_type = pd.DataFrame(columns=["action type", "frequency"])
+
+
+        for key, values in dict_actions_freq.items():
+            for char in ["nb", "_"]: key = key.replace(char, " ")
+            df_actions_freq_by_type = df_actions_freq_by_type.append({'action type': key, 'frequency': sum(values)},
+                                                                     ignore_index=True)
+
+        fig = px.pie(df_actions_freq_by_type, values='frequency', names='action type',
+                     title='Frequency of actions by type', )
+        fig.update_traces(textposition='inside', textinfo='percent+label')
+        return fig
+
+
+
+
+
+
