@@ -30,11 +30,16 @@ class EpisodeDataExtractor:
         self.episode_name = episode_name
 
         try:
-            self.observations = EpisodeData.from_disk(agent_path=self.agent_path, name=self.episode_name).observations
-            self.actions = EpisodeData.from_disk(agent_path=self.agent_path, name=self.episode_name).actions
-            self.computation_times = EpisodeData.from_disk(agent_path=self.agent_path, name=self.episode_name).times
+            episode_data = EpisodeData.from_disk(agent_path=self.agent_path, name=self.episode_name)
         except FileNotFoundError:
             print("Wrong episode name or agent path")
+
+        self.observations = episode_data.observations
+        self.actions = episode_data.actions
+        self.computation_times = episode_data.times
+
+        #clear memory
+        del episode_data
 
         self.n_observation = len(self.observations)
         self.n_action = len(self.actions)
