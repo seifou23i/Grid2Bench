@@ -2,7 +2,7 @@
 name = "rlbenchplot"
 version = "0.1.0"
 description = "plots for reinforcement learning benchmarking in grid2op"
-authors = ["Seif-Eddine ATTOUI<es_attoui@esi.dz>"]
+authors = ["Seif-Eddine ATTOUI<es_attoui@esi.dz>", "Fereshteh ASGARI <fereshteh.asgari@gmail.com>", "Milad LEYLI-ABADI <mleyliabadi@gmail.com>" ]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.11"
@@ -13,6 +13,7 @@ numba = "^0.55.0"
 Flat = "^0.3.2"
 plotly = "^5.5.0"
 dash = "^2.0.0"
+matplotlib = "^3.5.1"
 
 [tool.poetry.dev-dependencies]
 

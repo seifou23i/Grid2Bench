@@ -1,8 +1,16 @@
+"""
+Please do not use, functions are migrated to Episode Data Extractor,
+use EpisodeDataExtractor and EpisdesPlot instead
+"""
 import os
 import numpy as np
 import pandas as pd
 from grid2op.Episode import EpisodeData
 import plotly.express as px
+import plotly.graph_objects as go
+from datetime import timedelta
+from datetime import datetime
+from collections import Counter
 
 class BenchPlot:
     """
@@ -18,10 +26,21 @@ class BenchPlot:
         self.episode_name = episode_name
 
         self.episode_data = self.load_episode_data()
-
         self.actions = self.get_actions()
+        self.n_action = len (self.actions)
         self.observations = self.get_observations()
-        self.computation_times = self.get_computation_times()
+        #self.computation_times = self.get_computation_times()
+
+
+
+    def load_all_episodes_data(self, episodes_names=[]):
+        """
+
+        :return:
+        """
+        if not episodes_names : episodes_names = [ name for name in os.listdir(self.agent_path) if os.path.isdir(os.path.join(self.agent_path, name)) ]
+
+        return [EpisodeData.from_disk(agent_path=self.agent_path, name=episode_name) for episode_name in episodes_names]
 
     def load_episode_data(self):
         """
@@ -51,7 +70,16 @@ class BenchPlot:
         :return:
         """
 
-        return [computation_time for computation_time in self.episode_data.times if not np.isnan(computation_time)]
+        #return [computation_time for computation_time in self.episode_data.times if not np.isnan(computation_time)]
+        return self.episode_data.times
+
+
+    def get_current_timestamp(self, step):
+        """
+
+        :return:
+        """
+        return self.observations[step].get_time_stamp()
 
 
     def get_actions_freq_by_timestamp(self):
@@ -69,10 +97,7 @@ class BenchPlot:
                 action_freq.append(0)
             else:
                 action_freq.append(
-                    # number of injections
-                    action_impact["injection"]["count"]
-                    +
-                    # number of lines forced
+                    # number of forced lines
                     action_impact["force_line"]["reconnections"]["count"]
                     +
                     action_impact["force_line"]["disconnections"]["count"]
@@ -106,7 +131,6 @@ class BenchPlot:
         """
         actions = self.get_actions()
 
-        nb_injection = []
         nb_force_line = []
         nb_switch_line = []
         nb_topological_changes = []
@@ -117,7 +141,6 @@ class BenchPlot:
         for action in actions:
             action_impact = action.impact_on_objects()
 
-            nb_injection.append(action_impact["injection"]["count"])
             nb_force_line.append(
                 action_impact["force_line"]["reconnections"]["count"]
                 +
@@ -137,7 +160,6 @@ class BenchPlot:
             # actions_freq = [0 if action.impact_on_objects()["has_impact"] else 1 for action in actions]
 
         return {
-            'nb_injection': nb_injection,
             'nb_line_forced': nb_force_line,
             'nb_line_switched': nb_switch_line,
             'nb_topological_changes': nb_topological_changes,
@@ -167,7 +189,15 @@ class BenchPlot:
 
         return subs_impacted_by_timestamp
 
-    def get_overflow_lines_by_timestamp(self):
+
+    def get_actions_freq_by_line(self):
+        """
+
+        :return:
+        """
+
+
+    def get_overloaded_lines_by_timestamp(self):
         """
 
         :return:
@@ -176,12 +206,12 @@ class BenchPlot:
         overloaded_lines = []
 
         for observation, i in zip(observations, range(len(observations))):
-            lines = np.where(observation.timestep_overflow != 0)[0]
-            if len(lines) != 0:
+            lines_id = np.where(observation.timestep_overflow != 0)[0]
+            if len(lines_id) != 0:
                 overloaded_lines.append(
                     {
                         "timestamp": i,
-                        "lines_overflowed": set(lines)
+                        "lines_overloaded": set(lines_id)
                     }
                 )
 
@@ -196,12 +226,12 @@ class BenchPlot:
         disconnected_lines = []
 
         for observation, i in zip(observations, range(len(observations))):
-            lines_status = np.where(observation.line_status != True)[0]
-            if len(lines_status) != 0:
+            lines_id = np.where(observation.line_status != True)[0]
+            if len(lines_id) != 0:
                 disconnected_lines.append(
                     {
                         "timestamp": i,
-                        "lines_disconnected": set(lines_status)
+                        "lines_disconnected": set(lines_id)
                     }
                 )
 
@@ -226,6 +256,284 @@ class BenchPlot:
                      title='Frequency of actions by type', )
         fig.update_traces(textposition='inside', textinfo='percent+label')
         return fig
+
+
+    def plot_actions_sequence_length_by_type(self):
+        """
+
+        :return:
+        """
+        dict_list=[]
+        actions_freq_by_type, max = self.compute_action_sequences_lengh()
+
+        for key, value in actions_freq_by_type.items():
+            i = len(value) - 1
+            while i >= 0:
+                if value[i] != 0:
+                    end = self.get_current_timestamp(i + 1)
+                    start = end - timedelta(minutes=5) * value[i]
+                    dict_list.append(dict(Task=key, Start=str(start), Finish=str(end), Actions=value[i],
+                                   Actions_percent=(value[i] / max) * 100))
+                    i = i - value[i]
+                else:
+                    i = i - 1
+
+        fig = px.timeline(dict_list, x_start="Start", x_end="Finish", y="Task", color="Actions",
+                          color_continuous_scale=["green", "red"])
+        return fig
+
+    def compute_action_sequences_lengh(self): #helper function
+        """
+
+        :return:
+        """
+        action_sequences_lengh = self.get_actions_freq_by_type()
+        max = 0
+        for key, value in action_sequences_lengh.items():
+
+            for i in range(len(value)):
+                if value[i] != 0:
+                    if value[i - 1] == 0 and (i - 1) >= 0:
+                        action_sequences_lengh[key][i] = 1
+                    elif value[i - 1] != 0:
+                        action_sequences_lengh[key][i] = action_sequences_lengh[key][i - 1] + 1
+                    if max < action_sequences_lengh[key][i]: max = action_sequences_lengh[key][i]
+
+        return action_sequences_lengh, max
+
+
+    def plot_actions_freq_by_station(self):
+        """
+
+        :return:
+        """
+
+        actions_freq_by_station = self.get_actions_freq_by_station()
+        impacted_stations_flatten = []
+
+        for item in actions_freq_by_station:
+            impacted_stations_flatten.extend(list(item["subs_impacted"]))
+
+        x = list(Counter(impacted_stations_flatten).keys())
+        y = list(Counter(impacted_stations_flatten).values())
+
+        fig = px.bar(y=y, x=x, text_auto='.2s',
+                     title="")
+        fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+
+        return fig
+
+
+    def plot_overloaded_disconnected_lines_freq(self):
+        """
+
+        :return:
+        """
+        #overloaded lines frequency
+        overloaded_lines_by_timestep = self.get_overloaded_lines_by_timestamp()
+        overloaded_lines_flatten = []
+
+        for item in overloaded_lines_by_timestep:
+            overloaded_lines_flatten.extend(list(item["lines_overloaded"]))
+
+        #disconnected lines frequency
+        disconnected_lines_by_timestep = self.get_disconnected_lines_by_timestamp()
+        disconnected_lines_flatten = []
+
+        for item in disconnected_lines_by_timestep:
+            disconnected_lines_flatten.extend(list(item["lines_disconnected"]))
+
+        data = [[overloaded_lines_flatten.count(x), disconnected_lines_flatten.count(x)] for x in
+                range(self._n_lines())]
+        df = pd.DataFrame(data)
+        df = df.loc[~(df == 0).all(axis=1)]
+
+        fig = px.bar(df, y=[0, 1], x=self._name_of_lines(df.index), text_auto='.2s',
+                     title="")
+        fig.update_traces(textfont_size=12, textangle=0, cliponaxis=False)
+
+        return fig
+
+    def _n_lines(self):
+        """
+
+        :return:
+        """
+        return self.observations[0].n_line
+
+    def _name_of_lines(self, lines_id):
+        """
+
+        :return:
+        """
+        return self.actions[0].name_line[lines_id]
+
+
+
+    def plot_distance_from_intial_topology(self):
+        """
+
+        :return:
+        """
+
+        x = []
+        y = []
+
+        for i in range(self.n_action):
+            act = self.actions[i]
+            obs = self.observations[i]
+            # True == connected, False == disconnect
+            # So that len(line_statuses) - line_statuses.sum() is the distance for lines
+            line_statuses = self.observations[i].line_status
+            # True == sub has something on bus 2, False == everything on bus 1
+            # So that subs_on_bus2.sum() is the distance for subs
+            subs_on_bus_2 = np.repeat(False, self.observations[i].n_sub)
+            # objs_on_bus_2 will store the id of objects connected to bus 2
+            objs_on_bus_2 = {id: [] for id in range(self.observations[i].n_sub)}
+            distance, _, _, _ = self.get_distance_from_obs(act, line_statuses, subs_on_bus_2, objs_on_bus_2, obs)
+
+            x.append(self.get_current_timestamp(i))
+            y.append(distance)
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=x, y=y, name="linear",
+                                 line_shape='hvh'))
+
+        fig.update_layout(legend=dict(y=0.5, traceorder='reversed', font_size=16))
+        return fig
+
+    def plot_computation_times(self):
+        """
+
+        :return:
+        """
+
+        x = []
+        y = []
+        for i in range(self.n_action):
+            x.append(self.get_current_timestamp(i))
+            y.append(self.get_computation_times()[i])
+        fig = px.line(x=x, y=y)
+
+        return fig
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # reused from grid2vis
+    def get_distance_from_obs(
+            self, act, line_statuses, subs_on_bus_2, objs_on_bus_2, obs
+    ):
+
+        impact_on_objs = act.impact_on_objects()
+
+        # lines reconnetions/disconnections
+        line_statuses[
+            impact_on_objs["force_line"]["disconnections"]["powerlines"]
+        ] = False
+        line_statuses[
+            impact_on_objs["force_line"]["reconnections"]["powerlines"]
+        ] = True
+        line_statuses[impact_on_objs["switch_line"]["powerlines"]] = np.invert(
+            line_statuses[impact_on_objs["switch_line"]["powerlines"]]
+        )
+
+        topo_vect_dict = {
+            "load": obs.load_pos_topo_vect,
+            "generator": obs.gen_pos_topo_vect,
+            "line (extremity)": obs.line_ex_pos_topo_vect,
+            "line (origin)": obs.line_or_pos_topo_vect,
+        }
+
+        # Bus manipulation
+        if impact_on_objs["topology"]["changed"]:
+            for modif_type in ["bus_switch", "assigned_bus"]:
+
+                for elem in impact_on_objs["topology"][modif_type]:
+                    objs_on_bus_2 = self.update_objs_on_bus(
+                        objs_on_bus_2, elem, topo_vect_dict, kind=modif_type
+                    )
+
+            for elem in impact_on_objs["topology"]["disconnect_bus"]:
+                # Disconnected bus counts as one for the distance
+                subs_on_bus_2[elem["substation"]] = True
+
+        subs_on_bus_2 = [
+            True if objs_on_2 else False for _, objs_on_2 in objs_on_bus_2.items()
+        ]
+
+        distance = len(line_statuses) - line_statuses.sum() + sum(subs_on_bus_2)
+        return distance, line_statuses, subs_on_bus_2, objs_on_bus_2
+
+    def update_objs_on_bus(self, objs_on_bus_2, elem, topo_vect_dict, kind):
+        for object_type, pos_topo_vect in topo_vect_dict.items():
+            if elem["object_type"] == object_type and elem["bus"]:
+                if kind == "bus_switch":
+                    objs_on_bus_2 = self.update_objs_on_bus_switch(
+                        objs_on_bus_2, elem, pos_topo_vect
+                    )
+                else:
+                    objs_on_bus_2 = self.update_objs_on_bus_assign(
+                        objs_on_bus_2, elem, pos_topo_vect
+                    )
+                break
+        return objs_on_bus_2
+
+    @staticmethod
+    def update_objs_on_bus_switch(objs_on_bus_2, elem, pos_topo_vect):
+        if pos_topo_vect[elem["object_id"]] in objs_on_bus_2[elem["substation"]]:
+            # elem was on bus 2, remove it from objs_on_bus_2
+            objs_on_bus_2[elem["substation"]] = [
+                x
+                for x in objs_on_bus_2[elem["substation"]]
+                if x != pos_topo_vect[elem["object_id"]]
+            ]
+        else:
+            objs_on_bus_2[elem["substation"]].append(pos_topo_vect[elem["object_id"]])
+        return objs_on_bus_2
+
+    @staticmethod
+    def update_objs_on_bus_assign(objs_on_bus_2, elem, pos_topo_vect):
+        if (
+                pos_topo_vect[elem["object_id"]] in objs_on_bus_2[elem["substation"]]
+                and elem["bus"] == 1
+        ):
+            # elem was on bus 2, remove it from objs_on_bus_2
+            objs_on_bus_2[elem["substation"]] = [
+                x
+                for x in objs_on_bus_2[elem["substation"]]
+                if x != pos_topo_vect[elem["object_id"]]
+            ]
+        elif (
+                pos_topo_vect[elem["object_id"]] not in objs_on_bus_2[elem["substation"]]
+                and elem["bus"] == 2
+        ):
+            objs_on_bus_2[elem["substation"]].append(pos_topo_vect[elem["object_id"]])
+        return objs_on_bus_2
+
+
+
+
+
+
+
+
+
+
+
 
 
 

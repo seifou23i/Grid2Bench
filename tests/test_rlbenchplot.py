@@ -1,5 +1,7 @@
-from rlbenchplot import __version__
+import unittest
 
 
-def test_version():
-    assert __version__ == '0.1.0'
+class TestRLBenchPlot(unittest.TestCase):
+
+    def setUp(self):
+        self.case = "rte_case14_realistic"
