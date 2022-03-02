@@ -12,6 +12,7 @@ from datetime import timedelta
 from datetime import datetime
 from collections import Counter
 import datetime
+import qgrid
 
 from IPython.display import display
 import ipywidgets as widgets
@@ -612,7 +613,9 @@ class BenchPlot:
                                     o_id = d['topology']['disconnect_bus'][n]['object_id']
                                     subs = d['topology']['disconnect_bus'][n]['substation']
                                     topo_df.loc[len(topo_df)]= [i,t,'disconnect_bus', o_type, o_id, subs]
-#         print("total Number of topology changes:" ,c1+c2+c3)
+#       print("total Number of topology changes:" ,c1+c2+c3)
+#         df = qgrid.show_grid(topo_df)
+    
         return [c1+c2+c3, topo_df]
 
 
@@ -636,6 +639,7 @@ class BenchPlot:
                             inj_df.loc[len(inj_df)]= [i,t, co, impacted]
 
 #         print('total number of injection:', c)
+#         df = qgrid.show_grid(inj_df)
         return(c, inj_df)
 
 
@@ -662,16 +666,45 @@ class BenchPlot:
                             #print([i, gen_id, gen_name, amount ])
                             dispatch_df.loc[len(dispatch_df)]= [i,t, gen_id, gen_name, amount]
 #         print('total numnber of redispatches:', c)
+#         df = qgrid.show_grid(dispatch_df)
         return(c, dispatch_df)
+    
+    def create_force_line_df(self):
+        c1 =0
+        c2 = 0
+        c3 = 0
+        line_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'type',  'powerline'])
+        for i in range(0, len(self.episode_data.actions)):
 
+            # to extract time stamp, we need the observation object:
+            obs=self.episode_data.observations[i]
+            t = datetime.datetime(obs.year, obs.month, obs.day, hour= obs.hour_of_day, minute= obs.minute_of_hour )
 
-    def present_detailed_action_type(self):
+            d= self.episode_data.actions[i].impact_on_objects()
+            if d['has_impact']:
+                for j in d:
+                    if ( type(d[j])is dict) and (d[j]['changed']):
+                         if j == 'force_line':
+                            c1 += d[j]['reconnections']['count']
+                            c2 += d[j]['disconnections']['count']
+                            if c1>0:
+                                line_df.loc[len(line_df)]= [i,t,'reconnection', d[j]['reconnections']['powerlines']]
+                            if c2>0:
+                                line_df.loc[len(line_df)]= [i,t,'disconnection', d[j]['reconnections']['powerlines']]
+
+        #print("total Number of force_line changes:" ,c1+c2)  
+#         df = qgrid.show_grid(line_df)
+        return(c1+c2, line_df)
+
+    
+    def display_detailed_action_type(self):
 
         data_display = display(display_id="data_display")
         output_display = display(display_id="output_display")
+        grid = qgrid.QGridWidget(df=pd.DataFrame())
 
         w = widgets.Dropdown(
-            options=['Select','Tolopology changes', 'Redispatching', 'Injection', 'Switch line'],
+            options=['Select','Tolopology changes','Force_line', 'Redispatching', 'Injection', 'Switch line'],
             value='Select',
             description='Table',
         )
@@ -681,22 +714,27 @@ class BenchPlot:
                 if change['new'] =='Tolopology changes':
                     result = self.create_topology_df()
                     output_display.update("total Number of topology changes:" + str(result[0]))
-                    data_display.update(result[1])
+                    grid.df=result[1]
 
                 if change['new'] =='Redispatching':
                     result = self.create_dispatch_df()
                     output_display.update("total Number of Redispatching changes:" + str(result[0]))
-                    data_display.update(result[1])
+                    grid.df=result[1]
 
                 if change['new'] == "Injection":
                     result = self.create_injection_df()
                     output_display.update("total Number of Injections changes:" + str(result[0]))
-                    data_display.update(result[1])
+                    grid.df=result[1]
+                    
+                if change['new'] == "Force_line":
+                    result = self.create_force_line_df()
+                    output_display.update("total Number of Force_line changes:" + str(result[0]))
+                    grid.df=result[1]
 
         w.observe(on_change)
 #         ouptup_display = display(display_id="ouptup_display")
 
         display(w)
         output_display.display('')
-        data_display.display('')
+        data_display.display(grid)
         return

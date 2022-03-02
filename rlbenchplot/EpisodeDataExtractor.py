@@ -340,3 +340,152 @@ class EpisodeDataExtractor:
         ):
             objs_on_bus_2[elem["substation"]].append(pos_topo_vect[elem["object_id"]])
         return objs_on_bus_2
+
+    
+    
+    
+    #The second part added by Fereshteh:
+    
+    def create_topology_df(self):
+        c1 = 0
+        c2 = 0
+        c3 = 0
+
+        topo_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'type',  'object_type', 'object_id', 'susbtation'])
+        for i in range(0, len(self.actions)):
+
+            t= self.timestamps[i]
+
+            d= self.actions[i].impact_on_objects()
+            if d['has_impact']:
+                c1+= len(d['topology']['disconnect_bus'])
+                c2+= len(d['topology']['bus_switch'])
+                c3+= len(d['topology']['assigned_bus'])
+                for j in d:
+                    if ( type(d[j])is dict) and (d[j]['changed']):
+                        if j== 'topology':
+                            if d['topology']['bus_switch']:
+                                for n in range(0,len(d['topology']['bus_switch'])):
+                                    o_type= d['topology']['bus_switch'][n]['object_type']
+                                    o_id = d['topology']['bus_switch'][n]['object_id']
+                                    subs = d['topology']['bus_switch'][n]['substation']
+                                    topo_df.loc[len(topo_df)]= [i,t, 'swithc_bus', o_type, o_id, subs]
+
+                            if d['topology']['assigned_bus']:
+                                for n in range(0,len(d['topology']['assigned_bus'])):
+                                    #print(d['topology']['assigned_bus'][n])
+                                    print('assigned_bus')
+                                    o_type= d['topology']['assigned_bus'][n]['object_type']
+                                    o_id = d['topology']['assigned_bus'][n]['object_id']
+                                    subs = d['topology']['assigned_bus'][n]['substation']
+                                    topo_df.loc[len(topo_df)]= [i,t, 'assigned_bus', o_type, o_id, subs]
+
+                            if d['topology']['disconnect_bus']:
+                                for n in range(0,len(d['topology']['disconnect_bus'])):
+                                    o_type= d['topology']['disconnect_bus'][n]['object_type']
+                                    o_id = d['topology']['disconnect_bus'][n]['object_id']
+                                    subs = d['topology']['disconnect_bus'][n]['substation']
+                                    topo_df.loc[len(topo_df)]= [i,t,'disconnect_bus', o_type, o_id, subs]
+    
+        return [c1+c2+c3, topo_df]
+
+    
+    
+
+    def create_injection_df(self):
+        c =0
+        inj_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'count',  'impacted'])
+        for i in range(0, len(self.actions)):
+            t= self.timestamps[i]            
+            d= self.actions[i].impact_on_objects()
+            if d['has_impact']:
+                for j in d:
+                    if ( type(d[j])is dict) and (d[j]['changed']):
+                        if j== 'injection':
+                            c+= d['injection']['count']
+                            co= d['injection']['count']
+                            impacted= d['injection']['impacted']
+                            inj_df.loc[len(inj_df)]= [i,t, co, impacted]
+        return(c, inj_df)
+
+
+
+    
+    def create_dispatch_df(self):
+        c = 0
+        dispatch_df = pd.DataFrame(columns= ['t_step','time_stamp','generator_id', 'generator_name', 'amount'])
+
+        for i in range(0, len(self.actions)):           
+            t= self.timestamps[i]
+            d= self.actions[i].impact_on_objects()
+            if d['has_impact']:
+                for j in d:
+                    if ( type(d[j])is dict) and (d[j]['changed']):
+                        if j == 'redispatch':
+                            c+=1
+                            gen= (d[j]['generators'][0])
+                            gen_id= gen['gen_id']
+                            gen_name = gen['gen_name']
+                            amount = gen['amount']
+                            #print([i, gen_id, gen_name, amount ])
+                            dispatch_df.loc[len(dispatch_df)]= [i,t, gen_id, gen_name, amount]
+         
+        return(c, dispatch_df)
+    
+    
+    
+    def create_force_line_df(self):
+        c1 =0
+        c2 = 0
+        c3 = 0
+        line_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'type',  'powerline'])
+        for i in range(0, len(self.actions)):
+            t= self.timestamps[i]
+            d= self.actions[i].impact_on_objects()
+            if d['has_impact']:
+                for j in d:
+                    if ( type(d[j])is dict) and (d[j]['changed']):
+                         if j == 'force_line':
+                            c1 += d[j]['reconnections']['count']
+                            c2 += d[j]['disconnections']['count']
+                            if  d[j]['reconnections']['count'] >0:
+                                line_df.loc[len(line_df)]= [i,t,'reconnection', d[j]['reconnections']['powerlines']]
+                            if d[j]['disconnections']['count'] >0:
+                                line_df.loc[len(line_df)]= [i,t,'disconnection', d[j]['reconnections']['powerlines']]
+        return(c1+c2, line_df)
+    
+    
+    
+    def create_curtailment_df(self):
+        c =0
+        curtailment_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'limit'])
+        for i in range(0, len(self.actions)):
+            t= self.timestamps[i]
+            d= self.actions[i].impact_on_objects()
+            if d['has_impact']:
+                for j in d:
+                    if ( type(d[j])is dict) and (d[j]['changed']):                        
+                         if j == 'curtailment':
+                            c += len(d[j]['limit'])                           
+                            if len(d[j]['limit']) > 0:
+                                line_df.loc[len(line_df)]= [i,t, d[j]['limit']]
+        return(c, curtailment_df)
+    
+    
+    def create_storage_df(self):
+        c =0
+        storage_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'capacities'])
+        for i in range(0, len(self.actions)):
+            t= self.timestamps[i]
+            d= self.actions[i].impact_on_objects()
+            if d['has_impact']:
+                for j in d:
+                    if ( type(d[j])is dict) and (d[j]['changed']):                        
+                         if j == 'storage':
+                            c += len(d[j]['capacities'])                           
+                            if len(d[j]['capacities']) > 0:
+                                line_df.loc[len(line_df)]= [i,t, d[j]['capacities']]
+        return(c, storage_df)
+
+    
+    
