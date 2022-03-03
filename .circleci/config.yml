@@ -1,0 +1,44 @@
+version: 2.1
+
+
+orbs:
+  win: circleci/windows@2.4.1 
+
+executors:
+
+
+jobs:
+  run_tests:
+    docker:
+      - image: circleci/python:3.8.1
+    steps:
+      - checkout
+      - run: mkdir test-reports
+      - run: python3 -m pip install virtualenv
+      - run: python3 -m virtualenv venv_test
+      - run: python3 -m pip install poetry
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install Python Dependencies in a venv
+          command: |
+            source venv_test/bin/activate
+            poetry install
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Run Unit Tests
+          command: |
+            source venv_test/bin/activate
+            cd tests
+            python -m pytest --html=test-reports/pytest_report.html --self-contained-html
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: test-reports
+workflows:
+    build_test:
+      jobs:
+        - run_tests
