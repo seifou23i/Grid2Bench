@@ -11,6 +11,9 @@ from datetime import timedelta
 from matplotlib import pyplot as plt
 
 
+import qgrid
+import ipywidgets as widgets
+
 class EpisodesPlot:
     """
 
@@ -277,6 +280,7 @@ class EpisodesPlot:
         fig.update_layout(**fig_kwargs)
         return fig
 
+
     def plot_cumulative_reward(
             self,
             episodes_names=[],
@@ -324,6 +328,47 @@ class EpisodesPlot:
 
 
 
+    def display_detailed_action_type(self, episodes_names=[]):
+
+        data_display = display(display_id="data_display")
+        output_display = display(display_id="output_display")
+        grid = qgrid.QGridWidget(df=pd.DataFrame())
+
+        w = widgets.Dropdown(
+            options=['Select','Tolopology','Force_line', 'Redispatching', 'Injection', 'Curtailment', 'Storage'],
+            value='Select',
+            description='Table',
+        )
+
+        def on_change(change):
+            if change['type'] == 'change' and change['name'] == 'value':
+
+                result = pd.DataFrame()
+                c=0
+                for episode_data in self.episodes_data:
+                    if (not len(episodes_names)) or episode_data.episode_name in episodes_names:
+                        functions = {
+                            'Tolopology':episode_data.create_topology_df,
+                            'Force_line': episode_data.create_force_line_df,
+                            'Redispatching': episode_data.create_dispatch_df,
+                            'Injection': episode_data.create_injection_df,
+                            'Curtailment': episode_data.create_curtailment_df,
+                            'Storage' : episode_data.create_storage_df
+                        }
+                        r= functions[change['new']]()
+                        r[1]['episode_name'] = episode_data.episode_name
+                        result = pd.concat([result, r[1]])
+                        c+=r[0]
+                output_display.update("total Number of "+change['new']+" changes:" + str(c))
+                grid.df=result
+
+        w.observe(on_change)
+#         ouptup_display = display(display_id="ouptup_display")
+
+        display(w)
+        output_display.display('')
+        data_display.display(grid)
+        return
 
 
 
