@@ -8,6 +8,8 @@ import numpy as np
 from collections import Counter
 import itertools
 from datetime import timedelta
+from matplotlib import pyplot as plt
+
 
 class EpisodesPlot:
     """
@@ -62,6 +64,32 @@ class EpisodesPlot:
 
         return fig
 
+    def plot_actions_freq_by_station_pie_chart(
+            self,
+            episodes_names=[],
+            title="Frequency of actions by station",
+            **fig_kwargs):
+        if not episodes_names: episodes_names = self.episodes_names
+
+        actions_freq_by_station = []
+        for episode_data in self.episodes_data:
+            if episode_data.episode_name in episodes_names:
+                actions_freq_by_station.extend(episode_data.compute_actions_freq_by_station())
+
+        impacted_stations_flatten = []
+
+        for item in actions_freq_by_station:
+            impacted_stations_flatten.extend(list(item["subs_impacted"]))
+
+        x = list(Counter(impacted_stations_flatten).keys())
+        y = list(Counter(impacted_stations_flatten).values())
+
+        fig = px.pie(names=x, values=y, title=title)
+        fig.update_traces(textfont_size=12, textposition='inside', textinfo='percent+label')
+        fig.update_layout(**fig_kwargs)
+
+        return fig
+
     def plot_overloaded_disconnected_lines_freq(
             self,
             episodes_names=[],
@@ -93,7 +121,7 @@ class EpisodesPlot:
         df = pd.DataFrame(data, columns=["Overloaded", "Disconnected"])
         df = df.loc[~(df == 0).all(axis=1)]
 
-        fig = px.bar(df, y=["Overloaded", "Disconnected"], x=self.episodes_data[0]._name_of_lines(df.index),
+        fig = px.bar(df, y=["Overloaded", "Disconnected"], x=self.episodes_data[0]._name_of_lines(df.index), log_y=True,
                      text_auto='.2s', labels={
                 "x": "Line name",
                 "value": "Frequency",
@@ -120,10 +148,7 @@ class EpisodesPlot:
 
         max = df.loc[:, df.columns != "Timestamp"].to_numpy().max()
 
-        # Initialize the dict for design purposes
-        dict_list = [
-            dict(Type=df.columns[j].removeprefix("NB "), Start=str(df.iloc[0, 0]), Finish=str(df.iloc[0, 0]), Actions=0,
-                 Actions_percent=0) for j in range(1, len(df.columns)) if df.columns[j] != "Timestamp"]
+        dict_list = []
 
         for j in range(1, df.shape[1]):
             i = df.shape[0] - 1
@@ -182,7 +207,7 @@ class EpisodesPlot:
     def plot_distance_from_initial_topology(
             self,
             episodes_names=[],
-            title="Distances from initial topologys",
+            title="Distances from initial topology",
             **fig_kwargs
     ):
 
@@ -226,7 +251,7 @@ class EpisodesPlot:
     def plot_actions_freq_by_station(
             self,
             episodes_names=[],
-            title="Frequency of overloaded and disconnected lines",
+            title="Frequency of actions by station",
             **fig_kwargs):
         if not episodes_names: episodes_names = self.episodes_names
 
@@ -251,6 +276,51 @@ class EpisodesPlot:
 
         fig.update_layout(**fig_kwargs)
         return fig
+
+    def plot_cumulative_reward(
+            self,
+            episodes_names=[],
+            title="Cumulative reward",
+            **fig_kwargs):
+        """
+
+        :param episodes_names:
+        :param title:
+        :param fig_kwargs:
+        :return:
+        """
+        if not episodes_names: episodes_names = self.episodes_names
+
+        chron_ids = list()
+        cum_rewards = list()
+        nb_time_steps = list()
+
+        for episode_data in self.episodes_data:
+            if episode_data.episode_name in episodes_names:
+                chron_ids.append(episode_data.episode_name)
+                cum_rewards.append(episode_data.cum_reward / 100)
+                nb_time_steps.append(episode_data.nb_timestep_played)
+
+        # visualizing the results
+        x = np.arange(len(cum_rewards))
+        fig = plt.figure(figsize=(14, 8))
+        ax = plt.subplot(111)
+        ax2 = ax.twinx()
+        l1 = ax.plot(x, cum_rewards, marker='x', linewidth=2, markersize=12, label="Rewards", color="b")
+        ax.set_xticks(x)
+        ax.set_xticklabels(chron_ids, rotation=45, fontsize=15, ha="right")
+        ax.set_ylabel("$ \\frac{Cumulative reward}{100}$", fontsize=20, color="b")
+        ax.set_xlabel("Chronics", fontsize=14)
+        l2 = ax2.plot(x, nb_time_steps, 'g--', marker='o', markersize=10, label="Time steps")
+        ax2.set_ylabel("Accomplished time steps", color="g", fontsize=14)
+        # added these three lines
+        lns = l1 + l2
+        labs = [l.get_label() for l in lns]
+        ax.legend(lns, labs, loc=0, fontsize=16)
+        ax.grid()
+        ax2.grid()
+
+
 
 
 

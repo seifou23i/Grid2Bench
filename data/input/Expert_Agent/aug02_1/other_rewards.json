@@ -1,0 +1,4857 @@
+[
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 283.681640625,
+        "l2rpn_atc_reward": 51.409339904785156
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 285.03173828125,
+        "l2rpn_atc_reward": 51.353660583496094
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 289.02587890625,
+        "l2rpn_atc_reward": 51.275840759277344
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 286.57470703125,
+        "l2rpn_atc_reward": 51.33282470703125
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 281.4208984375,
+        "l2rpn_atc_reward": 51.46354675292969
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 281.5283203125,
+        "l2rpn_atc_reward": 51.4693603515625
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 278.40576171875,
+        "l2rpn_atc_reward": 51.54902648925781
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 279.3603515625,
+        "l2rpn_atc_reward": 51.513710021972656
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 275.0634765625,
+        "l2rpn_atc_reward": 51.620208740234375
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 272.30224609375,
+        "l2rpn_atc_reward": 51.69192886352539
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 270.89599609375,
+        "l2rpn_atc_reward": 51.745601654052734
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 270.05615234375,
+        "l2rpn_atc_reward": 51.74143600463867
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 268.04931640625,
+        "l2rpn_atc_reward": 51.80031204223633
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 261.7138671875,
+        "l2rpn_atc_reward": 51.95766830444336
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 261.904296875,
+        "l2rpn_atc_reward": 51.96285629272461
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 260.75927734375,
+        "l2rpn_atc_reward": 52.0084228515625
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 264.45068359375,
+        "l2rpn_atc_reward": 51.9250373840332
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 262.63671875,
+        "l2rpn_atc_reward": 51.96794509887695
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 263.1982421875,
+        "l2rpn_atc_reward": 51.94896697998047
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 267.01416015625,
+        "l2rpn_atc_reward": 51.87503433227539
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 264.33349609375,
+        "l2rpn_atc_reward": 51.92164993286133
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 267.5146484375,
+        "l2rpn_atc_reward": 51.84969711303711
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 263.74267578125,
+        "l2rpn_atc_reward": 51.920745849609375
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 265.41259765625,
+        "l2rpn_atc_reward": 51.90501403808594
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 265.52001953125,
+        "l2rpn_atc_reward": 51.902042388916016
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 267.20947265625,
+        "l2rpn_atc_reward": 51.86587905883789
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 265.6884765625,
+        "l2rpn_atc_reward": 51.92035675048828
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 265.64697265625,
+        "l2rpn_atc_reward": 51.9089469909668
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 265.126953125,
+        "l2rpn_atc_reward": 51.92366027832031
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 264.54345703125,
+        "l2rpn_atc_reward": 51.933372497558594
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 265.75927734375,
+        "l2rpn_atc_reward": 51.91386032104492
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 271.1865234375,
+        "l2rpn_atc_reward": 51.78157424926758
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 264.140625,
+        "l2rpn_atc_reward": 51.96788787841797
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 265.5615234375,
+        "l2rpn_atc_reward": 51.93572998046875
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 265.80322265625,
+        "l2rpn_atc_reward": 51.9249382019043
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 265.9130859375,
+        "l2rpn_atc_reward": 51.968170166015625
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 267.705078125,
+        "l2rpn_atc_reward": 51.94101333618164
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 265.8447265625,
+        "l2rpn_atc_reward": 52.0167121887207
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 268.974609375,
+        "l2rpn_atc_reward": 51.937313079833984
+    },
+    {
+        "MinMargin_reward": 0.2199999988079071,
+        "__scores": 265.1513671875,
+        "l2rpn_atc_reward": 52.04289627075195
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 267.265625,
+        "l2rpn_atc_reward": 51.994422912597656
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 265.1904296875,
+        "l2rpn_atc_reward": 52.072601318359375
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 266.96533203125,
+        "l2rpn_atc_reward": 52.040382385253906
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 267.15576171875,
+        "l2rpn_atc_reward": 52.04705047607422
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 266.01318359375,
+        "l2rpn_atc_reward": 52.0872917175293
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 267.705078125,
+        "l2rpn_atc_reward": 52.04848861694336
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 267.646484375,
+        "l2rpn_atc_reward": 52.05034255981445
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 270.244140625,
+        "l2rpn_atc_reward": 52.02265548706055
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 270.99365234375,
+        "l2rpn_atc_reward": 52.00091552734375
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 266.90185546875,
+        "l2rpn_atc_reward": 52.067230224609375
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 266.875,
+        "l2rpn_atc_reward": 52.0063591003418
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 257.35107421875,
+        "l2rpn_atc_reward": 52.09797286987305
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 252.2021484375,
+        "l2rpn_atc_reward": 52.12395095825195
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 248.57666015625,
+        "l2rpn_atc_reward": 52.126956939697266
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 248.57421875,
+        "l2rpn_atc_reward": 52.14015197753906
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 251.45263671875,
+        "l2rpn_atc_reward": 52.09879684448242
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 243.7744140625,
+        "l2rpn_atc_reward": 52.228729248046875
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 243.9453125,
+        "l2rpn_atc_reward": 52.16208267211914
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 245.5810546875,
+        "l2rpn_atc_reward": 52.22279357910156
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 241.42333984375,
+        "l2rpn_atc_reward": 52.27047348022461
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 241.9384765625,
+        "l2rpn_atc_reward": 52.28045654296875
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 247.65625,
+        "l2rpn_atc_reward": 52.232887268066406
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 253.92578125,
+        "l2rpn_atc_reward": 52.179168701171875
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 250.6005859375,
+        "l2rpn_atc_reward": 52.31719207763672
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 256.63330078125,
+        "l2rpn_atc_reward": 52.27995681762695
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 256.25244140625,
+        "l2rpn_atc_reward": 52.31535720825195
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 254.24560546875,
+        "l2rpn_atc_reward": 52.33842468261719
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 252.9541015625,
+        "l2rpn_atc_reward": 52.35898971557617
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 250.43212890625,
+        "l2rpn_atc_reward": 52.40410614013672
+    },
+    {
+        "MinMargin_reward": 0.2199999988079071,
+        "__scores": 247.71240234375,
+        "l2rpn_atc_reward": 52.45205307006836
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 245.06591796875,
+        "l2rpn_atc_reward": 52.53373336791992
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 239.58740234375,
+        "l2rpn_atc_reward": 52.64174270629883
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 238.3251953125,
+        "l2rpn_atc_reward": 52.684410095214844
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 233.20068359375,
+        "l2rpn_atc_reward": 52.798728942871094
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 234.150390625,
+        "l2rpn_atc_reward": 52.749664306640625
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 228.76220703125,
+        "l2rpn_atc_reward": 52.85617446899414
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 223.98681640625,
+        "l2rpn_atc_reward": 52.95320129394531
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 216.97021484375,
+        "l2rpn_atc_reward": 53.08114242553711
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 218.02490234375,
+        "l2rpn_atc_reward": 53.040626525878906
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 215.4736328125,
+        "l2rpn_atc_reward": 53.07160568237305
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 210.7421875,
+        "l2rpn_atc_reward": 53.16685485839844
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 209.34814453125,
+        "l2rpn_atc_reward": 53.1722526550293
+    },
+    {
+        "MinMargin_reward": 0.3799999952316284,
+        "__scores": 202.97119140625,
+        "l2rpn_atc_reward": 53.289852142333984
+    },
+    {
+        "MinMargin_reward": 0.3799999952316284,
+        "__scores": 202.41943359375,
+        "l2rpn_atc_reward": 53.28717041015625
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 197.52197265625,
+        "l2rpn_atc_reward": 53.367103576660156
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 197.4462890625,
+        "l2rpn_atc_reward": 53.352691650390625
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 196.5625,
+        "l2rpn_atc_reward": 53.381160736083984
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 192.7490234375,
+        "l2rpn_atc_reward": 53.443302154541016
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 191.90185546875,
+        "l2rpn_atc_reward": 53.42368698120117
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 189.43359375,
+        "l2rpn_atc_reward": 53.462928771972656
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 188.17626953125,
+        "l2rpn_atc_reward": 53.45435333251953
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 185.283203125,
+        "l2rpn_atc_reward": 53.51922607421875
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 186.005859375,
+        "l2rpn_atc_reward": 53.47653579711914
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 184.67041015625,
+        "l2rpn_atc_reward": 53.47482681274414
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 185.83251953125,
+        "l2rpn_atc_reward": 53.40933609008789
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 183.7646484375,
+        "l2rpn_atc_reward": 53.461143493652344
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 182.74658203125,
+        "l2rpn_atc_reward": 53.48300552368164
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 178.65478515625,
+        "l2rpn_atc_reward": 53.55788040161133
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 179.5361328125,
+        "l2rpn_atc_reward": 53.51533508300781
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 177.7783203125,
+        "l2rpn_atc_reward": 53.55694580078125
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 178.11279296875,
+        "l2rpn_atc_reward": 53.52811050415039
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 176.904296875,
+        "l2rpn_atc_reward": 53.525901794433594
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 175.9619140625,
+        "l2rpn_atc_reward": 53.56059646606445
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 171.6259765625,
+        "l2rpn_atc_reward": 53.639427185058594
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 170.908203125,
+        "l2rpn_atc_reward": 53.62373733520508
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 170.86181640625,
+        "l2rpn_atc_reward": 53.630680084228516
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 170.9228515625,
+        "l2rpn_atc_reward": 53.61962890625
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 169.47509765625,
+        "l2rpn_atc_reward": 53.62474060058594
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 169.2724609375,
+        "l2rpn_atc_reward": 53.622650146484375
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 186.826171875,
+        "l2rpn_atc_reward": 52.20486831665039
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 182.021484375,
+        "l2rpn_atc_reward": 52.34151077270508
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 182.021484375,
+        "l2rpn_atc_reward": 52.335819244384766
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 180.185546875,
+        "l2rpn_atc_reward": 52.39959716796875
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 182.22412109375,
+        "l2rpn_atc_reward": 52.3028564453125
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 181.98486328125,
+        "l2rpn_atc_reward": 52.2703857421875
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 180.23681640625,
+        "l2rpn_atc_reward": 52.317222595214844
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 180.41259765625,
+        "l2rpn_atc_reward": 52.27886962890625
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 181.4013671875,
+        "l2rpn_atc_reward": 52.24211120605469
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 178.65478515625,
+        "l2rpn_atc_reward": 52.286373138427734
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 177.0947265625,
+        "l2rpn_atc_reward": 52.36197280883789
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 179.716796875,
+        "l2rpn_atc_reward": 52.2384147644043
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 178.37646484375,
+        "l2rpn_atc_reward": 52.29390335083008
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 176.41357421875,
+        "l2rpn_atc_reward": 52.33833694458008
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 177.24609375,
+        "l2rpn_atc_reward": 52.28303527832031
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 176.44775390625,
+        "l2rpn_atc_reward": 52.337242126464844
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 177.03369140625,
+        "l2rpn_atc_reward": 52.3138542175293
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 175.51025390625,
+        "l2rpn_atc_reward": 52.334590911865234
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 175.26123046875,
+        "l2rpn_atc_reward": 52.359100341796875
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 180.06591796875,
+        "l2rpn_atc_reward": 52.19740676879883
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 180.263671875,
+        "l2rpn_atc_reward": 52.22317123413086
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 177.57568359375,
+        "l2rpn_atc_reward": 52.27615737915039
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 177.5634765625,
+        "l2rpn_atc_reward": 52.28921127319336
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 178.2568359375,
+        "l2rpn_atc_reward": 52.25770568847656
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 178.29833984375,
+        "l2rpn_atc_reward": 52.21295928955078
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 176.58203125,
+        "l2rpn_atc_reward": 52.27672576904297
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 180.458984375,
+        "l2rpn_atc_reward": 52.164215087890625
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 182.46337890625,
+        "l2rpn_atc_reward": 52.09815979003906
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 181.1669921875,
+        "l2rpn_atc_reward": 52.15488052368164
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 181.1376953125,
+        "l2rpn_atc_reward": 52.15385437011719
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 183.01025390625,
+        "l2rpn_atc_reward": 52.080543518066406
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 183.7255859375,
+        "l2rpn_atc_reward": 52.034908294677734
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 184.5849609375,
+        "l2rpn_atc_reward": 52.03361511230469
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 186.484375,
+        "l2rpn_atc_reward": 51.94700241088867
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 185.2490234375,
+        "l2rpn_atc_reward": 51.98014450073242
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 185.74462890625,
+        "l2rpn_atc_reward": 51.91173553466797
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 188.037109375,
+        "l2rpn_atc_reward": 51.84387969970703
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 188.7158203125,
+        "l2rpn_atc_reward": 51.866512298583984
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 189.56298828125,
+        "l2rpn_atc_reward": 51.86933517456055
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 192.919921875,
+        "l2rpn_atc_reward": 51.7718505859375
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 193.876953125,
+        "l2rpn_atc_reward": 51.74311828613281
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 194.3359375,
+        "l2rpn_atc_reward": 51.73390579223633
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 194.86328125,
+        "l2rpn_atc_reward": 51.75306701660156
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 195.90576171875,
+        "l2rpn_atc_reward": 51.72080993652344
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 197.9150390625,
+        "l2rpn_atc_reward": 51.697837829589844
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 197.5634765625,
+        "l2rpn_atc_reward": 51.64391326904297
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 206.53564453125,
+        "l2rpn_atc_reward": 51.463321685791016
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 206.37451171875,
+        "l2rpn_atc_reward": 51.483489990234375
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 205.32470703125,
+        "l2rpn_atc_reward": 51.506874084472656
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 205.9423828125,
+        "l2rpn_atc_reward": 51.43885040283203
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 209.06494140625,
+        "l2rpn_atc_reward": 51.37687301635742
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 209.55810546875,
+        "l2rpn_atc_reward": 51.38969421386719
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 209.5068359375,
+        "l2rpn_atc_reward": 51.40138244628906
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 212.23388671875,
+        "l2rpn_atc_reward": 51.32906723022461
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 216.15966796875,
+        "l2rpn_atc_reward": 51.25665283203125
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 207.9541015625,
+        "l2rpn_atc_reward": 51.471778869628906
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 210.009765625,
+        "l2rpn_atc_reward": 51.45298767089844
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 210.1806640625,
+        "l2rpn_atc_reward": 51.434593200683594
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 208.7255859375,
+        "l2rpn_atc_reward": 51.480506896972656
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 211.0498046875,
+        "l2rpn_atc_reward": 51.430755615234375
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 213.00537109375,
+        "l2rpn_atc_reward": 51.38665008544922
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 208.76708984375,
+        "l2rpn_atc_reward": 51.51543045043945
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 212.14111328125,
+        "l2rpn_atc_reward": 51.38187026977539
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 213.623046875,
+        "l2rpn_atc_reward": 51.3632698059082
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 211.40625,
+        "l2rpn_atc_reward": 51.43941879272461
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 210.72265625,
+        "l2rpn_atc_reward": 51.464717864990234
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 211.96044921875,
+        "l2rpn_atc_reward": 51.402427673339844
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 212.14599609375,
+        "l2rpn_atc_reward": 51.43712615966797
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 210.76171875,
+        "l2rpn_atc_reward": 51.45094680786133
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 212.158203125,
+        "l2rpn_atc_reward": 51.44792938232422
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 214.3994140625,
+        "l2rpn_atc_reward": 51.42290115356445
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 214.53369140625,
+        "l2rpn_atc_reward": 51.46506881713867
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 214.39697265625,
+        "l2rpn_atc_reward": 51.46686935424805
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 218.1396484375,
+        "l2rpn_atc_reward": 51.29045867919922
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 224.16015625,
+        "l2rpn_atc_reward": 51.121063232421875
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 219.08203125,
+        "l2rpn_atc_reward": 51.306453704833984
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 223.447265625,
+        "l2rpn_atc_reward": 51.21642303466797
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 222.236328125,
+        "l2rpn_atc_reward": 51.24679946899414
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 225.75439453125,
+        "l2rpn_atc_reward": 51.15108871459961
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 230.98876953125,
+        "l2rpn_atc_reward": 51.0505485534668
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 231.76025390625,
+        "l2rpn_atc_reward": 51.0323371887207
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 236.30859375,
+        "l2rpn_atc_reward": 50.946929931640625
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 235.37109375,
+        "l2rpn_atc_reward": 50.93616485595703
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 238.08349609375,
+        "l2rpn_atc_reward": 50.88422393798828
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 240.29052734375,
+        "l2rpn_atc_reward": 50.87333297729492
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 242.28759765625,
+        "l2rpn_atc_reward": 50.85888671875
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 243.68896484375,
+        "l2rpn_atc_reward": 50.83833694458008
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 248.3154296875,
+        "l2rpn_atc_reward": 50.73146438598633
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 252.02880859375,
+        "l2rpn_atc_reward": 50.679656982421875
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 258.974609375,
+        "l2rpn_atc_reward": 50.520103454589844
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 260.41748046875,
+        "l2rpn_atc_reward": 50.491573333740234
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 260.72998046875,
+        "l2rpn_atc_reward": 50.53107833862305
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 266.0888671875,
+        "l2rpn_atc_reward": 50.374786376953125
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 271.94580078125,
+        "l2rpn_atc_reward": 50.268341064453125
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 275.390625,
+        "l2rpn_atc_reward": 50.201595306396484
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 279.7802734375,
+        "l2rpn_atc_reward": 50.08094787597656
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 284.78515625,
+        "l2rpn_atc_reward": 49.97911071777344
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 265.55908203125,
+        "l2rpn_atc_reward": 51.4289665222168
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 269.44091796875,
+        "l2rpn_atc_reward": 51.33618927001953
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 279.62890625,
+        "l2rpn_atc_reward": 51.13052749633789
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 286.083984375,
+        "l2rpn_atc_reward": 50.98068618774414
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 292.5927734375,
+        "l2rpn_atc_reward": 50.86072540283203
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 301.8896484375,
+        "l2rpn_atc_reward": 50.60163116455078
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 310.1171875,
+        "l2rpn_atc_reward": 50.39848709106445
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 316.53076171875,
+        "l2rpn_atc_reward": 50.29776382446289
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 323.53271484375,
+        "l2rpn_atc_reward": 50.14491271972656
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 327.86865234375,
+        "l2rpn_atc_reward": 50.05916213989258
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 343.76220703125,
+        "l2rpn_atc_reward": 49.69033432006836
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 346.92626953125,
+        "l2rpn_atc_reward": 49.62873458862305
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 351.6943359375,
+        "l2rpn_atc_reward": 49.493892669677734
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 359.75830078125,
+        "l2rpn_atc_reward": 49.34646987915039
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 365.61767578125,
+        "l2rpn_atc_reward": 49.203880310058594
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 370.37841796875,
+        "l2rpn_atc_reward": 49.10559844970703
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 369.74853515625,
+        "l2rpn_atc_reward": 49.126312255859375
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 374.17724609375,
+        "l2rpn_atc_reward": 49.00794219970703
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 383.40087890625,
+        "l2rpn_atc_reward": 48.80878829956055
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 381.220703125,
+        "l2rpn_atc_reward": 48.86836242675781
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 382.1923828125,
+        "l2rpn_atc_reward": 48.826053619384766
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 397.02392578125,
+        "l2rpn_atc_reward": 48.520164489746094
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 394.1015625,
+        "l2rpn_atc_reward": 48.550811767578125
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 399.53125,
+        "l2rpn_atc_reward": 48.430423736572266
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 393.16650390625,
+        "l2rpn_atc_reward": 48.66180419921875
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 396.77490234375,
+        "l2rpn_atc_reward": 48.57481002807617
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 400.50048828125,
+        "l2rpn_atc_reward": 48.51011276245117
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 397.861328125,
+        "l2rpn_atc_reward": 48.57655334472656
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 396.26708984375,
+        "l2rpn_atc_reward": 48.638851165771484
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 394.82421875,
+        "l2rpn_atc_reward": 48.657840728759766
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 390.15869140625,
+        "l2rpn_atc_reward": 48.773712158203125
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 385.7861328125,
+        "l2rpn_atc_reward": 48.86360549926758
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 390.10986328125,
+        "l2rpn_atc_reward": 48.81538772583008
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 380.84228515625,
+        "l2rpn_atc_reward": 49.01436996459961
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 379.6630859375,
+        "l2rpn_atc_reward": 49.04653549194336
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 372.81982421875,
+        "l2rpn_atc_reward": 49.21854019165039
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 365.78369140625,
+        "l2rpn_atc_reward": 49.40681457519531
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 364.25537109375,
+        "l2rpn_atc_reward": 49.42972946166992
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 365.05615234375,
+        "l2rpn_atc_reward": 49.407596588134766
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 360.75927734375,
+        "l2rpn_atc_reward": 49.52646255493164
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 354.2822265625,
+        "l2rpn_atc_reward": 49.680908203125
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 348.3154296875,
+        "l2rpn_atc_reward": 49.815330505371094
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 347.333984375,
+        "l2rpn_atc_reward": 49.843387603759766
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 340.8203125,
+        "l2rpn_atc_reward": 49.99263381958008
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 336.61376953125,
+        "l2rpn_atc_reward": 50.08188247680664
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 338.52783203125,
+        "l2rpn_atc_reward": 50.037269592285156
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 332.28515625,
+        "l2rpn_atc_reward": 50.16304397583008
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 330.634765625,
+        "l2rpn_atc_reward": 50.22000503540039
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 326.82373046875,
+        "l2rpn_atc_reward": 50.289188385009766
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 324.26513671875,
+        "l2rpn_atc_reward": 50.369590759277344
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 320.0048828125,
+        "l2rpn_atc_reward": 50.49190902709961
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 316.91162109375,
+        "l2rpn_atc_reward": 50.53725051879883
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 314.404296875,
+        "l2rpn_atc_reward": 50.63555145263672
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 311.97509765625,
+        "l2rpn_atc_reward": 50.661102294921875
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 308.828125,
+        "l2rpn_atc_reward": 50.731937408447266
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 307.00439453125,
+        "l2rpn_atc_reward": 50.772342681884766
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 305.93994140625,
+        "l2rpn_atc_reward": 50.780635833740234
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 298.2861328125,
+        "l2rpn_atc_reward": 50.96689224243164
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 299.0673828125,
+        "l2rpn_atc_reward": 50.96484375
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 298.6669921875,
+        "l2rpn_atc_reward": 50.954505920410156
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 297.333984375,
+        "l2rpn_atc_reward": 50.96882247924805
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 301.72607421875,
+        "l2rpn_atc_reward": 50.84748077392578
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 303.33251953125,
+        "l2rpn_atc_reward": 50.83696365356445
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 303.43994140625,
+        "l2rpn_atc_reward": 50.816368103027344
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 304.86083984375,
+        "l2rpn_atc_reward": 50.76888656616211
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 305.5908203125,
+        "l2rpn_atc_reward": 50.77317428588867
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 309.5263671875,
+        "l2rpn_atc_reward": 50.66105270385742
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 315.3271484375,
+        "l2rpn_atc_reward": 50.535804748535156
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 322.2607421875,
+        "l2rpn_atc_reward": 50.39912796020508
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 325.8837890625,
+        "l2rpn_atc_reward": 50.31023406982422
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 327.548828125,
+        "l2rpn_atc_reward": 50.26231384277344
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 338.8134765625,
+        "l2rpn_atc_reward": 49.99479675292969
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 343.1982421875,
+        "l2rpn_atc_reward": 49.91801452636719
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 342.75146484375,
+        "l2rpn_atc_reward": 49.91154861450195
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 340.2880859375,
+        "l2rpn_atc_reward": 49.96321487426758
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 343.08837890625,
+        "l2rpn_atc_reward": 49.898651123046875
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 336.20849609375,
+        "l2rpn_atc_reward": 50.04481887817383
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 342.69287109375,
+        "l2rpn_atc_reward": 49.9001350402832
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 337.28515625,
+        "l2rpn_atc_reward": 50.02621078491211
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 336.37451171875,
+        "l2rpn_atc_reward": 50.04701232910156
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 344.27734375,
+        "l2rpn_atc_reward": 49.88706970214844
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 345.7373046875,
+        "l2rpn_atc_reward": 49.86773681640625
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 345.5126953125,
+        "l2rpn_atc_reward": 49.83548355102539
+    },
+    {
+        "MinMargin_reward": 0.2199999988079071,
+        "__scores": 347.70263671875,
+        "l2rpn_atc_reward": 49.83039093017578
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 350.4541015625,
+        "l2rpn_atc_reward": 49.782413482666016
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 355.6640625,
+        "l2rpn_atc_reward": 49.660491943359375
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 358.203125,
+        "l2rpn_atc_reward": 49.57423782348633
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 346.66748046875,
+        "l2rpn_atc_reward": 49.83407974243164
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 344.22119140625,
+        "l2rpn_atc_reward": 49.8762092590332
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 335.1123046875,
+        "l2rpn_atc_reward": 50.103450775146484
+    },
+    {
+        "MinMargin_reward": 0.2199999988079071,
+        "__scores": 332.97607421875,
+        "l2rpn_atc_reward": 50.12771987915039
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 327.705078125,
+        "l2rpn_atc_reward": 50.2791748046875
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 324.78271484375,
+        "l2rpn_atc_reward": 50.355228424072266
+    },
+    {
+        "MinMargin_reward": 0.2199999988079071,
+        "__scores": 319.6728515625,
+        "l2rpn_atc_reward": 50.404293060302734
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 319.56298828125,
+        "l2rpn_atc_reward": 50.479549407958984
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 319.16748046875,
+        "l2rpn_atc_reward": 50.44761276245117
+    },
+    {
+        "MinMargin_reward": 0.2199999988079071,
+        "__scores": 310.28076171875,
+        "l2rpn_atc_reward": 50.693504333496094
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 312.2607421875,
+        "l2rpn_atc_reward": 50.64134216308594
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 311.81884765625,
+        "l2rpn_atc_reward": 50.64474105834961
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 309.53857421875,
+        "l2rpn_atc_reward": 50.71038818359375
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 307.24609375,
+        "l2rpn_atc_reward": 50.73675537109375
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 304.25048828125,
+        "l2rpn_atc_reward": 50.806785583496094
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 306.376953125,
+        "l2rpn_atc_reward": 50.767887115478516
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 307.7734375,
+        "l2rpn_atc_reward": 50.7255859375
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 305.72998046875,
+        "l2rpn_atc_reward": 50.77184295654297
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 306.4990234375,
+        "l2rpn_atc_reward": 50.7569580078125
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 303.03955078125,
+        "l2rpn_atc_reward": 50.83623123168945
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 306.58447265625,
+        "l2rpn_atc_reward": 50.762535095214844
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 306.6552734375,
+        "l2rpn_atc_reward": 50.73623275756836
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 305.7763671875,
+        "l2rpn_atc_reward": 50.75506591796875
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 306.982421875,
+        "l2rpn_atc_reward": 50.71415328979492
+    },
+    {
+        "MinMargin_reward": 0.2199999988079071,
+        "__scores": 310.830078125,
+        "l2rpn_atc_reward": 50.64863586425781
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 313.41064453125,
+        "l2rpn_atc_reward": 50.59502410888672
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 311.74560546875,
+        "l2rpn_atc_reward": 50.64957046508789
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 312.0263671875,
+        "l2rpn_atc_reward": 50.65865707397461
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 310.17578125,
+        "l2rpn_atc_reward": 50.709896087646484
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 313.1494140625,
+        "l2rpn_atc_reward": 50.64236831665039
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 309.560546875,
+        "l2rpn_atc_reward": 50.71895217895508
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 312.62451171875,
+        "l2rpn_atc_reward": 50.67839813232422
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 313.89892578125,
+        "l2rpn_atc_reward": 50.64828109741211
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 313.37158203125,
+        "l2rpn_atc_reward": 50.67728042602539
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 312.14111328125,
+        "l2rpn_atc_reward": 50.69745635986328
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 311.6650390625,
+        "l2rpn_atc_reward": 50.74313735961914
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 314.6435546875,
+        "l2rpn_atc_reward": 50.670650482177734
+    },
+    {
+        "MinMargin_reward": 0.09000000357627869,
+        "__scores": 312.01904296875,
+        "l2rpn_atc_reward": 50.74810791015625
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 312.20947265625,
+        "l2rpn_atc_reward": 50.712615966796875
+    },
+    {
+        "MinMargin_reward": 0.09000000357627869,
+        "__scores": 312.7001953125,
+        "l2rpn_atc_reward": 50.72638702392578
+    },
+    {
+        "MinMargin_reward": 0.09000000357627869,
+        "__scores": 313.14208984375,
+        "l2rpn_atc_reward": 50.7377815246582
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 310.79345703125,
+        "l2rpn_atc_reward": 50.798336029052734
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 312.88330078125,
+        "l2rpn_atc_reward": 50.739891052246094
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 312.31201171875,
+        "l2rpn_atc_reward": 50.7513427734375
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 310.27099609375,
+        "l2rpn_atc_reward": 50.8194694519043
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 313.046875,
+        "l2rpn_atc_reward": 50.74728775024414
+    },
+    {
+        "MinMargin_reward": 0.07000000029802322,
+        "__scores": 311.00830078125,
+        "l2rpn_atc_reward": 50.78290939331055
+    },
+    {
+        "MinMargin_reward": 0.07000000029802322,
+        "__scores": 309.71923828125,
+        "l2rpn_atc_reward": 50.80963897705078
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 310.95947265625,
+        "l2rpn_atc_reward": 50.77676010131836
+    },
+    {
+        "MinMargin_reward": -0.3499999940395355,
+        "__scores": 435.10986328125,
+        "l2rpn_atc_reward": 47.202274322509766
+    },
+    {
+        "MinMargin_reward": -0.03999999910593033,
+        "__scores": 470.0244140625,
+        "l2rpn_atc_reward": 45.08357238769531
+    },
+    {
+        "MinMargin_reward": 0.029999999329447746,
+        "__scores": 483.7890625,
+        "l2rpn_atc_reward": 44.624271392822266
+    },
+    {
+        "MinMargin_reward": 0.03999999910593033,
+        "__scores": 475.7080078125,
+        "l2rpn_atc_reward": 44.8531379699707
+    },
+    {
+        "MinMargin_reward": 0.03999999910593033,
+        "__scores": 475.01953125,
+        "l2rpn_atc_reward": 44.89391326904297
+    },
+    {
+        "MinMargin_reward": 0.029999999329447746,
+        "__scores": 480.89599609375,
+        "l2rpn_atc_reward": 44.70963668823242
+    },
+    {
+        "MinMargin_reward": 0.03999999910593033,
+        "__scores": 472.880859375,
+        "l2rpn_atc_reward": 44.92616271972656
+    },
+    {
+        "MinMargin_reward": 0.03999999910593033,
+        "__scores": 469.78515625,
+        "l2rpn_atc_reward": 45.00956726074219
+    },
+    {
+        "MinMargin_reward": 0.05000000074505806,
+        "__scores": 463.82080078125,
+        "l2rpn_atc_reward": 45.20033645629883
+    },
+    {
+        "MinMargin_reward": 0.05000000074505806,
+        "__scores": 457.3779296875,
+        "l2rpn_atc_reward": 45.38661575317383
+    },
+    {
+        "MinMargin_reward": 0.03999999910593033,
+        "__scores": 465.21728515625,
+        "l2rpn_atc_reward": 45.14872741699219
+    },
+    {
+        "MinMargin_reward": 0.03999999910593033,
+        "__scores": 466.572265625,
+        "l2rpn_atc_reward": 45.09836959838867
+    },
+    {
+        "MinMargin_reward": 0.05000000074505806,
+        "__scores": 459.74365234375,
+        "l2rpn_atc_reward": 45.24980163574219
+    },
+    {
+        "MinMargin_reward": 0.05000000074505806,
+        "__scores": 452.373046875,
+        "l2rpn_atc_reward": 45.457515716552734
+    },
+    {
+        "MinMargin_reward": 0.03999999910593033,
+        "__scores": 457.2509765625,
+        "l2rpn_atc_reward": 45.28787612915039
+    },
+    {
+        "MinMargin_reward": 0.05000000074505806,
+        "__scores": 449.73388671875,
+        "l2rpn_atc_reward": 45.51782989501953
+    },
+    {
+        "MinMargin_reward": 0.05000000074505806,
+        "__scores": 441.4501953125,
+        "l2rpn_atc_reward": 45.75636672973633
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 435.41015625,
+        "l2rpn_atc_reward": 45.921905517578125
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 408.69384765625,
+        "l2rpn_atc_reward": 46.69809341430664
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 404.72900390625,
+        "l2rpn_atc_reward": 46.83085250854492
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 401.5283203125,
+        "l2rpn_atc_reward": 46.90309524536133
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 395.90576171875,
+        "l2rpn_atc_reward": 47.038726806640625
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 389.35546875,
+        "l2rpn_atc_reward": 47.18672180175781
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 384.35546875,
+        "l2rpn_atc_reward": 47.31536102294922
+    },
+    {
+        "MinMargin_reward": 0.05000000074505806,
+        "__scores": 384.19921875,
+        "l2rpn_atc_reward": 47.28334426879883
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 378.759765625,
+        "l2rpn_atc_reward": 47.4636116027832
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 371.8017578125,
+        "l2rpn_atc_reward": 47.634552001953125
+    },
+    {
+        "MinMargin_reward": 0.07000000029802322,
+        "__scores": 364.47265625,
+        "l2rpn_atc_reward": 47.873470306396484
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 361.50146484375,
+        "l2rpn_atc_reward": 47.89706802368164
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 360.34912109375,
+        "l2rpn_atc_reward": 47.964599609375
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 357.55615234375,
+        "l2rpn_atc_reward": 48.010494232177734
+    },
+    {
+        "MinMargin_reward": 0.05999999865889549,
+        "__scores": 353.7451171875,
+        "l2rpn_atc_reward": 48.12686538696289
+    },
+    {
+        "MinMargin_reward": 0.07000000029802322,
+        "__scores": 347.490234375,
+        "l2rpn_atc_reward": 48.316349029541016
+    },
+    {
+        "MinMargin_reward": 0.07000000029802322,
+        "__scores": 342.05322265625,
+        "l2rpn_atc_reward": 48.45058059692383
+    },
+    {
+        "MinMargin_reward": 0.07000000029802322,
+        "__scores": 341.54052734375,
+        "l2rpn_atc_reward": 48.47419738769531
+    },
+    {
+        "MinMargin_reward": 0.09000000357627869,
+        "__scores": 334.9169921875,
+        "l2rpn_atc_reward": 48.66202926635742
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 334.29931640625,
+        "l2rpn_atc_reward": 48.678794860839844
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 337.30712890625,
+        "l2rpn_atc_reward": 48.58856964111328
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 337.03857421875,
+        "l2rpn_atc_reward": 48.58572006225586
+    },
+    {
+        "MinMargin_reward": 0.07000000029802322,
+        "__scores": 335.60546875,
+        "l2rpn_atc_reward": 48.626155853271484
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 331.46240234375,
+        "l2rpn_atc_reward": 48.72118377685547
+    },
+    {
+        "MinMargin_reward": 0.09000000357627869,
+        "__scores": 326.89453125,
+        "l2rpn_atc_reward": 48.850833892822266
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 319.25537109375,
+        "l2rpn_atc_reward": 49.08964920043945
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 311.9580078125,
+        "l2rpn_atc_reward": 49.28815841674805
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 308.046875,
+        "l2rpn_atc_reward": 49.37699508666992
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 308.44482421875,
+        "l2rpn_atc_reward": 49.337188720703125
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 307.9052734375,
+        "l2rpn_atc_reward": 49.389259338378906
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 300.205078125,
+        "l2rpn_atc_reward": 49.59403991699219
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 198.45947265625,
+        "l2rpn_atc_reward": 52.963768005371094
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 197.07763671875,
+        "l2rpn_atc_reward": 53.04043960571289
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 198.7548828125,
+        "l2rpn_atc_reward": 53.00222396850586
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 191.5771484375,
+        "l2rpn_atc_reward": 53.140281677246094
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 190.3369140625,
+        "l2rpn_atc_reward": 53.14793395996094
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 191.29638671875,
+        "l2rpn_atc_reward": 53.15260314941406
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 187.62451171875,
+        "l2rpn_atc_reward": 53.24198913574219
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 181.86279296875,
+        "l2rpn_atc_reward": 53.34422302246094
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 183.76708984375,
+        "l2rpn_atc_reward": 53.29133224487305
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 184.88525390625,
+        "l2rpn_atc_reward": 53.26889419555664
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 180.77392578125,
+        "l2rpn_atc_reward": 53.3419303894043
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 178.64501953125,
+        "l2rpn_atc_reward": 53.409645080566406
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 177.68310546875,
+        "l2rpn_atc_reward": 53.418243408203125
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 172.451171875,
+        "l2rpn_atc_reward": 53.54378128051758
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 175.6884765625,
+        "l2rpn_atc_reward": 53.44147872924805
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 171.5380859375,
+        "l2rpn_atc_reward": 53.51246643066406
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 171.259765625,
+        "l2rpn_atc_reward": 53.52602005004883
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 168.30322265625,
+        "l2rpn_atc_reward": 53.5897331237793
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 171.01806640625,
+        "l2rpn_atc_reward": 53.53023147583008
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 170.05859375,
+        "l2rpn_atc_reward": 53.56842803955078
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 167.69287109375,
+        "l2rpn_atc_reward": 53.622901916503906
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 169.87548828125,
+        "l2rpn_atc_reward": 53.551883697509766
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 170.71533203125,
+        "l2rpn_atc_reward": 53.56221008300781
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 169.326171875,
+        "l2rpn_atc_reward": 53.591270446777344
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 168.49609375,
+        "l2rpn_atc_reward": 53.61902618408203
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 168.42041015625,
+        "l2rpn_atc_reward": 53.61228942871094
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 163.3349609375,
+        "l2rpn_atc_reward": 53.72705078125
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 164.8583984375,
+        "l2rpn_atc_reward": 53.697757720947266
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 163.45947265625,
+        "l2rpn_atc_reward": 53.721275329589844
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 160.9326171875,
+        "l2rpn_atc_reward": 53.752960205078125
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 160.1318359375,
+        "l2rpn_atc_reward": 53.757755279541016
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 162.1142578125,
+        "l2rpn_atc_reward": 53.73576354980469
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 163.2080078125,
+        "l2rpn_atc_reward": 53.71805191040039
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 161.42578125,
+        "l2rpn_atc_reward": 53.74309539794922
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 160.01708984375,
+        "l2rpn_atc_reward": 53.77958679199219
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 160.94482421875,
+        "l2rpn_atc_reward": 53.780601501464844
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 158.37158203125,
+        "l2rpn_atc_reward": 53.83481979370117
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 157.33154296875,
+        "l2rpn_atc_reward": 53.84215545654297
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 155.654296875,
+        "l2rpn_atc_reward": 53.87318801879883
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 156.17431640625,
+        "l2rpn_atc_reward": 53.85361099243164
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 154.1796875,
+        "l2rpn_atc_reward": 53.8878288269043
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 154.9609375,
+        "l2rpn_atc_reward": 53.8862419128418
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 150.26123046875,
+        "l2rpn_atc_reward": 53.93739318847656
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 151.6650390625,
+        "l2rpn_atc_reward": 53.9102897644043
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 148.08837890625,
+        "l2rpn_atc_reward": 53.999969482421875
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 150.46630859375,
+        "l2rpn_atc_reward": 53.94563293457031
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 148.7353515625,
+        "l2rpn_atc_reward": 54.004554748535156
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 147.0849609375,
+        "l2rpn_atc_reward": 54.0135498046875
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 144.51904296875,
+        "l2rpn_atc_reward": 54.08040237426758
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 145.27099609375,
+        "l2rpn_atc_reward": 54.0460205078125
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 144.482421875,
+        "l2rpn_atc_reward": 54.09261703491211
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 142.63916015625,
+        "l2rpn_atc_reward": 54.11772918701172
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 143.17138671875,
+        "l2rpn_atc_reward": 54.09955978393555
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 143.3251953125,
+        "l2rpn_atc_reward": 54.11547088623047
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 144.69970703125,
+        "l2rpn_atc_reward": 54.06629943847656
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 145.74462890625,
+        "l2rpn_atc_reward": 54.03023910522461
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 145.1611328125,
+        "l2rpn_atc_reward": 54.03056335449219
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 145.634765625,
+        "l2rpn_atc_reward": 54.045860290527344
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 145.09765625,
+        "l2rpn_atc_reward": 54.054840087890625
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 144.130859375,
+        "l2rpn_atc_reward": 54.086997985839844
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 145.5126953125,
+        "l2rpn_atc_reward": 54.06360626220703
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 143.91357421875,
+        "l2rpn_atc_reward": 54.121944427490234
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 143.26904296875,
+        "l2rpn_atc_reward": 54.13880157470703
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 143.48388671875,
+        "l2rpn_atc_reward": 54.126708984375
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 145.57861328125,
+        "l2rpn_atc_reward": 54.094215393066406
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 144.5703125,
+        "l2rpn_atc_reward": 54.12095642089844
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 144.3310546875,
+        "l2rpn_atc_reward": 54.128509521484375
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 148.046875,
+        "l2rpn_atc_reward": 54.07089614868164
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 147.666015625,
+        "l2rpn_atc_reward": 54.07736587524414
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 146.26220703125,
+        "l2rpn_atc_reward": 54.085975646972656
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 149.8828125,
+        "l2rpn_atc_reward": 54.019569396972656
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 149.462890625,
+        "l2rpn_atc_reward": 54.03647232055664
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 149.47998046875,
+        "l2rpn_atc_reward": 54.03750228881836
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 150.36376953125,
+        "l2rpn_atc_reward": 54.01997756958008
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 151.15966796875,
+        "l2rpn_atc_reward": 53.98689270019531
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 150.9423828125,
+        "l2rpn_atc_reward": 53.99522399902344
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 152.7978515625,
+        "l2rpn_atc_reward": 53.98180389404297
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 151.796875,
+        "l2rpn_atc_reward": 53.995304107666016
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 151.40625,
+        "l2rpn_atc_reward": 54.028465270996094
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 151.02783203125,
+        "l2rpn_atc_reward": 54.00926971435547
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 151.98974609375,
+        "l2rpn_atc_reward": 54.00217819213867
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 153.21044921875,
+        "l2rpn_atc_reward": 53.98881530761719
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 153.85009765625,
+        "l2rpn_atc_reward": 53.97240447998047
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 156.25244140625,
+        "l2rpn_atc_reward": 53.92731475830078
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 159.1943359375,
+        "l2rpn_atc_reward": 53.86624526977539
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 163.06884765625,
+        "l2rpn_atc_reward": 53.782508850097656
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 163.02001953125,
+        "l2rpn_atc_reward": 53.82371520996094
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 167.275390625,
+        "l2rpn_atc_reward": 53.71034622192383
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 170.4345703125,
+        "l2rpn_atc_reward": 53.65574645996094
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 173.52783203125,
+        "l2rpn_atc_reward": 53.61015319824219
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 178.27392578125,
+        "l2rpn_atc_reward": 53.50322723388672
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 181.12548828125,
+        "l2rpn_atc_reward": 53.4521484375
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 191.01806640625,
+        "l2rpn_atc_reward": 53.23381805419922
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 190.72509765625,
+        "l2rpn_atc_reward": 53.259395599365234
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 193.27392578125,
+        "l2rpn_atc_reward": 53.17670440673828
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 194.75341796875,
+        "l2rpn_atc_reward": 53.14946365356445
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 201.62841796875,
+        "l2rpn_atc_reward": 53.014923095703125
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 207.21435546875,
+        "l2rpn_atc_reward": 52.869354248046875
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 212.83447265625,
+        "l2rpn_atc_reward": 52.73220443725586
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 217.8564453125,
+        "l2rpn_atc_reward": 52.62660598754883
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 222.16552734375,
+        "l2rpn_atc_reward": 52.509830474853516
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 230.82763671875,
+        "l2rpn_atc_reward": 52.330413818359375
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 231.20361328125,
+        "l2rpn_atc_reward": 52.33853530883789
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 239.32373046875,
+        "l2rpn_atc_reward": 52.132381439208984
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 247.12158203125,
+        "l2rpn_atc_reward": 51.96024703979492
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 255.6201171875,
+        "l2rpn_atc_reward": 51.7557487487793
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 261.591796875,
+        "l2rpn_atc_reward": 51.628482818603516
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 272.19482421875,
+        "l2rpn_atc_reward": 51.3937873840332
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 279.97314453125,
+        "l2rpn_atc_reward": 51.1904296875
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 289.9755859375,
+        "l2rpn_atc_reward": 50.97446823120117
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 295.29296875,
+        "l2rpn_atc_reward": 50.843807220458984
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 303.52783203125,
+        "l2rpn_atc_reward": 50.65019226074219
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 311.33544921875,
+        "l2rpn_atc_reward": 50.483211517333984
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 322.40234375,
+        "l2rpn_atc_reward": 50.2066764831543
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 320.96435546875,
+        "l2rpn_atc_reward": 50.25586700439453
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 330.556640625,
+        "l2rpn_atc_reward": 50.048126220703125
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 337.47314453125,
+        "l2rpn_atc_reward": 49.86199951171875
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 339.5263671875,
+        "l2rpn_atc_reward": 49.81521224975586
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 346.77734375,
+        "l2rpn_atc_reward": 49.64383316040039
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 353.22265625,
+        "l2rpn_atc_reward": 49.529727935791016
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 353.88671875,
+        "l2rpn_atc_reward": 49.52506637573242
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 353.330078125,
+        "l2rpn_atc_reward": 49.54894256591797
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 363.26904296875,
+        "l2rpn_atc_reward": 49.310325622558594
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 365.46142578125,
+        "l2rpn_atc_reward": 49.258724212646484
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 366.2353515625,
+        "l2rpn_atc_reward": 49.250858306884766
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 373.466796875,
+        "l2rpn_atc_reward": 49.08625030517578
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 374.65576171875,
+        "l2rpn_atc_reward": 49.08195114135742
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 379.42626953125,
+        "l2rpn_atc_reward": 48.94672775268555
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 379.0673828125,
+        "l2rpn_atc_reward": 49.00246810913086
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 381.55029296875,
+        "l2rpn_atc_reward": 48.91960906982422
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 384.0087890625,
+        "l2rpn_atc_reward": 48.901832580566406
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 384.833984375,
+        "l2rpn_atc_reward": 48.83534240722656
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 383.1201171875,
+        "l2rpn_atc_reward": 48.896331787109375
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 380.8837890625,
+        "l2rpn_atc_reward": 48.97188186645508
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 377.67333984375,
+        "l2rpn_atc_reward": 49.05467987060547
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 373.30322265625,
+        "l2rpn_atc_reward": 49.174442291259766
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 373.01025390625,
+        "l2rpn_atc_reward": 49.168888092041016
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 371.55029296875,
+        "l2rpn_atc_reward": 49.219669342041016
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 362.79541015625,
+        "l2rpn_atc_reward": 49.428863525390625
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 355.16845703125,
+        "l2rpn_atc_reward": 49.619266510009766
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 359.47021484375,
+        "l2rpn_atc_reward": 49.527809143066406
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 347.9052734375,
+        "l2rpn_atc_reward": 49.79689025878906
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 351.650390625,
+        "l2rpn_atc_reward": 49.70036315917969
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 342.09228515625,
+        "l2rpn_atc_reward": 49.915504455566406
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 342.95654296875,
+        "l2rpn_atc_reward": 49.8918571472168
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 337.03125,
+        "l2rpn_atc_reward": 50.03933334350586
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 336.826171875,
+        "l2rpn_atc_reward": 50.02444839477539
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 326.21826171875,
+        "l2rpn_atc_reward": 50.2633171081543
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 323.681640625,
+        "l2rpn_atc_reward": 50.33291244506836
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 319.22119140625,
+        "l2rpn_atc_reward": 50.40775680541992
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 318.52294921875,
+        "l2rpn_atc_reward": 50.46127700805664
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 308.857421875,
+        "l2rpn_atc_reward": 50.654972076416016
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 306.33544921875,
+        "l2rpn_atc_reward": 50.73775100708008
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 307.85888671875,
+        "l2rpn_atc_reward": 50.69337463378906
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 301.2353515625,
+        "l2rpn_atc_reward": 50.857112884521484
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 300.3515625,
+        "l2rpn_atc_reward": 50.86973571777344
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 298.33984375,
+        "l2rpn_atc_reward": 50.922630310058594
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 292.392578125,
+        "l2rpn_atc_reward": 51.046939849853516
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 289.892578125,
+        "l2rpn_atc_reward": 51.073570251464844
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 283.0419921875,
+        "l2rpn_atc_reward": 51.21763229370117
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 285.7470703125,
+        "l2rpn_atc_reward": 51.20079803466797
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 282.03369140625,
+        "l2rpn_atc_reward": 51.26177215576172
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 275.68115234375,
+        "l2rpn_atc_reward": 51.40900421142578
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 273.8623046875,
+        "l2rpn_atc_reward": 51.45707702636719
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 273.41064453125,
+        "l2rpn_atc_reward": 51.45908737182617
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 269.13818359375,
+        "l2rpn_atc_reward": 51.56439208984375
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 270.78125,
+        "l2rpn_atc_reward": 51.5219612121582
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 267.9150390625,
+        "l2rpn_atc_reward": 51.595096588134766
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 271.2060546875,
+        "l2rpn_atc_reward": 51.53543472290039
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 269.82421875,
+        "l2rpn_atc_reward": 51.52460861206055
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 268.955078125,
+        "l2rpn_atc_reward": 51.55503463745117
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 276.85546875,
+        "l2rpn_atc_reward": 51.38978576660156
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 279.19189453125,
+        "l2rpn_atc_reward": 51.329715728759766
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 281.4306640625,
+        "l2rpn_atc_reward": 51.30569839477539
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 283.603515625,
+        "l2rpn_atc_reward": 51.23869705200195
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 287.40966796875,
+        "l2rpn_atc_reward": 51.164634704589844
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 292.52197265625,
+        "l2rpn_atc_reward": 51.01228713989258
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 293.9697265625,
+        "l2rpn_atc_reward": 51.010189056396484
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 290.21240234375,
+        "l2rpn_atc_reward": 51.062015533447266
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 292.18505859375,
+        "l2rpn_atc_reward": 51.038612365722656
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 289.3603515625,
+        "l2rpn_atc_reward": 51.09065628051758
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 286.88232421875,
+        "l2rpn_atc_reward": 51.15908432006836
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 285.8544921875,
+        "l2rpn_atc_reward": 51.1767578125
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 282.88818359375,
+        "l2rpn_atc_reward": 51.224853515625
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 284.1357421875,
+        "l2rpn_atc_reward": 51.2137565612793
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 284.47998046875,
+        "l2rpn_atc_reward": 51.18751907348633
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 284.57275390625,
+        "l2rpn_atc_reward": 51.178375244140625
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 286.4306640625,
+        "l2rpn_atc_reward": 51.143733978271484
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 286.31591796875,
+        "l2rpn_atc_reward": 51.15864181518555
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 286.1474609375,
+        "l2rpn_atc_reward": 51.162879943847656
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 287.45849609375,
+        "l2rpn_atc_reward": 51.11589813232422
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 282.265625,
+        "l2rpn_atc_reward": 51.26430892944336
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 275.02197265625,
+        "l2rpn_atc_reward": 51.42216491699219
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 272.25830078125,
+        "l2rpn_atc_reward": 51.47889709472656
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 263.740234375,
+        "l2rpn_atc_reward": 51.66670227050781
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 261.0009765625,
+        "l2rpn_atc_reward": 51.734703063964844
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 255.63232421875,
+        "l2rpn_atc_reward": 51.85295867919922
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 253.75244140625,
+        "l2rpn_atc_reward": 51.912086486816406
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 246.02294921875,
+        "l2rpn_atc_reward": 52.08564758300781
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 244.2431640625,
+        "l2rpn_atc_reward": 52.125431060791016
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 243.34228515625,
+        "l2rpn_atc_reward": 52.15906524658203
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 243.623046875,
+        "l2rpn_atc_reward": 52.14455795288086
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 241.0888671875,
+        "l2rpn_atc_reward": 52.21095275878906
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 236.6845703125,
+        "l2rpn_atc_reward": 52.31052017211914
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 235.68115234375,
+        "l2rpn_atc_reward": 52.33197021484375
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 237.8662109375,
+        "l2rpn_atc_reward": 52.3065185546875
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 234.111328125,
+        "l2rpn_atc_reward": 52.351741790771484
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 235.2587890625,
+        "l2rpn_atc_reward": 52.341793060302734
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 234.16259765625,
+        "l2rpn_atc_reward": 52.372406005859375
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 232.4658203125,
+        "l2rpn_atc_reward": 52.4015007019043
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 232.0751953125,
+        "l2rpn_atc_reward": 52.408016204833984
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 229.8681640625,
+        "l2rpn_atc_reward": 52.4763069152832
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 230.96435546875,
+        "l2rpn_atc_reward": 52.44077682495117
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 233.64501953125,
+        "l2rpn_atc_reward": 52.38022994995117
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 231.1474609375,
+        "l2rpn_atc_reward": 52.44126892089844
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 232.22412109375,
+        "l2rpn_atc_reward": 52.405738830566406
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 230.859375,
+        "l2rpn_atc_reward": 52.45334243774414
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 229.86572265625,
+        "l2rpn_atc_reward": 52.45430374145508
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 231.181640625,
+        "l2rpn_atc_reward": 52.448482513427734
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 229.98291015625,
+        "l2rpn_atc_reward": 52.46082305908203
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 228.9306640625,
+        "l2rpn_atc_reward": 52.49971389770508
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 230.73974609375,
+        "l2rpn_atc_reward": 52.47166442871094
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 230.78125,
+        "l2rpn_atc_reward": 52.45485305786133
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 228.37646484375,
+        "l2rpn_atc_reward": 52.545135498046875
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 229.53369140625,
+        "l2rpn_atc_reward": 52.50556564331055
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 228.37646484375,
+        "l2rpn_atc_reward": 52.55653381347656
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 228.30322265625,
+        "l2rpn_atc_reward": 52.55473709106445
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 230.83984375,
+        "l2rpn_atc_reward": 52.47728729248047
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 226.17431640625,
+        "l2rpn_atc_reward": 52.60014343261719
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 226.28662109375,
+        "l2rpn_atc_reward": 52.59661102294922
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 225.2734375,
+        "l2rpn_atc_reward": 52.623653411865234
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 225.98876953125,
+        "l2rpn_atc_reward": 52.62141418457031
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 227.724609375,
+        "l2rpn_atc_reward": 52.612388610839844
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 228.330078125,
+        "l2rpn_atc_reward": 52.580047607421875
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 229.072265625,
+        "l2rpn_atc_reward": 52.57493591308594
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 229.8876953125,
+        "l2rpn_atc_reward": 52.550743103027344
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 228.62548828125,
+        "l2rpn_atc_reward": 52.595237731933594
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 228.77685546875,
+        "l2rpn_atc_reward": 52.59687042236328
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 230.75927734375,
+        "l2rpn_atc_reward": 52.550445556640625
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 230.4345703125,
+        "l2rpn_atc_reward": 52.551429748535156
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 230.89599609375,
+        "l2rpn_atc_reward": 52.54943084716797
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 229.5361328125,
+        "l2rpn_atc_reward": 52.58138656616211
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 230.40283203125,
+        "l2rpn_atc_reward": 52.54607009887695
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 230.615234375,
+        "l2rpn_atc_reward": 52.549652099609375
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 231.64306640625,
+        "l2rpn_atc_reward": 52.53619384765625
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 227.3681640625,
+        "l2rpn_atc_reward": 52.62023162841797
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 227.5244140625,
+        "l2rpn_atc_reward": 52.61380386352539
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 222.66845703125,
+        "l2rpn_atc_reward": 52.72848892211914
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 224.71435546875,
+        "l2rpn_atc_reward": 52.682228088378906
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 223.5205078125,
+        "l2rpn_atc_reward": 52.69074249267578
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 224.7900390625,
+        "l2rpn_atc_reward": 52.64542007446289
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 221.3671875,
+        "l2rpn_atc_reward": 52.703243255615234
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 220.64697265625,
+        "l2rpn_atc_reward": 52.70984649658203
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 215.9423828125,
+        "l2rpn_atc_reward": 52.81764221191406
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 212.2802734375,
+        "l2rpn_atc_reward": 52.88631820678711
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 210.1708984375,
+        "l2rpn_atc_reward": 52.927032470703125
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 207.64404296875,
+        "l2rpn_atc_reward": 52.95286178588867
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 205.927734375,
+        "l2rpn_atc_reward": 53.00157165527344
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 226.62353515625,
+        "l2rpn_atc_reward": 52.68315505981445
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 220.8203125,
+        "l2rpn_atc_reward": 52.80409240722656
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 220.09765625,
+        "l2rpn_atc_reward": 52.81383514404297
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 213.55712890625,
+        "l2rpn_atc_reward": 52.92532730102539
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 207.236328125,
+        "l2rpn_atc_reward": 52.984493255615234
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 211.60888671875,
+        "l2rpn_atc_reward": 52.98167419433594
+    },
+    {
+        "MinMargin_reward": 0.3799999952316284,
+        "__scores": 208.55712890625,
+        "l2rpn_atc_reward": 53.0308723449707
+    },
+    {
+        "MinMargin_reward": 0.3799999952316284,
+        "__scores": 205.7177734375,
+        "l2rpn_atc_reward": 53.103607177734375
+    },
+    {
+        "MinMargin_reward": 0.3799999952316284,
+        "__scores": 205.36376953125,
+        "l2rpn_atc_reward": 53.09880447387695
+    },
+    {
+        "MinMargin_reward": 0.3799999952316284,
+        "__scores": 202.71728515625,
+        "l2rpn_atc_reward": 53.1341552734375
+    },
+    {
+        "MinMargin_reward": 0.3799999952316284,
+        "__scores": 201.34033203125,
+        "l2rpn_atc_reward": 53.16859436035156
+    },
+    {
+        "MinMargin_reward": 0.3799999952316284,
+        "__scores": 200.869140625,
+        "l2rpn_atc_reward": 53.175567626953125
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 200.5908203125,
+        "l2rpn_atc_reward": 53.17520523071289
+    },
+    {
+        "MinMargin_reward": 0.3799999952316284,
+        "__scores": 201.28173828125,
+        "l2rpn_atc_reward": 53.14821243286133
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 198.5595703125,
+        "l2rpn_atc_reward": 53.16902542114258
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 196.1328125,
+        "l2rpn_atc_reward": 53.213890075683594
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 196.865234375,
+        "l2rpn_atc_reward": 53.1982307434082
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 197.02392578125,
+        "l2rpn_atc_reward": 53.186344146728516
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 196.54541015625,
+        "l2rpn_atc_reward": 53.19132995605469
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 197.5146484375,
+        "l2rpn_atc_reward": 53.18097686767578
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 195.87890625,
+        "l2rpn_atc_reward": 53.19536209106445
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 194.01123046875,
+        "l2rpn_atc_reward": 53.214752197265625
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 197.890625,
+        "l2rpn_atc_reward": 53.124515533447266
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 195.41015625,
+        "l2rpn_atc_reward": 53.16659164428711
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 196.64794921875,
+        "l2rpn_atc_reward": 53.154476165771484
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 192.509765625,
+        "l2rpn_atc_reward": 53.24493408203125
+    },
+    {
+        "MinMargin_reward": 0.3700000047683716,
+        "__scores": 191.63818359375,
+        "l2rpn_atc_reward": 53.24448013305664
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 188.8232421875,
+        "l2rpn_atc_reward": 53.29328918457031
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 189.34326171875,
+        "l2rpn_atc_reward": 53.25653839111328
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 187.79296875,
+        "l2rpn_atc_reward": 53.30099105834961
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 185.32958984375,
+        "l2rpn_atc_reward": 53.3318977355957
+    },
+    {
+        "MinMargin_reward": 0.36000001430511475,
+        "__scores": 181.1767578125,
+        "l2rpn_atc_reward": 53.4429817199707
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 181.0009765625,
+        "l2rpn_atc_reward": 53.41053009033203
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 179.6630859375,
+        "l2rpn_atc_reward": 53.445716857910156
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 178.5302734375,
+        "l2rpn_atc_reward": 53.45814514160156
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 176.259765625,
+        "l2rpn_atc_reward": 53.51673126220703
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 174.7119140625,
+        "l2rpn_atc_reward": 53.531883239746094
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 175.263671875,
+        "l2rpn_atc_reward": 53.518409729003906
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 176.19384765625,
+        "l2rpn_atc_reward": 53.485389709472656
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 175.32958984375,
+        "l2rpn_atc_reward": 53.5131950378418
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 176.279296875,
+        "l2rpn_atc_reward": 53.4808235168457
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 173.77197265625,
+        "l2rpn_atc_reward": 53.539676666259766
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 175.08056640625,
+        "l2rpn_atc_reward": 53.487213134765625
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 176.8359375,
+        "l2rpn_atc_reward": 53.4430046081543
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 174.33349609375,
+        "l2rpn_atc_reward": 53.530391693115234
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 176.513671875,
+        "l2rpn_atc_reward": 53.4621696472168
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 175.64453125,
+        "l2rpn_atc_reward": 53.497764587402344
+    },
+    {
+        "MinMargin_reward": 0.33000001311302185,
+        "__scores": 177.1533203125,
+        "l2rpn_atc_reward": 53.449058532714844
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 166.21826171875,
+        "l2rpn_atc_reward": 53.50016403198242
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 167.109375,
+        "l2rpn_atc_reward": 53.510765075683594
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 165.7421875,
+        "l2rpn_atc_reward": 53.5244026184082
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 165.2880859375,
+        "l2rpn_atc_reward": 53.51688003540039
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 163.17626953125,
+        "l2rpn_atc_reward": 53.553489685058594
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 163.4912109375,
+        "l2rpn_atc_reward": 53.57719039916992
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 164.3798828125,
+        "l2rpn_atc_reward": 53.56447982788086
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 162.2998046875,
+        "l2rpn_atc_reward": 53.56974411010742
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 162.373046875,
+        "l2rpn_atc_reward": 53.58954620361328
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 160.66650390625,
+        "l2rpn_atc_reward": 53.61513900756836
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 160.60546875,
+        "l2rpn_atc_reward": 53.614044189453125
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 159.0869140625,
+        "l2rpn_atc_reward": 53.657344818115234
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 160.24658203125,
+        "l2rpn_atc_reward": 53.59980773925781
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 161.67724609375,
+        "l2rpn_atc_reward": 53.59266662597656
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 159.11376953125,
+        "l2rpn_atc_reward": 53.654537200927734
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 156.84814453125,
+        "l2rpn_atc_reward": 53.68700408935547
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 157.8125,
+        "l2rpn_atc_reward": 53.65986251831055
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 157.3388671875,
+        "l2rpn_atc_reward": 53.68764877319336
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 156.89453125,
+        "l2rpn_atc_reward": 53.66382598876953
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 155.9130859375,
+        "l2rpn_atc_reward": 53.69784927368164
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 156.96533203125,
+        "l2rpn_atc_reward": 53.6744499206543
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 153.70361328125,
+        "l2rpn_atc_reward": 53.72144317626953
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 157.43408203125,
+        "l2rpn_atc_reward": 53.66326904296875
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 156.32568359375,
+        "l2rpn_atc_reward": 53.66643524169922
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 155.6005859375,
+        "l2rpn_atc_reward": 53.69733810424805
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 154.7802734375,
+        "l2rpn_atc_reward": 53.708717346191406
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 156.0791015625,
+        "l2rpn_atc_reward": 53.6910514831543
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 157.42919921875,
+        "l2rpn_atc_reward": 53.66850662231445
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 153.27392578125,
+        "l2rpn_atc_reward": 53.735782623291016
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 152.744140625,
+        "l2rpn_atc_reward": 53.762542724609375
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 155.2197265625,
+        "l2rpn_atc_reward": 53.71226501464844
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 154.84130859375,
+        "l2rpn_atc_reward": 53.72394561767578
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 154.38720703125,
+        "l2rpn_atc_reward": 53.727596282958984
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 151.98974609375,
+        "l2rpn_atc_reward": 53.78386306762695
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 153.11279296875,
+        "l2rpn_atc_reward": 53.747196197509766
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 154.3359375,
+        "l2rpn_atc_reward": 53.70957565307617
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 155.19287109375,
+        "l2rpn_atc_reward": 53.67656707763672
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 154.2431640625,
+        "l2rpn_atc_reward": 53.71859359741211
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 152.81982421875,
+        "l2rpn_atc_reward": 53.72687530517578
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 154.85595703125,
+        "l2rpn_atc_reward": 53.69913864135742
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 154.8486328125,
+        "l2rpn_atc_reward": 53.69379806518555
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 152.4853515625,
+        "l2rpn_atc_reward": 53.74460983276367
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 153.46435546875,
+        "l2rpn_atc_reward": 53.76414108276367
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 155.29052734375,
+        "l2rpn_atc_reward": 53.71354293823242
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 153.57666015625,
+        "l2rpn_atc_reward": 53.75013732910156
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 152.12646484375,
+        "l2rpn_atc_reward": 53.80709457397461
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 157.09228515625,
+        "l2rpn_atc_reward": 53.68737030029297
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 155.96435546875,
+        "l2rpn_atc_reward": 53.72296905517578
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 159.5849609375,
+        "l2rpn_atc_reward": 53.67704391479492
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 159.85595703125,
+        "l2rpn_atc_reward": 53.656673431396484
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 162.94677734375,
+        "l2rpn_atc_reward": 53.614280700683594
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 163.7890625,
+        "l2rpn_atc_reward": 53.59181594848633
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 163.69384765625,
+        "l2rpn_atc_reward": 53.59923553466797
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 168.42041015625,
+        "l2rpn_atc_reward": 53.48868942260742
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 166.455078125,
+        "l2rpn_atc_reward": 53.52468490600586
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 171.46484375,
+        "l2rpn_atc_reward": 53.42902755737305
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 168.39599609375,
+        "l2rpn_atc_reward": 53.49797058105469
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 171.04248046875,
+        "l2rpn_atc_reward": 53.43921661376953
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 169.12353515625,
+        "l2rpn_atc_reward": 53.49810028076172
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 173.4521484375,
+        "l2rpn_atc_reward": 53.40679931640625
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 170.81298828125,
+        "l2rpn_atc_reward": 53.48234558105469
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 172.74658203125,
+        "l2rpn_atc_reward": 53.44176483154297
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 173.58642578125,
+        "l2rpn_atc_reward": 53.426055908203125
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 171.2060546875,
+        "l2rpn_atc_reward": 53.50927734375
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 175.54931640625,
+        "l2rpn_atc_reward": 53.406837463378906
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 175.12451171875,
+        "l2rpn_atc_reward": 53.408390045166016
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 179.580078125,
+        "l2rpn_atc_reward": 53.31098175048828
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 178.49609375,
+        "l2rpn_atc_reward": 53.340904235839844
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 178.57177734375,
+        "l2rpn_atc_reward": 53.34998321533203
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 179.11865234375,
+        "l2rpn_atc_reward": 53.32191467285156
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 179.98046875,
+        "l2rpn_atc_reward": 53.327152252197266
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 183.74755859375,
+        "l2rpn_atc_reward": 53.23740005493164
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 185.107421875,
+        "l2rpn_atc_reward": 53.22885513305664
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 188.1298828125,
+        "l2rpn_atc_reward": 53.170555114746094
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 188.61083984375,
+        "l2rpn_atc_reward": 53.13823699951172
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 190.84228515625,
+        "l2rpn_atc_reward": 53.09663391113281
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 190.41748046875,
+        "l2rpn_atc_reward": 53.11442565917969
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 197.92724609375,
+        "l2rpn_atc_reward": 52.95732498168945
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 198.076171875,
+        "l2rpn_atc_reward": 52.96274948120117
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 198.43994140625,
+        "l2rpn_atc_reward": 52.92733383178711
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 205.29296875,
+        "l2rpn_atc_reward": 52.810157775878906
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 207.2509765625,
+        "l2rpn_atc_reward": 52.78384017944336
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 216.01806640625,
+        "l2rpn_atc_reward": 52.58537292480469
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 212.84423828125,
+        "l2rpn_atc_reward": 52.65073776245117
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 221.5283203125,
+        "l2rpn_atc_reward": 52.4742546081543
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 229.5849609375,
+        "l2rpn_atc_reward": 52.31886672973633
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 233.857421875,
+        "l2rpn_atc_reward": 52.21402359008789
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 242.48291015625,
+        "l2rpn_atc_reward": 52.03224182128906
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 249.3017578125,
+        "l2rpn_atc_reward": 51.86739730834961
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 260.537109375,
+        "l2rpn_atc_reward": 51.65379333496094
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 267.83935546875,
+        "l2rpn_atc_reward": 51.45216751098633
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 273.30078125,
+        "l2rpn_atc_reward": 51.32318115234375
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 289.21875,
+        "l2rpn_atc_reward": 50.95413589477539
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 299.2822265625,
+        "l2rpn_atc_reward": 50.765106201171875
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 306.52099609375,
+        "l2rpn_atc_reward": 50.5728645324707
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 310.0537109375,
+        "l2rpn_atc_reward": 50.49180221557617
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 324.90234375,
+        "l2rpn_atc_reward": 50.15409851074219
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 331.73583984375,
+        "l2rpn_atc_reward": 50.01508331298828
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 338.02001953125,
+        "l2rpn_atc_reward": 49.83885955810547
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 352.509765625,
+        "l2rpn_atc_reward": 49.528812408447266
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 363.779296875,
+        "l2rpn_atc_reward": 49.21886444091797
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 363.10546875,
+        "l2rpn_atc_reward": 49.2717399597168
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 365.7568359375,
+        "l2rpn_atc_reward": 49.19028854370117
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 375.01220703125,
+        "l2rpn_atc_reward": 49.02096939086914
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 377.8173828125,
+        "l2rpn_atc_reward": 48.96378707885742
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 384.189453125,
+        "l2rpn_atc_reward": 48.806053161621094
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 392.0703125,
+        "l2rpn_atc_reward": 48.65903854370117
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 392.07275390625,
+        "l2rpn_atc_reward": 48.6602668762207
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 406.23291015625,
+        "l2rpn_atc_reward": 48.33002471923828
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 406.0498046875,
+        "l2rpn_atc_reward": 48.35257339477539
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 454.15008544921875,
+        "l2rpn_atc_reward": 48.444461822509766
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 413.55712890625,
+        "l2rpn_atc_reward": 48.19586181640625
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 445.91357421875,
+        "l2rpn_atc_reward": 48.41687774658203
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 415.75439453125,
+        "l2rpn_atc_reward": 48.14507293701172
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 408.2861328125,
+        "l2rpn_atc_reward": 48.358489990234375
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 414.6630859375,
+        "l2rpn_atc_reward": 48.20433807373047
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 443.311279296875,
+        "l2rpn_atc_reward": 48.457759857177734
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 409.80224609375,
+        "l2rpn_atc_reward": 48.284027099609375
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 404.1650390625,
+        "l2rpn_atc_reward": 48.41602325439453
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 400.9375,
+        "l2rpn_atc_reward": 48.473636627197266
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 396.552734375,
+        "l2rpn_atc_reward": 48.56903839111328
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 392.19482421875,
+        "l2rpn_atc_reward": 48.66265869140625
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 436.6021728515625,
+        "l2rpn_atc_reward": 48.76871109008789
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 384.29931640625,
+        "l2rpn_atc_reward": 48.81695556640625
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 381.91162109375,
+        "l2rpn_atc_reward": 48.87844467163086
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 380.18310546875,
+        "l2rpn_atc_reward": 48.895164489746094
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 372.73681640625,
+        "l2rpn_atc_reward": 49.059024810791016
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 365.70556640625,
+        "l2rpn_atc_reward": 49.21183776855469
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 361.17919921875,
+        "l2rpn_atc_reward": 49.29855728149414
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 360.6201171875,
+        "l2rpn_atc_reward": 49.32667922973633
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 355.66162109375,
+        "l2rpn_atc_reward": 49.439414978027344
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 348.06640625,
+        "l2rpn_atc_reward": 49.6279182434082
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 343.61572265625,
+        "l2rpn_atc_reward": 49.713157653808594
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 339.64599609375,
+        "l2rpn_atc_reward": 49.800392150878906
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 341.43310546875,
+        "l2rpn_atc_reward": 49.754154205322266
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 338.04931640625,
+        "l2rpn_atc_reward": 49.817047119140625
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 340.31005859375,
+        "l2rpn_atc_reward": 49.799964904785156
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 329.90234375,
+        "l2rpn_atc_reward": 50.01224136352539
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 332.83203125,
+        "l2rpn_atc_reward": 49.952701568603516
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 329.0673828125,
+        "l2rpn_atc_reward": 50.01359176635742
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 324.1552734375,
+        "l2rpn_atc_reward": 50.13005065917969
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 320.66162109375,
+        "l2rpn_atc_reward": 50.235382080078125
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 322.94677734375,
+        "l2rpn_atc_reward": 50.15760040283203
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 317.29736328125,
+        "l2rpn_atc_reward": 50.2675666809082
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 314.0087890625,
+        "l2rpn_atc_reward": 50.359718322753906
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 309.72900390625,
+        "l2rpn_atc_reward": 50.4553337097168
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 307.02392578125,
+        "l2rpn_atc_reward": 50.52385330200195
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 304.74853515625,
+        "l2rpn_atc_reward": 50.58232498168945
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 302.98095703125,
+        "l2rpn_atc_reward": 50.62729263305664
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 301.5234375,
+        "l2rpn_atc_reward": 50.667518615722656
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 305.66162109375,
+        "l2rpn_atc_reward": 50.54213333129883
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 305.87890625,
+        "l2rpn_atc_reward": 50.559356689453125
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 315.13916015625,
+        "l2rpn_atc_reward": 50.33626174926758
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 314.08935546875,
+        "l2rpn_atc_reward": 50.374839782714844
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 320.67626953125,
+        "l2rpn_atc_reward": 50.21550750732422
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 328.5888671875,
+        "l2rpn_atc_reward": 50.05497741699219
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 335.732421875,
+        "l2rpn_atc_reward": 49.873779296875
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 337.8955078125,
+        "l2rpn_atc_reward": 49.84779357910156
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 343.388671875,
+        "l2rpn_atc_reward": 49.72000503540039
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 343.5986328125,
+        "l2rpn_atc_reward": 49.699317932128906
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 345.75927734375,
+        "l2rpn_atc_reward": 49.67930221557617
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 345.97900390625,
+        "l2rpn_atc_reward": 49.660072326660156
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 339.89501953125,
+        "l2rpn_atc_reward": 49.7907600402832
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 338.44970703125,
+        "l2rpn_atc_reward": 49.806678771972656
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 333.61572265625,
+        "l2rpn_atc_reward": 49.93547058105469
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 336.85791015625,
+        "l2rpn_atc_reward": 49.87909698486328
+    },
+    {
+        "MinMargin_reward": 0.28999999165534973,
+        "__scores": 334.1796875,
+        "l2rpn_atc_reward": 49.92893600463867
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 341.142578125,
+        "l2rpn_atc_reward": 49.77089309692383
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 343.1103515625,
+        "l2rpn_atc_reward": 49.7368049621582
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 344.8486328125,
+        "l2rpn_atc_reward": 49.70026397705078
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 351.38671875,
+        "l2rpn_atc_reward": 49.58100128173828
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 348.69873046875,
+        "l2rpn_atc_reward": 49.63792419433594
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 348.369140625,
+        "l2rpn_atc_reward": 49.64482879638672
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 341.31103515625,
+        "l2rpn_atc_reward": 49.79182052612305
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 336.884765625,
+        "l2rpn_atc_reward": 49.89516067504883
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 332.23876953125,
+        "l2rpn_atc_reward": 49.975311279296875
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 323.68408203125,
+        "l2rpn_atc_reward": 50.19622802734375
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 315.28564453125,
+        "l2rpn_atc_reward": 50.390480041503906
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 316.962890625,
+        "l2rpn_atc_reward": 50.35641860961914
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 311.77734375,
+        "l2rpn_atc_reward": 50.46793746948242
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 309.19677734375,
+        "l2rpn_atc_reward": 50.54423522949219
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 307.54150390625,
+        "l2rpn_atc_reward": 50.572967529296875
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 301.0205078125,
+        "l2rpn_atc_reward": 50.70335388183594
+    },
+    {
+        "MinMargin_reward": 0.25999999046325684,
+        "__scores": 300.96923828125,
+        "l2rpn_atc_reward": 50.731224060058594
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 298.87939453125,
+        "l2rpn_atc_reward": 50.744224548339844
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 294.27734375,
+        "l2rpn_atc_reward": 50.84999465942383
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 299.052734375,
+        "l2rpn_atc_reward": 50.7672119140625
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 296.9970703125,
+        "l2rpn_atc_reward": 50.8211784362793
+    },
+    {
+        "MinMargin_reward": 0.27000001072883606,
+        "__scores": 300.7763671875,
+        "l2rpn_atc_reward": 50.71726989746094
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 302.61474609375,
+        "l2rpn_atc_reward": 50.68889617919922
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 302.822265625,
+        "l2rpn_atc_reward": 50.69158172607422
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 300.68603515625,
+        "l2rpn_atc_reward": 50.732513427734375
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 308.544921875,
+        "l2rpn_atc_reward": 50.581180572509766
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 304.31396484375,
+        "l2rpn_atc_reward": 50.64484405517578
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 305.56640625,
+        "l2rpn_atc_reward": 50.6571044921875
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 305.45654296875,
+        "l2rpn_atc_reward": 50.6643180847168
+    },
+    {
+        "MinMargin_reward": 0.20000000298023224,
+        "__scores": 304.0673828125,
+        "l2rpn_atc_reward": 50.682884216308594
+    },
+    {
+        "MinMargin_reward": 0.2199999988079071,
+        "__scores": 301.85302734375,
+        "l2rpn_atc_reward": 50.719512939453125
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 306.94580078125,
+        "l2rpn_atc_reward": 50.63692855834961
+    },
+    {
+        "MinMargin_reward": 0.18000000715255737,
+        "__scores": 306.05712890625,
+        "l2rpn_atc_reward": 50.65829086303711
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 316.04248046875,
+        "l2rpn_atc_reward": 50.43187713623047
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 312.060546875,
+        "l2rpn_atc_reward": 50.54057693481445
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 310.400390625,
+        "l2rpn_atc_reward": 50.587974548339844
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 300.224609375,
+        "l2rpn_atc_reward": 50.78544235229492
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 304.46533203125,
+        "l2rpn_atc_reward": 50.70146560668945
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 300.6787109375,
+        "l2rpn_atc_reward": 50.794925689697266
+    },
+    {
+        "MinMargin_reward": 0.15000000596046448,
+        "__scores": 301.1181640625,
+        "l2rpn_atc_reward": 50.804752349853516
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 301.67724609375,
+        "l2rpn_atc_reward": 50.79474639892578
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 300.2197265625,
+        "l2rpn_atc_reward": 50.82623291015625
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 299.31396484375,
+        "l2rpn_atc_reward": 50.863670349121094
+    },
+    {
+        "MinMargin_reward": 0.14000000059604645,
+        "__scores": 297.46337890625,
+        "l2rpn_atc_reward": 50.91221237182617
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 301.58203125,
+        "l2rpn_atc_reward": 50.82660675048828
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 300.908203125,
+        "l2rpn_atc_reward": 50.84452819824219
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 300.5126953125,
+        "l2rpn_atc_reward": 50.84215545654297
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 300.84228515625,
+        "l2rpn_atc_reward": 50.80696487426758
+    },
+    {
+        "MinMargin_reward": 0.09000000357627869,
+        "__scores": 303.857421875,
+        "l2rpn_atc_reward": 50.7833137512207
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 309.4921875,
+        "l2rpn_atc_reward": 50.67096710205078
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 305.068359375,
+        "l2rpn_atc_reward": 50.780086517333984
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 304.61181640625,
+        "l2rpn_atc_reward": 50.791015625
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 302.3828125,
+        "l2rpn_atc_reward": 50.85049819946289
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 303.98681640625,
+        "l2rpn_atc_reward": 50.79740905761719
+    },
+    {
+        "MinMargin_reward": 0.07000000029802322,
+        "__scores": 305.625,
+        "l2rpn_atc_reward": 50.77716827392578
+    },
+    {
+        "MinMargin_reward": 0.09000000357627869,
+        "__scores": 302.79296875,
+        "l2rpn_atc_reward": 50.83205032348633
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 300.791015625,
+        "l2rpn_atc_reward": 50.85752487182617
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 302.33154296875,
+        "l2rpn_atc_reward": 50.831600189208984
+    },
+    {
+        "MinMargin_reward": 0.07999999821186066,
+        "__scores": 304.97314453125,
+        "l2rpn_atc_reward": 50.7832145690918
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 299.7998046875,
+        "l2rpn_atc_reward": 50.864322662353516
+    },
+    {
+        "MinMargin_reward": 0.10000000149011612,
+        "__scores": 298.57666015625,
+        "l2rpn_atc_reward": 50.89149856567383
+    },
+    {
+        "MinMargin_reward": 0.10999999940395355,
+        "__scores": 296.46728515625,
+        "l2rpn_atc_reward": 50.92461395263672
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 293.72314453125,
+        "l2rpn_atc_reward": 50.993350982666016
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 295.56640625,
+        "l2rpn_atc_reward": 50.94744873046875
+    },
+    {
+        "MinMargin_reward": 0.11999999731779099,
+        "__scores": 292.36572265625,
+        "l2rpn_atc_reward": 51.021053314208984
+    },
+    {
+        "MinMargin_reward": 0.12999999523162842,
+        "__scores": 292.56103515625,
+        "l2rpn_atc_reward": 50.99610137939453
+    },
+    {
+        "MinMargin_reward": 0.1599999964237213,
+        "__scores": 289.04541015625,
+        "l2rpn_atc_reward": 51.05333709716797
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 286.65771484375,
+        "l2rpn_atc_reward": 51.13003158569336
+    },
+    {
+        "MinMargin_reward": 0.17000000178813934,
+        "__scores": 283.37158203125,
+        "l2rpn_atc_reward": 51.172630310058594
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 282.470703125,
+        "l2rpn_atc_reward": 51.18653869628906
+    },
+    {
+        "MinMargin_reward": 0.1899999976158142,
+        "__scores": 282.27783203125,
+        "l2rpn_atc_reward": 51.1800422668457
+    },
+    {
+        "MinMargin_reward": 0.20999999344348907,
+        "__scores": 275.654296875,
+        "l2rpn_atc_reward": 51.33303451538086
+    },
+    {
+        "MinMargin_reward": 0.2199999988079071,
+        "__scores": 271.884765625,
+        "l2rpn_atc_reward": 51.41212844848633
+    },
+    {
+        "MinMargin_reward": 0.23000000417232513,
+        "__scores": 267.33642578125,
+        "l2rpn_atc_reward": 51.49556350708008
+    },
+    {
+        "MinMargin_reward": 0.23999999463558197,
+        "__scores": 264.7607421875,
+        "l2rpn_atc_reward": 51.54491424560547
+    },
+    {
+        "MinMargin_reward": 0.25,
+        "__scores": 263.2958984375,
+        "l2rpn_atc_reward": 51.56962966918945
+    },
+    {
+        "MinMargin_reward": 0.2800000011920929,
+        "__scores": 258.65478515625,
+        "l2rpn_atc_reward": 51.69057083129883
+    },
+    {
+        "MinMargin_reward": 0.30000001192092896,
+        "__scores": 255.166015625,
+        "l2rpn_atc_reward": 51.74209976196289
+    },
+    {
+        "MinMargin_reward": 0.3100000023841858,
+        "__scores": 250.9423828125,
+        "l2rpn_atc_reward": 51.83171463012695
+    },
+    {
+        "MinMargin_reward": 0.3199999928474426,
+        "__scores": 246.11328125,
+        "l2rpn_atc_reward": 51.90838623046875
+    },
+    {
+        "MinMargin_reward": 0.3400000035762787,
+        "__scores": 241.35986328125,
+        "l2rpn_atc_reward": 51.98693084716797
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 238.3447265625,
+        "l2rpn_atc_reward": 52.04882049560547
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 235.25390625,
+        "l2rpn_atc_reward": 52.11309814453125
+    },
+    {
+        "MinMargin_reward": 0.3499999940395355,
+        "__scores": 233.701171875,
+        "l2rpn_atc_reward": 52.120361328125
+    },
+    {
+        "MinMargin_reward": -0.38999998569488525,
+        "__scores": 355.99365234375,
+        "l2rpn_atc_reward": 48.972599029541016
+    },
+    {
+        "MinMargin_reward": -0.4000000059604645,
+        "__scores": 358.2861328125,
+        "l2rpn_atc_reward": 48.900413513183594
+    },
+    {
+        "MinMargin_reward": -0.38999998569488525,
+        "__scores": 350.48828125,
+        "l2rpn_atc_reward": 49.095237731933594
+    },
+    {
+        "MinMargin_reward": -0.550000011920929,
+        "__scores": 554.8291015625,
+        "l2rpn_atc_reward": 44.26923370361328
+    },
+    {
+        "MinMargin_reward": -0.5600000023841858,
+        "__scores": 556.708984375,
+        "l2rpn_atc_reward": 44.22404098510742
+    },
+    {
+        "MinMargin_reward": -0.5600000023841858,
+        "__scores": 557.06298828125,
+        "l2rpn_atc_reward": 44.195125579833984
+    },
+    {
+        "MinMargin_reward": -0.6499999761581421,
+        "__scores": 864.65576171875,
+        "l2rpn_atc_reward": 38.01559829711914
+    },
+    {
+        "MinMargin_reward": -0.8100000023841858,
+        "__scores": 369.2138671875,
+        "l2rpn_atc_reward": 49.101654052734375
+    },
+    {
+        "MinMargin_reward": -0.8100000023841858,
+        "__scores": 371.787109375,
+        "l2rpn_atc_reward": 49.02585983276367
+    },
+    {
+        "MinMargin_reward": -0.7699999809265137,
+        "__scores": 362.6806640625,
+        "l2rpn_atc_reward": 49.18311309814453
+    },
+    {
+        "MinMargin_reward": -0.36000001430511475,
+        "__scores": 642.97119140625,
+        "l2rpn_atc_reward": 40.9983024597168
+    },
+    {
+        "MinMargin_reward": -0.36000001430511475,
+        "__scores": 423.85498046875,
+        "l2rpn_atc_reward": 47.706634521484375
+    },
+    {
+        "MinMargin_reward": -0.3499999940395355,
+        "__scores": 414.9169921875,
+        "l2rpn_atc_reward": 47.93720245361328
+    },
+    {
+        "MinMargin_reward": -0.3499999940395355,
+        "__scores": 410.9423828125,
+        "l2rpn_atc_reward": 48.01213836669922
+    },
+    {
+        "MinMargin_reward": -0.3199999928474426,
+        "__scores": 314.6875,
+        "l2rpn_atc_reward": 49.79352951049805
+    },
+    {
+        "MinMargin_reward": -0.3400000035762787,
+        "__scores": 315.9130859375,
+        "l2rpn_atc_reward": 49.80157470703125
+    },
+    {
+        "MinMargin_reward": -0.33000001311302185,
+        "__scores": 308.87451171875,
+        "l2rpn_atc_reward": 49.97762680053711
+    },
+    {
+        "MinMargin_reward": -0.6100000143051147,
+        "__scores": 547.36328125,
+        "l2rpn_atc_reward": 44.37226867675781
+    },
+    {
+        "MinMargin_reward": -0.6000000238418579,
+        "__scores": 538.28857421875,
+        "l2rpn_atc_reward": 44.60063552856445
+    },
+    {
+        "MinMargin_reward": -0.6200000047683716,
+        "__scores": 548.66943359375,
+        "l2rpn_atc_reward": 44.379638671875
+    },
+    {
+        "MinMargin_reward": -0.9300000071525574,
+        "__scores": 1231.06201171875,
+        "l2rpn_atc_reward": 37.05643844604492
+    },
+    {
+        "MinMargin_reward": -0.9399999976158142,
+        "__scores": 1230.90576171875,
+        "l2rpn_atc_reward": 37.05002975463867
+    },
+    {
+        "MinMargin_reward": -0.9300000071525574,
+        "__scores": 1226.3427734375,
+        "l2rpn_atc_reward": 37.10868453979492
+    },
+    {
+        "MinMargin_reward": -1.0,
+        "__scores": 1.0,
+        "l2rpn_atc_reward": 0.0
+    }
+]

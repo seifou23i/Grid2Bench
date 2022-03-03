@@ -1,0 +1,11 @@
+{
+    "agent_seed": 152827589,
+    "backend_type": "PandaPowerBackend_input_data_val",
+    "chronics_max_timestep": "2016",
+    "chronics_path": "/mnt/d/PythonProject/Boost/GitLab/2mg/data/input_data_val/chronics/jan32_2",
+    "cumulative_reward": 103060.84375,
+    "env_seed": 752898282,
+    "env_type": "Environment_input_data_val",
+    "grid_path": "/mnt/d/PythonProject/Boost/GitLab/2mg/data/input_data_val/grid.json",
+    "nb_timestep_played": 158
+}
