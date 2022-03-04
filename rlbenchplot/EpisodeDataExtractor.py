@@ -38,6 +38,7 @@ class EpisodeDataExtractor:
         self.actions = episode_data.actions
         self.computation_times = episode_data.times
 
+
         self.cum_reward = episode_data.meta["cumulative_reward"]
         self.nb_timestep_played = episode_data.meta["nb_timestep_played"]
         self.max_timestep = episode_data.meta["chronics_max_timestep"]

@@ -24,6 +24,7 @@ class EpisodesPlot:
         """
         self.agent_path = agent_path
         self.episodes_names = episodes_names
+        self.agent_name = os.path.basename(agent_path)
 
         self.episodes_data = self.load_all_episodes()
         self.n_lines =  self.episodes_data[0]._n_lines()
@@ -53,7 +54,7 @@ class EpisodesPlot:
         if not episodes_names: episodes_names = self.episodes_names
 
         df = pd.DataFrame()
-        for episode_data in tqdm(self.episodes_data):
+        for episode_data in self.episodes_data:
             if episode_data.episode_name in episodes_names:
                 df = pd.concat([df, episode_data.compute_actions_freq_by_type()], axis=0)
 
@@ -104,7 +105,7 @@ class EpisodesPlot:
         overloaded_lines = []
         disconnected_lines = []
 
-        for episode_data in tqdm(self.episodes_data):
+        for episode_data in self.episodes_data:
             if episode_data.episode_name in episodes_names:
                 overloaded_lines_for_episode_i = episode_data.compute_overloaded_lines_by_timestamp()
                 overloaded_lines_flatten = [list(item) for dict in overloaded_lines_for_episode_i for key, item in
@@ -200,7 +201,8 @@ class EpisodesPlot:
                     columns=all_executions_time.columns)
                 all_executions_time = pd.concat([all_executions_time, df], ignore_index=True)
 
-        fig = px.line(all_executions_time, x=np.arange(all_executions_time.shape[0]), y="Execution time", title=title)
+        all_executions_time =all_executions_time.sort_values(by='Timestamp', ascending=True)
+        fig = px.line(all_executions_time, x=all_executions_time["Timestamp"], y="Execution time", title=title)
         fig.update_layout(xaxis={"rangeslider": {"visible": True}})
 
         fig.update_layout(**fig_kwargs)
@@ -238,6 +240,10 @@ class EpisodesPlot:
 
                     x.append(episode_data.timestamps[j])
                     y.append(distance)
+
+        #TODO : optimize
+        pd.DataFrame(data)
+
 
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=np.arange(len(x)), y=y, name="linear",
