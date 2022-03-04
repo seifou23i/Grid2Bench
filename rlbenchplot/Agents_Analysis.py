@@ -174,7 +174,7 @@ class AgentsAnalysis :
             agents_results=[],
             episodes_names=[],
             title="Overloaded Lines by station",
-            overload=True,
+            disconnected=False,
             **fig_kwargs):
         """
 
@@ -186,7 +186,7 @@ class AgentsAnalysis :
         """
         k = 0
         agent_names = []
-        if not overload:
+        if disconnected:
             k = 1
             title = "Disconnected Lines by station"
 

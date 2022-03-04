@@ -241,10 +241,6 @@ class EpisodesPlot:
                     x.append(episode_data.timestamps[j])
                     y.append(distance)
 
-        #TODO : optimize
-        pd.DataFrame(data)
-
-
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=np.arange(len(x)), y=y, name="linear",
                                  line_shape='hvh'))
