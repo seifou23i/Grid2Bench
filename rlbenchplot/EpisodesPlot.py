@@ -1,4 +1,7 @@
 import os
+
+from IPython.core.display_functions import display
+
 from rlbenchplot.EpisodeDataExtractor import EpisodeDataExtractor
 import pandas as pd
 from tqdm import tqdm
@@ -241,9 +244,13 @@ class EpisodesPlot:
                     x.append(episode_data.timestamps[j])
                     y.append(distance)
 
+        df_distance = pd.DataFrame(data = np.array([x, y]).transpose(), columns = ['Timestamp', 'Distance'])
+        df_distance = df_distance.sort_values(by='Timestamp', ascending=True)
+
+
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=np.arange(len(x)), y=y, name="linear",
-                                 line_shape='hvh'))
+        fig.add_trace(go.Scatter(x=df_distance["Timestamp"].tolist(), y=df_distance["Distance"].tolist(),
+                                 mode='lines+markers',line_shape='hvh'))
 
         fig.update_layout(legend=dict(y=0.5, traceorder='reversed', font_size=16), xaxis_title="Timestamp",
                           yaxis_title="Distance", title=title)
@@ -325,6 +332,41 @@ class EpisodesPlot:
         ax.legend(lns, labs, loc=0, fontsize=16)
         ax.grid()
         ax2.grid()
+
+    def plot_acted_actions(
+            self,
+            episodes_names=[],
+            title="Acted vs not Acted actions",
+            **fig_kwargs):
+        """
+
+        :param episodes_names:
+        :param title:
+        :param fig_kwargs:
+        :return:
+        """
+
+        if not episodes_names: episodes_names = self.episodes_names
+
+        not_acted_actions = 0
+        acted_actions = 0
+        df = pd.DataFrame()
+        for episode_data in self.episodes_data:
+            if episode_data.episode_name in episodes_names:
+                acted_actions = acted_actions + len(episode_data.acted_actions())
+                not_acted_actions = not_acted_actions + (episode_data.n_action-len(episode_data.acted_actions()))
+
+        df_sum = pd.DataFrame({'Frequency': df.sum(axis=0)})
+
+        fig = px.pie(values=[not_acted_actions, acted_actions, ], names=["Not Acted Actions", "Acted Actions"],
+                     title=title)
+        fig.update_traces(textposition='inside', textinfo='percent+label')
+
+        fig.update_layout(**fig_kwargs)
+
+        return fig
+
+
 
 
 

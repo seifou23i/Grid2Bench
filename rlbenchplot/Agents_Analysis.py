@@ -273,3 +273,47 @@ class AgentsAnalysis :
         fig.update_layout(**fig_kwargs)
 
         return fig
+
+
+    @staticmethod
+    def plot_distance_from_initial_topology_multi_agent(
+            agents_results=[],
+            episodes_names=[],
+            title="Distance from initial topology",
+            **fig_kwargs):
+        """
+
+        :param agents_results:
+        :param episodes_names:
+        :param title:
+        :param fig_kwargs:
+        :return:
+        """
+        # TODO : creating a function to reuse this
+
+        # for the first agent
+        agent_names = [agents_results[0].agent_name]
+        data = agents_results[0].plot_distance_from_initial_topology(episodes_names).data[0]
+        x, y = data.x, data.y
+        df = pd.DataFrame(np.array([x, y]).transpose(), columns=['Timestamp', agents_results[0].agent_name])
+
+        for agent in agents_results[1:]:
+            agent_names.append(agent.agent_name)
+            data = agent.plot_distance_from_initial_topology(episodes_names).data[0]
+            x, y = data.x, data.y
+            df2 = pd.DataFrame(np.array([x, y]).transpose(), columns=['Timestamp', agent.agent_name])
+            df = df.join(df2.set_index('Timestamp'), on='Timestamp')
+
+        # Create traces
+        fig = go.Figure()
+
+        for agent_name in agent_names:
+            fig.add_trace(go.Scatter(x=df["Timestamp"].tolist(), y=df[agent_name].tolist(),
+                                     mode='lines+markers', line_shape='hvh',
+                                     name=agent_name))
+
+        fig.update_layout(xaxis={"rangeslider": {"visible": True}}, title=title, xaxis_title="Timestamp",
+                          yaxis_title="Distance")
+        fig.update_layout(**fig_kwargs)
+
+        return fig

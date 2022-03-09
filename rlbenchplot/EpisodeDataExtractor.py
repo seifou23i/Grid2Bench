@@ -255,6 +255,25 @@ class EpisodeDataExtractor:
         """
         return self.actions[0].name_line[lines_id]
 
+    def acted_actions(self):
+        """
+
+        :return:
+        """
+        return [action for action in self.actions if not action.is_ambiguous()]
+
+
+
+    @staticmethod
+    def is_action_acted(action):
+        """
+
+        :param action:
+        :return:
+        """
+        #return action.impact_on_objects()["has_impact"] and action.is_ambiguous()
+        return not(action.is_ambiguous())
+
     #Functions reused from Grid2Vis
     def get_distance_from_obs(
             self, act, line_statuses, subs_on_bus_2, objs_on_bus_2, obs
