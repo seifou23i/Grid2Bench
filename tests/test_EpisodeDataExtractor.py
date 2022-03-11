@@ -17,6 +17,7 @@ class TestEpisodeDataExtractor(unittest.TestCase):
 
         self.episode_data = EpisodeDataExtractor(self.agent_path, self.episode_name)
 
+
     def test_get_observation_by_timestamp(self):
         observation = self.episode_data.get_observation_by_timestamp(
             datetime.datetime(year=2019, month=1, day=6, hour=0, minute=20))
