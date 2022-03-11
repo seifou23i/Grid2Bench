@@ -53,7 +53,7 @@ Getting_Started notebook contains simple examples to show how we use the functio
       * Second Option: you can load all the agents' results at onece [using AgentsAnalytics class]
    * Action Frequency
    * Impact of actions on objects 
-   * ACtion Execution Time
+   * Action Execution Time
    * Action Sequence length
    * Agents bahaviour analysis 
 
