@@ -55,6 +55,7 @@ Getting_Started notebook contains simple examples to show how we use the functio
    * Impact of actions on objects 
    * ACtion Execution Time
    * Action Sequence length
+   * Agents bahaviour analysis 
 
 
    
