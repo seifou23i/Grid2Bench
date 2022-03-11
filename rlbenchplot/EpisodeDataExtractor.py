@@ -39,8 +39,6 @@ class EpisodeDataExtractor:
         self.observations = episode_data.observations
         self.actions = episode_data.actions
         self.computation_times = episode_data.times
-        print(episode_data)
-
 
         self.cum_reward = episode_data.meta["cumulative_reward"]
         self.nb_timestep_played = episode_data.meta["nb_timestep_played"]
@@ -53,7 +51,7 @@ class EpisodeDataExtractor:
         self.n_action = len(self.actions)
         self.timestamps = [self.observations[i].get_time_stamp() for i in range(self.n_action)]
         
-        
+
         #create actions_id
         self.list_actions = []
         for (time_step, (obs, act)) in tqdm(
