@@ -48,8 +48,8 @@ Some Jupyter notebook are provided as tutorials for the RLBenchPlot package. The
 
 Getting_Started notebook contains simple examples to show how we use the functions defined in the framework:
    * Loading agent results- fot this part there are 2 options:
-      * First option
-      * Second Option
+      * First option: you can load agent's resulsts separately [using EpisodeData class]
+      * Second Option: you can load all the agents' results at onece [using AgentsAnalytics class]
    * Action Frequency
    * Impact of actions on objects 
    
