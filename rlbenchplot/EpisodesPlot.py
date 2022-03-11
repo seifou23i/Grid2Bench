@@ -13,14 +13,15 @@ import itertools
 from datetime import timedelta
 from matplotlib import pyplot as plt
 
-
 import qgrid
 import ipywidgets as widgets
+
 
 class EpisodesPlot:
     """
 
     """
+
     def __init__(self, agent_path, episodes_names=[]):
         """
 
@@ -30,7 +31,7 @@ class EpisodesPlot:
         self.agent_name = os.path.basename(agent_path)
 
         self.episodes_data = self.load_all_episodes()
-        self.n_lines =  self.episodes_data[0]._n_lines()
+        self.n_lines = self.episodes_data[0]._n_lines()
         self.n_episode = len(self.episodes_names)
 
     def load_all_episodes(self):
@@ -38,12 +39,11 @@ class EpisodesPlot:
 
         :return:
         """
-        if not self.episodes_names :
-            self.episodes_names = [ name for name in os.listdir(self.agent_path) if os.path.isdir(os.path.join(self.agent_path, name)) ]
-
+        if not self.episodes_names:
+            self.episodes_names = [name for name in os.listdir(self.agent_path) if
+                                   os.path.isdir(os.path.join(self.agent_path, name))]
 
         return [EpisodeDataExtractor(self.agent_path, episode_name) for episode_name in tqdm(self.episodes_names)]
-
 
     def plot_actions_freq_by_type(
             self,
@@ -142,9 +142,16 @@ class EpisodesPlot:
 
     def plot_actions_sequence_length_by_type(
             self,
-            episodes_names= [],
+            episodes_names=[],
             title="Sequence length of actions by type",
             **fig_kwargs):
+        """
+        TODO filter by impacted component + add multiple agents
+        :param episodes_names: filter some episodes, if empty it will show all loaded episodes
+        :param title: plot title, if empty it will return default value
+        :param fig_kwargs: keyword for plotly arguments, example: height= 700
+        :return:
+        """
 
         if not episodes_names: episodes_names = self.episodes_names
 
@@ -153,22 +160,22 @@ class EpisodesPlot:
             if episode_data.episode_name in episodes_names:
                 df = pd.concat([df, episode_data.compute_action_sequences_length()], axis=0)
 
-        max = df.loc[:, df.columns != "Timestamp"].to_numpy().max()
+        max = df.loc[:, "Sequence length"].to_numpy().max()
 
         dict_list = []
 
-        for j in range(1, df.shape[1]):
-            i = df.shape[0] - 1
-            while i >= 0:
-                if df.iloc[i, j] != 0:
-                    end = df.iloc[i, 0]
-                    start = end - timedelta(minutes=5) * df.iloc[i, j]
-                    dict_list.append(dict(Type=df.columns[j].removeprefix("NB "), Start=str(start), Finish=str(end),
-                                          Actions=df.iloc[i, j],
-                                          Actions_percent=(df.iloc[i, j] / max) * 100))
-                    i = i - df.iloc[i, j]
-                else:
-                    i = i - 1
+        i = df.shape[0] - 1
+        while i >= 0:
+            if df.iloc[i, 1] != 0:
+                end = df.iloc[i, 0]
+                start = end - timedelta(minutes=5) * df.iloc[i, 1]
+                dict_list.append(dict(Type="Action Sequence", Start=str(start), Finish=str(end),
+                                      Actions=df.iloc[i, 1],
+                                      Actions_percent=(df.iloc[i, 1] / max) * 100))
+                i = i - df.iloc[i, 1]
+            else:
+                i = i - 1
+
         fig = px.timeline(
             dict_list,
             x_start="Start",
@@ -176,7 +183,7 @@ class EpisodesPlot:
             y="Type",
             color="Actions",
             labels={
-                "Type": "Action Type",
+                "Type": "Action Sequence",
                 "Actions": "Action length"},
             title=title,
             color_continuous_scale=["green", "red"],
@@ -184,8 +191,7 @@ class EpisodesPlot:
         fig.update_layout(xaxis={"rangeslider": {"visible": True}})
         fig.update_layout(**fig_kwargs)
 
-
-        return fig
+        return fig, df
 
     def plot_computation_times(
             self,
@@ -204,7 +210,7 @@ class EpisodesPlot:
                     columns=all_executions_time.columns)
                 all_executions_time = pd.concat([all_executions_time, df], ignore_index=True)
 
-        all_executions_time =all_executions_time.sort_values(by='Timestamp', ascending=True)
+        all_executions_time = all_executions_time.sort_values(by='Timestamp', ascending=True)
         fig = px.line(all_executions_time, x=all_executions_time["Timestamp"], y="Execution time", title=title)
         fig.update_layout(xaxis={"rangeslider": {"visible": True}})
 
@@ -219,14 +225,13 @@ class EpisodesPlot:
             **fig_kwargs
     ):
 
-
         if not episodes_names: episodes_names = self.episodes_names
 
         x = []
         y = []
 
         for episode_data in self.episodes_data:
-            if episode_data.episode_name in episodes_names :
+            if episode_data.episode_name in episodes_names:
                 for j in range(episode_data.n_action):
                     act = episode_data.actions[j]
                     obs = episode_data.observations[j]
@@ -238,19 +243,19 @@ class EpisodesPlot:
                     subs_on_bus_2 = np.repeat(False, episode_data.observations[j].n_sub)
                     # objs_on_bus_2 will store the id of objects connected to bus 2
                     objs_on_bus_2 = {id: [] for id in range(episode_data.observations[j].n_sub)}
-                    distance, _, _, _ = episode_data.get_distance_from_obs(act, line_statuses, subs_on_bus_2, objs_on_bus_2,
+                    distance, _, _, _ = episode_data.get_distance_from_obs(act, line_statuses, subs_on_bus_2,
+                                                                           objs_on_bus_2,
                                                                            obs)
 
                     x.append(episode_data.timestamps[j])
                     y.append(distance)
 
-        df_distance = pd.DataFrame(data = np.array([x, y]).transpose(), columns = ['Timestamp', 'Distance'])
+        df_distance = pd.DataFrame(data=np.array([x, y]).transpose(), columns=['Timestamp', 'Distance'])
         df_distance = df_distance.sort_values(by='Timestamp', ascending=True)
-
 
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=df_distance["Timestamp"].tolist(), y=df_distance["Distance"].tolist(),
-                                 mode='lines+markers',line_shape='hvh'))
+                                 mode='lines+markers', line_shape='hvh'))
 
         fig.update_layout(legend=dict(y=0.5, traceorder='reversed', font_size=16), xaxis_title="Timestamp",
                           yaxis_title="Distance", title=title)
@@ -289,7 +294,6 @@ class EpisodesPlot:
         fig.update_layout(**fig_kwargs)
         return fig
 
-
     def plot_cumulative_reward(
             self,
             episodes_names=[],
@@ -297,9 +301,9 @@ class EpisodesPlot:
             **fig_kwargs):
         """
 
-        :param episodes_names:
-        :param title:
-        :param fig_kwargs:
+        :param episodes_names: filter some episodes, if empty it will show all loaded episodes
+        :param TODO title: plot title, if empty it will return default value :  title="Cumulative reward"
+        :param fig_kwargs: TODO keyword for plotly arguments, example: height= 700
         :return:
         """
         if not episodes_names: episodes_names = self.episodes_names
@@ -354,7 +358,7 @@ class EpisodesPlot:
         for episode_data in self.episodes_data:
             if episode_data.episode_name in episodes_names:
                 acted_actions = acted_actions + len(episode_data.acted_actions())
-                not_acted_actions = not_acted_actions + (episode_data.n_action-len(episode_data.acted_actions()))
+                not_acted_actions = not_acted_actions + (episode_data.n_action - len(episode_data.acted_actions()))
 
         df_sum = pd.DataFrame({'Frequency': df.sum(axis=0)})
 
@@ -366,12 +370,6 @@ class EpisodesPlot:
 
         return fig
 
-
-
-
-
-
-
     def display_detailed_action_type(self, episodes_names=[]):
 
         data_display = display(display_id="data_display")
@@ -379,7 +377,7 @@ class EpisodesPlot:
         grid = qgrid.QGridWidget(df=pd.DataFrame())
 
         w = widgets.Dropdown(
-            options=['Select','Tolopology','Force_line', 'Redispatching', 'Injection', 'Curtailment', 'Storage'],
+            options=['Select', 'Tolopology', 'Force_line', 'Redispatching', 'Injection', 'Curtailment', 'Storage'],
             value='Select',
             description='Table',
         )
@@ -388,31 +386,28 @@ class EpisodesPlot:
             if change['type'] == 'change' and change['name'] == 'value':
 
                 result = pd.DataFrame()
-                c=0
+                c = 0
                 for episode_data in self.episodes_data:
                     if (not len(episodes_names)) or episode_data.episode_name in episodes_names:
                         functions = {
-                            'Tolopology':episode_data.create_topology_df,
+                            'Tolopology': episode_data.create_topology_df,
                             'Force_line': episode_data.create_force_line_df,
                             'Redispatching': episode_data.create_dispatch_df,
                             'Injection': episode_data.create_injection_df,
                             'Curtailment': episode_data.create_curtailment_df,
-                            'Storage' : episode_data.create_storage_df
+                            'Storage': episode_data.create_storage_df
                         }
-                        r= functions[change['new']]()
+                        r = functions[change['new']]()
                         r[1]['episode_name'] = episode_data.episode_name
                         result = pd.concat([result, r[1]])
-                        c+=r[0]
-                output_display.update("total Number of "+change['new']+" changes:" + str(c))
-                grid.df=result
+                        c += r[0]
+                output_display.update("total Number of " + change['new'] + " changes:" + str(c))
+                grid.df = result
 
         w.observe(on_change)
-#         ouptup_display = display(display_id="ouptup_display")
+        #         ouptup_display = display(display_id="ouptup_display")
 
         display(w)
         output_display.display('')
         data_display.display(grid)
         return
-
-
-

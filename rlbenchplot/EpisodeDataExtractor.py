@@ -112,13 +112,27 @@ class EpisodeDataExtractor:
                         +
                         # number of curtailment changes
                         len(action_impact["curtailment"]["limit"]))
+                if nb_actions != 0:
+                    action_freq.append({
+                        "Timestamp": self.timestamps[i],
+                        "NB action": nb_actions,
+                        "Impacted subs": self.impacted_subs(i),
+                        "Impacted lines": self.impacted_lines(i)
+                    })
 
-                action_freq.append({
-                    "Timestamp": self.timestamps[i],
-                    "NB action": nb_actions
-                })
+        return pd.DataFrame(action_freq, columns=["Timestamp", "NB action", "Impacted subs", "Impacted lines"])
 
-        return pd.DataFrame(action_freq)
+    def impacted_lines(self, timestep):
+
+        lines_impacted = self.actions[timestep].get_topological_impact()[0]
+        return self.actions[timestep].name_line[np.where(lines_impacted == True)].tolist()
+
+    def impacted_subs(self, timestep):
+
+        subs_impacted = self.actions[timestep].get_topological_impact()[1]
+        return self.actions[timestep].name_sub[np.where(subs_impacted == True)].tolist()
+
+
 
     def compute_actions_freq_by_type(self):
         """
@@ -225,8 +239,11 @@ class EpisodeDataExtractor:
 
         :return:
         """
-        action_sequences_length = self.compute_actions_freq_by_type().copy()
-        columns = [x for x in action_sequences_length.columns if x not in ["Timestamp"]]
+        action_sequences_length = self.compute_actions_freq_by_timestamp().copy()
+        #columns = [x for x in action_sequences_length.columns if x not in ["Timestamp"]]
+        # TODO : optimize
+        columns = ["Sequence length"]
+        action_sequences_length.insert(1, 'Sequence length', action_sequences_length["NB action"])
         df = action_sequences_length[columns]
         df[df > 0] = 1
         action_sequences_length.loc[:, columns] = df
