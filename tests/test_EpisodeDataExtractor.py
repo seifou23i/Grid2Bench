@@ -73,14 +73,7 @@ class TestEpisodeDataExtractor(unittest.TestCase):
         self.assertListEqual(disconnected_lines, [{5, 14, 15}])
 
     def test_compute_action_sequences_length(self):
-        line_switched = self.episode_data.compute_action_sequences_length()["NB line switched"]
-        topological_changes = self.episode_data.compute_action_sequences_length()["NB topological change"]
-        redispatch_changes = self.episode_data.compute_action_sequences_length()["NB redispatching"]
-        storage_changes = self.episode_data.compute_action_sequences_length()["NB storage changes"]
-        curtailment_changes = self.episode_data.compute_action_sequences_length()["NB curtailment"]
+        actions_sequence_length = self.episode_data.compute_action_sequences_length()["Sequence length"]
 
-        self.assertListEqual(line_switched.to_list(), [0, 0, 0, 1])
-        self.assertListEqual(topological_changes.to_list(), [0, 1, 2, 0])
-        self.assertListEqual(redispatch_changes.to_list(), [1, 0, 0, 0])
-        self.assertListEqual(storage_changes.to_list(), [0, 0, 0, 0])
-        self.assertListEqual(curtailment_changes.to_list(), [0, 0, 0, 0])
+        self.assertListEqual(actions_sequence_length.to_list(), [1, 2, 3, 4])
+
