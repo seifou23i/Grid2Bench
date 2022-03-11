@@ -4,8 +4,6 @@ import numpy as np
 import pandas as pd
 from grid2op.Episode import EpisodeData
 from datetime import timedelta
-from tqdm import tqdm
-
 
 class EpisodeDataExtractor:
     """Data for episode analysis extracted from grid2op's EpisodeData class
@@ -54,10 +52,7 @@ class EpisodeDataExtractor:
 
         #create actions_id
         self.list_actions = []
-        for (time_step, (obs, act)) in tqdm(
-            enumerate(zip(self.observations[:-1], self.actions)),
-            total=len(self.actions),
-        ):
+        for act in self.actions:
             if act and self.get_action_id(act) == None:
                 self.list_actions.append(act)
 
