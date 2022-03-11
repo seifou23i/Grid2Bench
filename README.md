@@ -46,6 +46,8 @@ pip3 install rlbenchplot
 Some Jupyter notebook are provided as tutorials for the RLBenchPlot package. They are located in the 
 [getting_started](getting_started) directories. 
 
+Getting_Started notebook contains simple examples to show how we use the functions defined in the framework. 
+
 # Documentation
 Under progress...
 
