@@ -1,8 +1,10 @@
+import json
 import os
 import numpy as np
 import pandas as pd
 from grid2op.Episode import EpisodeData
 from datetime import timedelta
+from tqdm import tqdm
 
 
 class EpisodeDataExtractor:
@@ -37,6 +39,7 @@ class EpisodeDataExtractor:
         self.observations = episode_data.observations
         self.actions = episode_data.actions
         self.computation_times = episode_data.times
+        print(episode_data)
 
 
         self.cum_reward = episode_data.meta["cumulative_reward"]
@@ -49,7 +52,23 @@ class EpisodeDataExtractor:
         self.n_observation = len(self.observations)
         self.n_action = len(self.actions)
         self.timestamps = [self.observations[i].get_time_stamp() for i in range(self.n_action)]
+        
+        
+        #create actions_id
+        self.list_actions = []
+        for (time_step, (obs, act)) in tqdm(
+            enumerate(zip(self.observations[:-1], self.actions)),
+            total=len(self.actions),
+        ):
+            if act and self.get_action_id(act) == None:
+                self.list_actions.append(act)
 
+    def get_action_id(self, action):
+        for idx, act_dict in enumerate(self.list_actions):
+            if action == act_dict:
+                return idx
+        return None
+        
     def get_observation_by_timestamp(self, datetime):
         """
 
@@ -392,11 +411,11 @@ class EpisodeDataExtractor:
         c2 = 0
         c3 = 0
 
-        topo_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'type',  'object_type', 'object_id', 'susbtation'])
+        topo_df = pd.DataFrame(columns= [ 't_step', 'time_stamp','action_id', 'type',  'object_type', 'object_id', 'susbtation'])
         for i in range(0, len(self.actions)):
 
             t= self.timestamps[i]
-
+            a_id= self.get_action_id(self.actions[i])
             d= self.actions[i].impact_on_objects()
             if d['has_impact']:
                 c1+= len(d['topology']['disconnect_bus'])
@@ -410,7 +429,7 @@ class EpisodeDataExtractor:
                                     o_type= d['topology']['bus_switch'][n]['object_type']
                                     o_id = d['topology']['bus_switch'][n]['object_id']
                                     subs = d['topology']['bus_switch'][n]['substation']
-                                    topo_df.loc[len(topo_df)]= [i,t, 'swithc_bus', o_type, o_id, subs]
+                                    topo_df.loc[len(topo_df)]= [i,t,a_id, 'swithc_bus', o_type, o_id, subs]
 
                             if d['topology']['assigned_bus']:
                                 for n in range(0,len(d['topology']['assigned_bus'])):
@@ -419,14 +438,14 @@ class EpisodeDataExtractor:
                                     o_type= d['topology']['assigned_bus'][n]['object_type']
                                     o_id = d['topology']['assigned_bus'][n]['object_id']
                                     subs = d['topology']['assigned_bus'][n]['substation']
-                                    topo_df.loc[len(topo_df)]= [i,t, 'assigned_bus', o_type, o_id, subs]
+                                    topo_df.loc[len(topo_df)]= [i,t,a_id, 'assigned_bus', o_type, o_id, subs]
 
                             if d['topology']['disconnect_bus']:
                                 for n in range(0,len(d['topology']['disconnect_bus'])):
                                     o_type= d['topology']['disconnect_bus'][n]['object_type']
                                     o_id = d['topology']['disconnect_bus'][n]['object_id']
                                     subs = d['topology']['disconnect_bus'][n]['substation']
-                                    topo_df.loc[len(topo_df)]= [i,t,'disconnect_bus', o_type, o_id, subs]
+                                    topo_df.loc[len(topo_df)]= [i,t,a_id, 'disconnect_bus', o_type, o_id, subs]
     
         return [c1+c2+c3, topo_df]
 
@@ -435,9 +454,10 @@ class EpisodeDataExtractor:
 
     def create_injection_df(self):
         c =0
-        inj_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'count',  'impacted'])
+        inj_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'action_id','count',  'impacted'])
         for i in range(0, len(self.actions)):
-            t= self.timestamps[i]            
+            t= self.timestamps[i]         
+            a_id= self.get_action_id(self.actions[i])
             d= self.actions[i].impact_on_objects()
             if d['has_impact']:
                 for j in d:
@@ -446,7 +466,7 @@ class EpisodeDataExtractor:
                             c+= d['injection']['count']
                             co= d['injection']['count']
                             impacted= d['injection']['impacted']
-                            inj_df.loc[len(inj_df)]= [i,t, co, impacted]
+                            inj_df.loc[len(inj_df)]= [i,t,a_id, co, impacted]
         return(c, inj_df)
 
 
@@ -454,10 +474,11 @@ class EpisodeDataExtractor:
     
     def create_dispatch_df(self):
         c = 0
-        dispatch_df = pd.DataFrame(columns= ['t_step','time_stamp','generator_id', 'generator_name', 'amount'])
+        dispatch_df = pd.DataFrame(columns= ['t_step','time_stamp','action_id','generator_id', 'generator_name', 'amount'])
 
         for i in range(0, len(self.actions)):           
             t= self.timestamps[i]
+            a_id= self.get_action_id(self.actions[i])
             d= self.actions[i].impact_on_objects()
             if d['has_impact']:
                 for j in d:
@@ -469,7 +490,7 @@ class EpisodeDataExtractor:
                             gen_name = gen['gen_name']
                             amount = gen['amount']
                             #print([i, gen_id, gen_name, amount ])
-                            dispatch_df.loc[len(dispatch_df)]= [i,t, gen_id, gen_name, amount]
+                            dispatch_df.loc[len(dispatch_df)]= [i,t,a_id, gen_id, gen_name, amount]
          
         return(c, dispatch_df)
     
@@ -479,9 +500,10 @@ class EpisodeDataExtractor:
         c1 =0
         c2 = 0
         c3 = 0
-        line_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'type',  'powerline'])
+        line_df = pd.DataFrame(columns= [ 't_step', 'time_stamp','action_id', 'type',  'powerline'])
         for i in range(0, len(self.actions)):
             t= self.timestamps[i]
+            a_id= self.get_action_id(self.actions[i])
             d= self.actions[i].impact_on_objects()
             if d['has_impact']:
                 for j in d:
@@ -490,18 +512,19 @@ class EpisodeDataExtractor:
                             c1 += d[j]['reconnections']['count']
                             c2 += d[j]['disconnections']['count']
                             if  d[j]['reconnections']['count'] >0:
-                                line_df.loc[len(line_df)]= [i,t,'reconnection', d[j]['reconnections']['powerlines']]
+                                line_df.loc[len(line_df)]= [i,t,a_id, 'reconnection', d[j]['reconnections']['powerlines']]
                             if d[j]['disconnections']['count'] >0:
-                                line_df.loc[len(line_df)]= [i,t,'disconnection', d[j]['reconnections']['powerlines']]
+                                line_df.loc[len(line_df)]= [i,t,a_id, 'disconnection', d[j]['reconnections']['powerlines']]
         return(c1+c2, line_df)
     
     
     
     def create_curtailment_df(self):
         c =0
-        curtailment_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'limit'])
+        curtailment_df = pd.DataFrame(columns= [ 't_step', 'time_stamp','action_id', 'limit'])
         for i in range(0, len(self.actions)):
             t= self.timestamps[i]
+            a_id= self.get_action_id(self.actions[i])
             d= self.actions[i].impact_on_objects()
             if d['has_impact']:
                 for j in d:
@@ -509,15 +532,16 @@ class EpisodeDataExtractor:
                          if j == 'curtailment':
                             c += len(d[j]['limit'])                           
                             if len(d[j]['limit']) > 0:
-                                line_df.loc[len(line_df)]= [i,t, d[j]['limit']]
+                                curtailment_df.loc[len(curtailment_df)]= [i,t,a_id, d[j]['limit']]
         return(c, curtailment_df)
     
     
     def create_storage_df(self):
         c =0
-        storage_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'capacities'])
+        storage_df = pd.DataFrame(columns= [ 't_step', 'time_stamp', 'action_id','capacities'])
         for i in range(0, len(self.actions)):
             t= self.timestamps[i]
+            a_id= self.get_action_id(self.actions[i])
             d= self.actions[i].impact_on_objects()
             if d['has_impact']:
                 for j in d:
@@ -525,7 +549,7 @@ class EpisodeDataExtractor:
                          if j == 'storage':
                             c += len(d[j]['capacities'])                           
                             if len(d[j]['capacities']) > 0:
-                                line_df.loc[len(line_df)]= [i,t, d[j]['capacities']]
+                                storage_df.loc[len(storage_df)]= [i,t,a_id, d[j]['capacities']]
         return(c, storage_df)
 
     
