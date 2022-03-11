@@ -47,8 +47,11 @@ Some Jupyter notebook are provided as tutorials for the RLBenchPlot package. The
 [getting_started](getting_started) directories. 
 
 Getting_Started notebook contains simple examples to show how we use the functions defined in the framework:
-   - Loading agent results- fot this part there are 2 options:
-   - 
+   * Loading agent results- fot this part there are 2 options:
+         * First option
+         * Second Option
+   * Action Frequency
+   * Impact of actions on objects 
    
 
 # Documentation
