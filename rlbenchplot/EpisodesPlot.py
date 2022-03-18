@@ -61,7 +61,7 @@ class EpisodesPlot:
 
     def plot_actions_freq_by_type(
             self,
-            episodes_names: list,
+            episodes_names: list = None,
             title: str = "Frequency of actions by type",
             **fig_kwargs):
         """
