@@ -12,7 +12,7 @@ This is a repository to evaluate the agent under the grid2op framework
 
 # Installation
 ## Requirements:
-*   Python >= 3.9
+*   Python >= 3.7
 
 ## Setup a Virtualenv (optional)
 ### Create a virtual environment 

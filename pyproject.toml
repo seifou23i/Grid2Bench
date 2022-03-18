@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "rlbenchplot"
-version = "0.1.0"
-description = "plots for reinforcement learning benchmarking in grid2op"
+name = "grid2bench"
+version = "0.2.0"
+description = "this package is for benchmarking agents from the grid2op framework"
 authors = ["Seif-Eddine ATTOUI <es_attoui@esi.dz>", "Fereshteh ASGARI <fereshteh.asgari@gmail.com>", "Milad LEYLI-ABADI <mleyliabadi@gmail.com>" ]
 
 [tool.poetry.dependencies]
