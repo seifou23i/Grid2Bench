@@ -1,14 +1,15 @@
 import os
 from rlbenchplot.EpisodesPlot import EpisodesPlot
-from tqdm import tqdm
 import pandas as pd
 import plotly.express as px
 import numpy as np
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+from datetime import datetime
+import ipywidgets as widgets
+from ipywidgets import interact
 
-
-class AgentsAnalytics :
+class AgentsAnalytics:
     """
 
     """
@@ -35,6 +36,8 @@ class AgentsAnalytics :
             self.agents_names = [name for name in os.listdir(self.data_path) if os.path.isdir(os.path.join(self.data_path, name)) ]
 
         return [EpisodesPlot(agent_path=os.path.join(self.data_path, agent_name), episodes_names=self.episodes_names) for agent_name in self.agents_names]
+
+
 
     @staticmethod
     def plot_actions_freq_by_station(
@@ -322,3 +325,109 @@ class AgentsAnalytics :
         fig.update_layout(**fig_kwargs)
 
         return fig
+
+    @staticmethod
+    def plot_actions_sequence_length(
+            agents_data=[],
+            episodes_names=[],
+            title="Sequence length of actions",
+            sequence_range=None,
+            **fig_kwargs):
+
+        plot_data = []
+        for agent in agents_data:
+            plot_data.extend(agent.action_sequences_to_dict(episodes_names, sequence_range))
+
+        fig = px.timeline(
+            plot_data,
+            x_start="Start",
+            x_end="Finish",
+            y="Type",
+            color="Actions",
+            labels={
+                "Type": "Agent ",
+                "Actions": "Action Sequence"},
+            title=title,
+            color_continuous_scale=["green", "red"],
+        )
+        fig.update_layout(xaxis={"rangeslider": {"visible": True}})
+        fig.update_layout(**fig_kwargs)
+
+        return fig
+
+    @staticmethod
+    # cumulative reward extraction
+    def cumulative_reward(agent_data, episodes_names):
+
+        episode_names = list()
+        cum_rewards = list()
+        nb_time_steps = list()
+
+        for episode in agent_data.episodes_data:
+            if episode.episode_name in episodes_names:
+                episode_names.append(episode.episode_name)
+                cum_rewards.append(episode.cum_reward / 100)
+                nb_time_steps.append(episode.nb_timestep_played)
+
+        df = pd.DataFrame(
+            data=np.array([episode_names, nb_time_steps, cum_rewards]).transpose(),
+            columns=["Episode", "Played timesteps", "Cumulative reward"],
+        )
+
+        return df.astype({'Episode': 'str', "Played timesteps": int, "Cumulative reward": float})
+
+
+    @staticmethod
+    def plot_cumulative_reward(
+            agents_data=[],
+            episodes_names=[],
+            title="Cumulative reward per episode(CR) vs Accomplished time steps (Ats)",
+            **fig_kwargs):
+
+        if not episodes_names : episodes_names= agents_data[0].episodes_names
+
+        # Create figure with secondary y-axis
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+        colors = px.colors.qualitative.G10
+
+        # Add cumulative reward traces
+        for i, agent in zip(range(len(agents_data)), agents_data):
+            df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
+            agent_episodes = df["Episode"].tolist()
+            agent_cum_reward = df["Cumulative reward"].tolist()
+
+            # Add traces
+            fig.add_trace(
+                go.Scatter(x=agent_episodes, y=agent_cum_reward, name="CR : {}".format(agent.agent_name),
+                           line=dict(width=2, color=colors[i], )),
+                secondary_y=False,
+            )
+
+        # Add played time steps traces
+        for i, agent in zip(range(len(agents_data)), agents_data):
+            df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
+            agent_episodes = df["Episode"].tolist()
+            agent_played_timesteps = df["Played timesteps"].tolist()
+
+            # Add traces
+            fig.add_trace(
+                go.Scatter(x=agent_episodes, y=agent_played_timesteps, name="Ats : {}".format(agent.agent_name),
+                           line=dict(width=1, dash='dot', color=colors[i], )),
+                secondary_y=True,
+            )
+
+        # Add figure title
+        fig.update_layout(
+            title_text=title
+        )
+
+        # Set x-axis title
+        fig.update_xaxes(title_text="Scenario")
+
+        # Set y-axes titles
+        fig.update_yaxes(title_text="$ \\frac{Cumulative reward}{100}$", secondary_y=False)
+        fig.update_yaxes(title_text="Accomplished time steps", secondary_y=True)
+        fig.update_layout(**fig_kwargs)
+
+        return  fig

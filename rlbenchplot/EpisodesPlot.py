@@ -1,6 +1,6 @@
 import os
 
-from IPython.core.display_functions import display
+from IPython.display import display
 
 from rlbenchplot.EpisodeDataExtractor import EpisodeDataExtractor
 import pandas as pd
@@ -15,14 +15,14 @@ from matplotlib import pyplot as plt
 
 import qgrid
 import ipywidgets as widgets
-
+from datetime import datetime
 
 class EpisodesPlot:
     """
 
     """
 
-    def __init__(self, agent_path, episodes_names=[]):
+    def __init__(self, agent_path: str, episodes_names: list):
         """
 
         """
@@ -45,10 +45,24 @@ class EpisodesPlot:
 
         return [EpisodeDataExtractor(self.agent_path, episode_name) for episode_name in tqdm(self.episodes_names)]
 
+
+    def display_action_by_timestamp(self, timestamp_str : str):
+        """
+
+
+
+        :param timestamp:
+        :return:
+        """
+        for episode in self.episodes_data:
+            timestamp = datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
+            if timestamp in episode.timestamps:
+                print(episode.get_action_by_timestamp(timestamp))
+
     def plot_actions_freq_by_type(
             self,
-            episodes_names=[],
-            title="Frequency of actions by type",
+            episodes_names: list,
+            title: str = "Frequency of actions by type",
             **fig_kwargs):
         """
 
@@ -73,7 +87,7 @@ class EpisodesPlot:
 
     def plot_actions_freq_by_station_pie_chart(
             self,
-            episodes_names=[],
+            episodes_names: list,
             title="Frequency of actions by station",
             **fig_kwargs):
         if not episodes_names: episodes_names = self.episodes_names
@@ -293,6 +307,114 @@ class EpisodesPlot:
 
         fig.update_layout(**fig_kwargs)
         return fig
+
+
+    def get_sequence_actions(self, episodes_names= []):
+        i = 0
+        incremental_id = 0
+
+        if not episodes_names: episodes_names = self.episodes_names
+
+        df_sequence_length = pd.DataFrame()
+        for episode_data in self.episodes_data:
+            if episode_data.episode_name in episodes_names:
+                df_sequence_length = pd.concat([df_sequence_length, episode_data.compute_action_sequences_length()], axis=0, ignore_index=True)
+
+        df_sequence_length.insert(0, "Sequence ID", -1 * np.ones(df_sequence_length.shape[0], int))
+        column = "Sequence length"
+
+        while i + 1 < df_sequence_length.shape[0]:
+            if df_sequence_length.loc[i + 1, column] == 1:
+                df_sequence_length.iloc[i, 0] = incremental_id
+                i = i + 1
+            else:
+                j = 2
+                while (i + j) < df_sequence_length.shape[0] and df_sequence_length.loc[i + j, column] != 1: j = j + 1
+                df_sequence_length.loc[i:i + j, "Sequence ID"] = incremental_id
+                i = i + j
+            incremental_id = incremental_id + 1
+        df_sequence_length.loc[df_sequence_length["Sequence ID"] == -1, "Sequence ID"] = incremental_id
+        grp = df_sequence_length.groupby("Sequence ID")
+        return grp
+
+    def display_sequence_actions(self, episodes_names= [], sequence_range=None):
+
+        grp = self.get_sequence_actions(episodes_names=episodes_names)
+
+        list_dict = []
+        columns = ["Timestamp", "Sequence start", "Sequence end", "Sequence length", "NB actions", "NB unitary actions", "Impacted Subs",
+                   "Impacted lines"]
+
+        if not sequence_range:
+            sequence_range = range(0, 400)
+
+        for _, group in grp:
+
+            if group.shape[0] in sequence_range:
+                start_timestamp = group.iloc[0, 1]
+                end_timestamp = group.iloc[group.shape[0] - 1, 1]
+                sequence_length = group.shape[0]
+
+                # count total number of impacted subs
+                nb_impacted_subs = \
+                    len([item for sublist in group["Impacted subs"] for item in sublist])
+                # count total number of impacted lines
+                nb_impacted_lines = \
+                    len([item for sublist in group["Impacted lines"] for item in sublist])
+                # number of total actions
+                nb_actions = nb_impacted_subs + nb_impacted_lines
+
+                nb_unitary_actions = group["NB action"].sum()
+
+                impacted_subs = group["Impacted subs"].tolist()
+                impacted_lines = group["Impacted lines"].tolist()
+
+                dict_row = {
+                    "Timestamp": group["Timestamp"].tolist(),
+                    "Sequence start": start_timestamp,
+                    "Sequence end": end_timestamp,
+                    "Sequence length": sequence_length,
+                    "NB actions": nb_actions,
+                    "NB unitary actions": nb_unitary_actions,
+                    "Impacted Subs": impacted_subs,
+                    "Impacted lines": impacted_lines
+                }
+                list_dict.append(dict_row)
+
+        return pd.DataFrame(list_dict, columns=columns)
+
+    def display_sequence_actions_filter(self, episodes_names =[] ,sequence_range=None):
+
+        grp = self.get_sequence_actions(episodes_names)
+        if not sequence_range : sequence_range = range(0,400)
+        for _, group in grp:
+            if group.shape[0] in sequence_range:
+                df = group.drop(["Sequence ID", "Sequence length"], axis=1)
+                df = df.rename(columns = {"NB action" : "NB unitary actions"})
+                display(df)
+
+    def action_sequences_to_dict(
+            self,
+            episodes_names=[],
+            sequence_range=None
+    ):
+
+        df = self.display_sequence_actions(episodes_names, sequence_range)
+        max_lenght = df["Sequence length"].max()
+        dict_list = []
+
+        for i in range(df.shape[0]):
+            dict_list.append(
+                dict(
+                    Type=self.agent_name,
+                    Start=str(df.loc[i,"Sequence start"]),
+                    Finish=str(df.loc[i,"Sequence end"]),
+                    Actions=df.loc[i, "Sequence length"],
+                    Actions_percent=(df.loc[i, "NB unitary actions"] / max_lenght) * 100,
+                )
+            )
+        return dict_list
+
 
     def plot_cumulative_reward(
             self,

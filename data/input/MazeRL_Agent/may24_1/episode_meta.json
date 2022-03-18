@@ -1,0 +1,11 @@
+{
+    "agent_seed": 1799239363,
+    "backend_type": "LightSimBackend_input_data_val",
+    "chronics_max_timestep": "2016",
+    "chronics_path": "/home/seif-eddine/PycharmProjects/ICAPS2021_MazeRL_/data/input_data_val/chronics/may24_1",
+    "cumulative_reward": 1934786.625,
+    "env_seed": 215805506,
+    "env_type": "Environment_input_data_val",
+    "grid_path": "/home/seif-eddine/PycharmProjects/ICAPS2021_MazeRL_/data/input_data_val/grid.json",
+    "nb_timestep_played": 2016
+}

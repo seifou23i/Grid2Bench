@@ -5,7 +5,7 @@ description = "plots for reinforcement learning benchmarking in grid2op"
 authors = ["Seif-Eddine ATTOUI <es_attoui@esi.dz>", "Fereshteh ASGARI <fereshteh.asgari@gmail.com>", "Milad LEYLI-ABADI <mleyliabadi@gmail.com>" ]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.11"
+python = ">=3.7,<3.11"
 Grid2Op = "^1.6.4"
 pylint = "^2.12.2"
 jupyter = "^1.0.0"
