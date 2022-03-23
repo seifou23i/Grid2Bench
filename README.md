@@ -47,18 +47,19 @@ pip3 install rlbenchplot
 
 # Usage
 An example of how to use the library is provided below:
+
 ```python
 from rlbenchplot.AgentsAnalytics import AgentsAnalytics as agts
-from rlbenchplot.EpisodesPlot import EpisodesPlot
+from rlbenchplot.EpisodesDataTransformer import EpisodesDataTransformer
 
 # parent directory for agents log files
 input_data_path = os.path.abspath("../data/input")
 
 # Loading agents and required episodes
-agents = agts(data_path=input_data_path, agents_names= ["PPO_Agent", "MazeRL_Agent", "Expert_Agent" ]) 
+agents = agts(data_path=input_data_path, agents_names=["PPO_Agent", "MazeRL_Agent", "Expert_Agent"])
 
-# Visualize the cumulative reward for the first agent in the list
-agents.agents_data[0].plot_cumulative_reward()
+# Visualize the cumulative reward for all agents
+agts.plot_cumulative_reward(agents)
 
 ```
 

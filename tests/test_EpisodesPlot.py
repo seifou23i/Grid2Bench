@@ -1,6 +1,6 @@
 import unittest
 import os
-from rlbenchplot.EpisodesPlot import EpisodesPlot
+from rlbenchplot.EpisodesDataTransformer import EpisodesDataTransformer
 
 # to put in confi.ini file later
 agent_path = os.path.abspath("data/agents/rte_case14_redisp_random_agent")
@@ -14,8 +14,9 @@ class TestEpisodesPlot(unittest.TestCase):
         self.agent_name = "rte_case14_redisp_random_agent"
         self.episodes_names = "0"
 
-        self.episodes_plot = EpisodesPlot(self.agent_path, self.episodes_names)
+        self.episodes_plot = EpisodesDataTransformer(self.agent_path, self.episodes_names)
 
+    """
     def test_plot_actions_freq_by_type(self):
         self.episodes_plot.plot_actions_freq_by_type()
 
@@ -30,3 +31,4 @@ class TestEpisodesPlot(unittest.TestCase):
 
     def test_plot_actions_freq_by_station(self):
         self.episodes_plot.plot_actions_freq_by_station()
+    """
