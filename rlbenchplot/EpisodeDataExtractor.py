@@ -142,12 +142,12 @@ class EpisodeDataExtractor:
   def impacted_lines(self, timestep):
 
     lines_impacted = self.actions[timestep].get_topological_impact()[0]
-    return self.actions[timestep].name_line[np.where(lines_impacted is True)].tolist()
+    return self.actions[timestep].name_line[np.where(lines_impacted)].tolist()
 
   def impacted_subs(self, timestep):
 
     subs_impacted = self.actions[timestep].get_topological_impact()[1]
-    return self.actions[timestep].name_sub[np.where(subs_impacted is True)].tolist()
+    return self.actions[timestep].name_sub[np.where(subs_impacted)].tolist()
 
   def compute_actions_freq_by_type(self):
     """
@@ -198,7 +198,7 @@ class EpisodeDataExtractor:
 
     for action, i in zip(self.actions, range(self.n_action - 1)):
       subs_impacted = action.get_topological_impact()[1]
-      list_subs_impacted = action.name_sub[np.where(subs_impacted is True)]
+      list_subs_impacted = action.name_sub[np.where(subs_impacted)]
       if len(list_subs_impacted) != 0:
         subs_impacted_by_timestamp.append({
           'Timestamp': self.timestamps[i],
@@ -237,7 +237,7 @@ class EpisodeDataExtractor:
     disconnected_lines = []
 
     for observation, i in zip(self.observations, range(self.n_action)):
-      lines_id = np.where(observation.line_status is not True)[0]
+      lines_id = np.where(observation.line_status != True)[0]
       if len(lines_id) != 0:
         disconnected_lines.append(
           {
