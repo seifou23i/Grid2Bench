@@ -19,9 +19,26 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint
         pip install pylint-exit
-    - name: Analysing the code with pylint
+    - name: Analysing the entire package with pylint
       run: |
-        pylint --rcfile=./.github/pylintrc $(git ls-files '*.py') || pylint-exit $?
+        pylint --rcfile=./.github/pylintrc ./rlbenchplot/ || pylint-exit $?
+        if [ $? -ne 0 ]; then
+          echo "An error occurred while running pylint." >&2
+          exit 1
+        fi
+    - name: Analysing the individual python files
+      run: | 
+        pylint --rcfile=./.github/pylintrc ./rlbenchplot/AgentsAnalytics.py || pylint-exit $?
+        if [ $? -ne 0 ]; then
+          echo "An error occurred while running pylint." >&2
+          exit 1
+        fi
+        pylint --rcfile=./.github/pylintrc ./rlbenchplot/EpisodeDataExtractor.py || pylint-exit $?
+        if [ $? -ne 0 ]; then
+          echo "An error occurred while running pylint." >&2
+          exit 1
+        fi
+        pylint --rcfile=./.github/pylintrc ./rlbenchplot/EpisodesDataTransformer.py || pylint-exit $?
         if [ $? -ne 0 ]; then
           echo "An error occurred while running pylint." >&2
           exit 1
