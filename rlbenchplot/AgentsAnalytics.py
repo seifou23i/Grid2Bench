@@ -224,7 +224,8 @@ class AgentsAnalytics:
       newnames['wide_variable_{}'.format(i)] = agent_names[i]
       y_list.append(df[agent_names[i]].to_list())
 
-    fig = px.bar(x=df['Line'].to_list(),
+    fig = px.bar(df,
+                 x='Line',
                  y=y_list,
                  text_auto='.2s',
                  labels={
@@ -330,10 +331,10 @@ class AgentsAnalytics:
 
   @staticmethod
   def plot_actions_sequence_length(
-      agents_data=[],
+      agents_data,
       episodes_names=[],
       title='Sequence length of actions',
-      sequence_range=None,
+      sequence_range= range(0,40),
       **fig_kwargs):
 
     plot_data = []
@@ -432,5 +433,3 @@ class AgentsAnalytics:
     fig.update_layout(**fig_kwargs)
 
     return fig
-
-  # TODO remove these functions

@@ -44,12 +44,8 @@ class EpisodesDataTransformer:
 
   def get_action_by_timestamp(
       self,
-      timestamp_str: str
-  ):
+      timestamp_str: str):
     """
-
-
-
     :param timestamp_str:
     :return:
     """
@@ -57,6 +53,18 @@ class EpisodesDataTransformer:
       timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
       if timestamp in episode.timestamps:
         return episode.get_action_by_timestamp(timestamp)
+
+  def get_observation_by_timestamp(
+      self,
+      timestamp_str: str):
+    """
+    :param timestamp_str:
+    :return:
+    """
+    for episode in self.episodes_data:
+      timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
+      if timestamp in episode.timestamps:
+        return episode.get_observation_by_timestamp(timestamp)
 
   def concat_episodes_actions_freq_by_type(
       self,

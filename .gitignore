@@ -129,3 +129,5 @@ dmypy.json
 
 #custom ignore folders
 .vscode
+/notebooks/.ipynb_checkpoints/
+/notebooks/.ipynb_checkpoints/

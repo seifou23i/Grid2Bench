@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from grid2op.Episode import EpisodeData
 from grid2op.Observation import BaseObservation
+from grid2op.Action import BaseAction
 
 
 class EpisodeDataExtractor:
@@ -65,16 +66,17 @@ class EpisodeDataExtractor:
       if act and self.get_action_id(act) is None:
         self.list_actions.append(act)
 
-  def get_observation_by_timestamp(self, date_time: datetime) -> BaseObservation:
+  def get_observation_by_timestamp(
+      self,
+      date_time: datetime) -> BaseObservation:
     """
+    :rtype: object
 
-    :return:
-    :param date_time:
-    :return:
+
     """
     return self.observations[self.timestamps.index(date_time)]
 
-  def get_action_by_timestamp(self, date_time):
+  def get_action_by_timestamp(self, date_time: datetime) -> BaseAction:
     """
 
     :param date_time:
