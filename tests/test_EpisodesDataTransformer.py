@@ -5,7 +5,7 @@ import unittest
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
-from rlbenchplot.EpisodesDataTransformer import EpisodesDataTransformer
+from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer
 from configmanager.configmanager import ConfigManager
 
 conf_path = os.path.abspath("../conf.ini")

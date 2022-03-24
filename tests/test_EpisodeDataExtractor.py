@@ -2,7 +2,7 @@ import datetime
 import os
 import unittest
 
-from rlbenchplot.EpisodeDataExtractor import EpisodeDataExtractor
+from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
 from configmanager.configmanager import ConfigManager
 
 conf_path = os.path.abspath("../conf.ini")

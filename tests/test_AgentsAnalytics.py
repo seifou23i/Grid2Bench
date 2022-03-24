@@ -4,7 +4,7 @@ import unittest
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
-from rlbenchplot.AgentsAnalytics import AgentsAnalytics
+from grid2bench.AgentsAnalytics import AgentsAnalytics
 from configmanager.configmanager import ConfigManager
 
 conf_path = os.path.abspath("../conf.ini")
