@@ -49,8 +49,8 @@ pip3 install rlbenchplot
 An example of how to use the library is provided below:
 
 ```python
-from rlbenchplot.AgentsAnalytics import AgentsAnalytics as agts
-from rlbenchplot.EpisodesDataTransformer import EpisodesDataTransformer
+from grid2bench.AgentsAnalytics import AgentsAnalytics as agts
+from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer
 
 # parent directory for agents log files
 input_data_path = os.path.abspath("../data/input")

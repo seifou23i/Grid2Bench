@@ -21,24 +21,24 @@ jobs:
         pip install pylint-exit
     - name: Analysing the entire package with pylint
       run: |
-        pylint --rcfile=./.github/pylintrc ./rlbenchplot/ || pylint-exit $?
+        pylint --rcfile=./.github/pylintrc ./grid2bench/ || pylint-exit $?
         if [ $? -ne 0 ]; then
           echo "An error occurred while running pylint." >&2
           exit 1
         fi
     - name: Analysing the individual python files
       run: | 
-        pylint --rcfile=./.github/pylintrc ./rlbenchplot/AgentsAnalytics.py || pylint-exit $?
+        pylint --rcfile=./.github/pylintrc ./grid2bench/AgentsAnalytics.py || pylint-exit $?
         if [ $? -ne 0 ]; then
           echo "An error occurred while running pylint." >&2
           exit 1
         fi
-        pylint --rcfile=./.github/pylintrc ./rlbenchplot/EpisodeDataExtractor.py || pylint-exit $?
+        pylint --rcfile=./.github/pylintrc ./grid2bench/EpisodeDataExtractor.py || pylint-exit $?
         if [ $? -ne 0 ]; then
           echo "An error occurred while running pylint." >&2
           exit 1
         fi
-        pylint --rcfile=./.github/pylintrc ./rlbenchplot/EpisodesDataTransformer.py || pylint-exit $?
+        pylint --rcfile=./.github/pylintrc ./grid2bench/EpisodesDataTransformer.py || pylint-exit $?
         if [ $? -ne 0 ]; then
           echo "An error occurred while running pylint." >&2
           exit 1
