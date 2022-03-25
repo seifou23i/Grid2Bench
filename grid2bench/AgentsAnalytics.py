@@ -36,15 +36,13 @@ class AgentsAnalytics:
       self.agents_names = [name for name in os.listdir(self.data_path) if
                            os.path.isdir(os.path.join(self.data_path, name))]
 
-    return [EpisodesDataTransformer(agent_path=os.path.join(self.data_path, agent_name),
-                                    episodes_names=self.episodes_names) for agent_name in self.agents_names]
+    return [
+      EpisodesDataTransformer(agent_path=os.path.join(self.data_path, agent_name), episodes_names=self.episodes_names)
+      for agent_name in self.agents_names]
 
   @staticmethod
-  def plot_actions_freq_by_station(
-      agents_results=[],
-      episodes_names=[],
-      title='Frequency of actions by station',
-      **fig_kwargs):
+  def plot_actions_freq_by_station(agents_results=[], episodes_names=[], title='Frequency of actions by station',
+                                   **fig_kwargs):
     """
 
     :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
@@ -74,20 +72,11 @@ class AgentsAnalytics:
       newnames['wide_variable_{}'.format(i)] = agent_names[i]
       y_list.append(df[agent_names[i]].to_list())
 
-    fig = px.bar(x=df['Substation'].to_list(),
-                 y=y_list,
-                 text_auto='.2s',
-                 labels={
-                   'x': 'Station',
-                   'value': 'Frequency'},
-                 barmode='group',
-                 title=title)
+    fig = px.bar(x=df['Substation'].to_list(), y=y_list, text_auto='.2s', labels={'x': 'Station', 'value': 'Frequency'},
+                 barmode='group', title=title)
 
-    fig.for_each_trace(lambda t: t.update(name=newnames[t.name],
-                                          legendgroup=newnames[t.name],
-                                          hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])
-                                          )
-                       )
+    fig.for_each_trace(lambda t: t.update(name=newnames[t.name], legendgroup=newnames[t.name],
+                                          hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])))
 
     fig.update_traces(textfont_size=12, textangle=0, textposition='outside', cliponaxis=False)
 
@@ -96,13 +85,8 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_actions_freq_by_type(
-      agents_results=[],
-      episodes_names=[],
-      title='Frequency of actions by type',
-      row=1,
-      col=2,
-      **fig_kwargs):
+  def plot_actions_freq_by_type(agents_results=[], episodes_names=[], title='Frequency of actions by type', row=1,
+                                col=2, **fig_kwargs):
     """
 
     :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
@@ -124,27 +108,20 @@ class AgentsAnalytics:
         list_j.append({'type': 'domain'})
       list_i.append(list_j)
 
-    fig = make_subplots(row, col, specs=list_i,
-                        subplot_titles=agent_names)
+    fig = make_subplots(row, col, specs=list_i, subplot_titles=agent_names)
 
     for i in range(row):
       for j in range(col):
         data = agents_results[i + j].concat_episodes_actions_freq_by_type(episodes_names)
-        fig.add_trace(go.Pie(labels=data.index, values=data['Frequency'],
-                             name=agent_names[i + j]), i + 1, j + 1)
+        fig.add_trace(go.Pie(labels=data.index, values=data['Frequency'], name=agent_names[i + j]), i + 1, j + 1)
 
     fig.update_traces(textposition='inside')
     fig.update_layout(title_text=title, uniformtext_minsize=12, uniformtext_mode='hide', **fig_kwargs)
     return fig
 
   @staticmethod
-  def plot_actions_freq_by_station_pie_chart(
-      agents_results=[],
-      episodes_names=[],
-      title='Frequency of actions by station',
-      row=1,
-      col=2,
-      **fig_kwargs):
+  def plot_actions_freq_by_station_pie_chart(agents_results=[], episodes_names=[],
+                                             title='Frequency of actions by station', row=1, col=2, **fig_kwargs):
     """
     :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
     :param episodes_names: filter some episodes, if empty it will show all loaded episodes
@@ -165,26 +142,21 @@ class AgentsAnalytics:
         list_j.append({'type': 'domain'})
       list_i.append(list_j)
 
-    fig = make_subplots(row, col, specs=list_i,
-                        subplot_titles=agent_names)
+    fig = make_subplots(row, col, specs=list_i, subplot_titles=agent_names)
 
     for i in range(row):
       for j in range(col):
         data = agents_results[i + j].concat_episodes_actions_freq_by_station(episodes_names)
-        fig.add_trace(go.Pie(labels=data['Substation'], values=data['Frequency'],
-                             name=agent_names[i + j]), i + 1, j + 1)
+        fig.add_trace(go.Pie(labels=data['Substation'], values=data['Frequency'], name=agent_names[i + j]), i + 1,
+                      j + 1)
 
     fig.update_traces(textposition='inside')
     fig.update_layout(title_text=title, uniformtext_minsize=12, uniformtext_mode='hide', **fig_kwargs)
     return fig
 
   @staticmethod
-  def plot_lines_impact(
-      agents_results=[],
-      episodes_names=[],
-      title='Overloaded Lines by station',
-      fig_type='overloaded',
-      **fig_kwargs):
+  def plot_lines_impact(agents_results=[], episodes_names=[], title='Overloaded Lines by station',
+                        fig_type='overloaded', **fig_kwargs):
     """
     :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
     :param episodes_names: filter some episodes, if empty it will show all loaded episodes
@@ -224,22 +196,11 @@ class AgentsAnalytics:
       newnames['wide_variable_{}'.format(i)] = agent_names[i]
       y_list.append(df[agent_names[i]].to_list())
 
-    fig = px.bar(df,
-                 x='Line',
-                 y=y_list,
-                 text_auto='.2s',
-                 labels={
-                   'x': 'Line',
-                   'value': 'Frequency'},
-                 barmode='group',
-                 title=title,
-                 log_y=True, )
+    fig = px.bar(df, x='Line', y=y_list, text_auto='.2s', labels={'x': 'Line', 'value': 'Frequency'}, barmode='group',
+                 title=title, log_y=True, )
 
-    fig.for_each_trace(lambda t: t.update(name=newnames[t.name],
-                                          legendgroup=newnames[t.name],
-                                          hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])
-                                          )
-                       )
+    fig.for_each_trace(lambda t: t.update(name=newnames[t.name], legendgroup=newnames[t.name],
+                                          hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])))
 
     fig.update_traces(textfont_size=12, textangle=0, textposition='outside', cliponaxis=False)
 
@@ -248,11 +209,7 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_computation_times(
-      agents_results=[],
-      episodes_names=[],
-      title='Action Execution Time',
-      **fig_kwargs):
+  def plot_computation_times(agents_results=[], episodes_names=[], title='Action Execution Time', **fig_kwargs):
     """
 
     :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
@@ -278,9 +235,8 @@ class AgentsAnalytics:
     fig = go.Figure()
 
     for agent_name in agent_names:
-      fig.add_trace(go.Scatter(x=df['Timestamp'].tolist(), y=df[agent_name].tolist(),
-                               mode='lines+markers',
-                               name=agent_name))
+      fig.add_trace(
+        go.Scatter(x=df['Timestamp'].tolist(), y=df[agent_name].tolist(), mode='lines+markers', name=agent_name))
 
     fig.update_layout(xaxis={'rangeslider': {'visible': True}}, title=title, xaxis_title='Timestamp',
                       yaxis_title='Execution Time (s)')
@@ -289,11 +245,8 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_distance_from_initial_topology(
-      agents_results=[],
-      episodes_names=[],
-      title='Distance from initial topology',
-      **fig_kwargs):
+  def plot_distance_from_initial_topology(agents_results=[], episodes_names=[], title='Distance from initial topology',
+                                          **fig_kwargs):
     """
     :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
     :param episodes_names: filter some episodes, if empty it will show all loaded episodes
@@ -319,9 +272,9 @@ class AgentsAnalytics:
     fig = go.Figure()
 
     for agent_name in agent_names:
-      fig.add_trace(go.Scatter(x=df['Timestamp'].tolist(), y=df[agent_name].tolist(),
-                               mode='lines+markers', line_shape='hvh',
-                               name=agent_name))
+      fig.add_trace(
+        go.Scatter(x=df['Timestamp'].tolist(), y=df[agent_name].tolist(), mode='lines+markers', line_shape='hvh',
+                   name=agent_name))
 
     fig.update_layout(xaxis={'rangeslider': {'visible': True}}, title=title, xaxis_title='Timestamp',
                       yaxis_title='Distance')
@@ -330,29 +283,16 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_actions_sequence_length(
-      agents_data,
-      episodes_names=[],
-      title='Sequence length of actions',
-      sequence_range= range(0,40),
-      **fig_kwargs):
+  def plot_actions_sequence_length(agents_data, episodes_names=[], title='Sequence length of actions',
+                                   sequence_range=range(0, 40), **fig_kwargs):
 
     plot_data = []
     for agent in agents_data:
       plot_data.extend(agent.action_sequences_to_dict(episodes_names, sequence_range))
 
-    fig = px.timeline(
-      plot_data,
-      x_start='Start',
-      x_end='Finish',
-      y='Type',
-      color='Actions',
-      labels={
-        'Type': 'Agent ',
-        'Actions': 'Action Sequence'},
-      title=title,
-      color_continuous_scale=['green', 'red'],
-    )
+    fig = px.timeline(plot_data, x_start='Start', x_end='Finish', y='Type', color='Actions',
+                      labels={'Type': 'Agent ', 'Actions': 'Action Sequence'}, title=title,
+                      color_continuous_scale=['green', 'red'], )
     fig.update_layout(xaxis={'rangeslider': {'visible': True}})
     fig.update_layout(**fig_kwargs)
 
@@ -372,19 +312,14 @@ class AgentsAnalytics:
         cum_rewards.append(episode.cum_reward / 100)
         nb_time_steps.append(episode.nb_timestep_played)
 
-    df = pd.DataFrame(
-      data=np.array([episode_names, nb_time_steps, cum_rewards]).transpose(),
-      columns=['Episode', 'Played timesteps', 'Cumulative reward'],
-    )
+    df = pd.DataFrame(data=np.array([episode_names, nb_time_steps, cum_rewards]).transpose(),
+                      columns=['Episode', 'Played timesteps', 'Cumulative reward'], )
 
     return df.astype({'Episode': 'str', 'Played timesteps': int, 'Cumulative reward': float})
 
   @staticmethod
-  def plot_cumulative_reward(
-      agents_data=[],
-      episodes_names=[],
-      title='Cumulative reward per episode(CR) vs Accomplished time steps (Ats)',
-      **fig_kwargs):
+  def plot_cumulative_reward(agents_data=[], episodes_names=[], fig_type='cumR', title='Cumulative reward per episode',
+                             **fig_kwargs):
 
     if not episodes_names: episodes_names = agents_data[0].episodes_names
 
@@ -394,42 +329,37 @@ class AgentsAnalytics:
     colors = px.colors.qualitative.G10
 
     # Add cumulative reward traces
-    for i, agent in zip(range(len(agents_data)), agents_data):
-      df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
-      agent_episodes = df['Episode'].tolist()
-      agent_cum_reward = df['Cumulative reward'].tolist()
+    if fig_type == 'cumR':
+      for i, agent in zip(range(len(agents_data)), agents_data):
+        df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
+        agent_episodes = df['Episode'].tolist()
+        agent_cum_reward = df['Cumulative reward'].tolist()
 
-      # Add traces
-      fig.add_trace(
-        go.Scatter(x=agent_episodes, y=agent_cum_reward, name='CR : {}'.format(agent.agent_name),
-                   line=dict(width=2, color=colors[i], )),
-        secondary_y=False,
-      )
+        # Add traces
+        fig.add_trace(go.Scatter(x=agent_episodes, y=agent_cum_reward, name='CR : {}'.format(agent.agent_name),
+                                 line=dict(width=2, color=colors[i], )), secondary_y=False, )
+      fig.update_yaxes(title_text='$ \\frac{Cumulative reward}{100}$', secondary_y=False)
 
-    # Add played time steps traces
-    for i, agent in zip(range(len(agents_data)), agents_data):
-      df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
-      agent_episodes = df['Episode'].tolist()
-      agent_played_timesteps = df['Played timesteps'].tolist()
+    else:
+      # Add played time steps traces
+      for i, agent in zip(range(len(agents_data)), agents_data):
+        df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
+        agent_episodes = df['Episode'].tolist()
+        agent_played_timesteps = df['Played timesteps'].tolist()
 
-      # Add traces
-      fig.add_trace(
-        go.Scatter(x=agent_episodes, y=agent_played_timesteps, name='Ats : {}'.format(agent.agent_name),
-                   line=dict(width=1, dash='dot', color=colors[i], )),
-        secondary_y=True,
-      )
+        # Add traces
+        fig.add_trace(go.Scatter(x=agent_episodes, y=agent_played_timesteps, name='Ats : {}'.format(agent.agent_name),
+                                 line=dict(width=1, dash='dot', color=colors[i], )), secondary_y=True, )
+        title = 'Accomplished time steps'
+      fig.update_yaxes(title_text='Accomplished time steps', secondary_y=True)
 
     # Add figure title
-    fig.update_layout(
-      title_text=title
-    )
+    fig.update_layout(title_text=title)
 
     # Set x-axis title
     fig.update_xaxes(title_text='Scenario')
 
     # Set y-axes titles
-    fig.update_yaxes(title_text='$ \\frac{Cumulative reward}{100}$', secondary_y=False)
-    fig.update_yaxes(title_text='Accomplished time steps', secondary_y=True)
     fig.update_layout(**fig_kwargs)
 
     return fig
