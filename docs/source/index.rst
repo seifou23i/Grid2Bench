@@ -11,7 +11,7 @@ Welcome to Grid2Bench's documentation!
    :caption: Contents:
 
    intro
-   rlbenchplot
+   grid2bench
    examples
 
 Indices and tables

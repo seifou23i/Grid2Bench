@@ -9,5 +9,5 @@ Installation/Usage:
     """
     This examples shows how to load agent data
     """
-    from rlbenchplot import AgentsAnalytics
+    from grid2bench import AgentsAnalytics
 

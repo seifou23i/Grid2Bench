@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../rlbenchplot/'))
+sys.path.insert(0, os.path.abspath('../../grid2bench/'))
 
 
 # -- Project information -----------------------------------------------------

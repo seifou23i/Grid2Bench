@@ -1,7 +1,7 @@
-rlbenchplot
+grid2bench
 ===========
 
 .. toctree::
    :maxdepth: 4
 
-   rlbenchplot
+   grid2bench
