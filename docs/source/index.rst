@@ -7,10 +7,11 @@ Welcome to Grid2Bench's documentation!
 ======================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents:
 
    intro
+   kpi
    grid2bench
    examples
 
