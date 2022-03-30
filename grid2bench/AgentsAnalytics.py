@@ -14,7 +14,7 @@ class AgentsAnalytics:
 
   """
 
-  def __init__(self, data_path, agents_names=[], episodes_names=[]):
+  def __init__(self, data_path: str, agents_names=[], episodes_names=[]):
     """
 
     :param data_path: parent directory path for agent log files
@@ -318,46 +318,35 @@ class AgentsAnalytics:
     return df.astype({'Episode': 'str', 'Played timesteps': int, 'Cumulative reward': float})
 
   @staticmethod
-  def plot_cumulative_reward(agents_data=[], episodes_names=[], fig_type='cumR', title='Cumulative reward per episode',
-                             **fig_kwargs):
-
+  def plot_cumulative_reward(agents_data=[], episodes_names=[], fig_type='CumReward',
+                             title='Cumulative reward per episode', **fig_kwargs):
     if not episodes_names: episodes_names = agents_data[0].episodes_names
 
-    # Create figure with secondary y-axis
-    fig = make_subplots(specs=[[{'secondary_y': True}]])
+    new_names = {}
+    y_list = []
 
-    colors = px.colors.qualitative.G10
-
-    # Add cumulative reward traces
-    if fig_type == 'cumR':
-      for i, agent in zip(range(len(agents_data)), agents_data):
+    for i, agent in enumerate(agents_data):
+      if fig_type == 'CumReward':
         df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
-        agent_episodes = df['Episode'].tolist()
-        agent_cum_reward = df['Cumulative reward'].tolist()
+        y = df['Cumulative reward'].tolist()
+      else:
+        df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
+        y = df['Played timesteps'].tolist()
 
-        # Add traces
-        fig.add_trace(go.Scatter(x=agent_episodes, y=agent_cum_reward, name='CR : {}'.format(agent.agent_name),
-                                 line=dict(width=2, color=colors[i], )), secondary_y=False, )
-      fig.update_yaxes(title_text='$ \\frac{Cumulative reward}{100}$', secondary_y=False)
+      agent_episodes = df['Episode'].tolist()
+      new_names['wide_variable_{}'.format(i)] = agent.agent_name
+      y_list.append(y)
 
+    if fig_type == 'CumReward':
+      x_title = '$\\frac{Cumulative reward}{100}$'
     else:
-      # Add played time steps traces
-      for i, agent in zip(range(len(agents_data)), agents_data):
-        df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
-        agent_episodes = df['Episode'].tolist()
-        agent_played_timesteps = df['Played timesteps'].tolist()
+      title = x_title = 'Accomplished time steps'
 
-        # Add traces
-        fig.add_trace(go.Scatter(x=agent_episodes, y=agent_played_timesteps, name='Ats : {}'.format(agent.agent_name),
-                                 line=dict(width=1, dash='dot', color=colors[i], )), secondary_y=True, )
-        title = 'Accomplished time steps'
-      fig.update_yaxes(title_text='Accomplished time steps', secondary_y=True)
+    fig = px.bar(x=agent_episodes, y=y_list, text_auto='.2s', labels={'x': 'Scenario', 'value': x_title},
+                 barmode='group', title=title)
 
-    # Add figure title
-    fig.update_layout(title_text=title)
-
-    # Set x-axis title
-    fig.update_xaxes(title_text='Scenario')
+    fig.for_each_trace(lambda t: t.update(name=new_names[t.name], legendgroup=new_names[t.name],
+                                          hovertemplate=t.hovertemplate.replace(t.name, new_names[t.name])))
 
     # Set y-axes titles
     fig.update_layout(**fig_kwargs)
