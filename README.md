@@ -84,6 +84,10 @@ Getting_Started notebook contains simple examples to show how we use the functio
 # Documentation
 Under progress...
 
+# To contribute
+* Supplementary features could be requested using github issues. 
+* Other contributions are welcomed and can be integrated using pull requests.
+
 # License information
 Copyright 2022-2023 IRT SystemX & RTE
 
