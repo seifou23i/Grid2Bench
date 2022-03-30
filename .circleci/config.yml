@@ -1,28 +1,118 @@
 version: 2.1
 
-jobs:
-  run_tests:
+references:
+  dep_key: &dep_key
+              deps1-{{ .Branch }}-{{ checksum "poetry.lock" }}
+
+executors:
+  docker-executor:
     docker:
-      - image: circleci/python:3.8.1
+      - image: cimg/python:3.8.1
+
+commands:
+
+  build:
+    description: "build all the dependencies"
     steps:
       - checkout
-      - run: mkdir test-reports
-      - run: python3 -m pip install --upgrade pip
-      - run: python3 -m pip install virtualenv
-      - run: python3 -m virtualenv venv_test
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - restore_cache_dep
       - run:
-          name: "Install Python Dependencies in a venv"
+          name: Install and activate virtual environment with pip
           command: |
-            source venv_test/bin/activate
-            python3 -m pip install poetry
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install poetry
             poetry install
+            pip install nbmake pytest-xdist
+            pip install ipykernel
+            python -m ipykernel install --user --name "venv"
+            pip install pylint
+            pip install pylint-exit
+            pip install jupytext --upgrade
+            pip install sphinx
+            pip install sphinx-rtd-theme
+      - change_owner
+      - save_cache_dep
+
+  activate_venv:
+    description: "activate virtual environment"
+    steps:
+      - run: . venv/bin/activate
+
+  restore_cache_dep:
+    description: "restore build caches"
+    steps:
+      - restore_cache:
+          key: *dep_key
+
+  save_cache_dep:
+    description: "save build caches"
+    steps:
+      - save_cache:
+          key: *dep_key
+          paths:
+            - "venv"
+
+  store_artifacts_test_results:
+    description: "Upload test summary for display"
+    steps:
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: tr1
+
+  change_owner:
+    description: "change owner before saving cache"
+    steps:
+      - run: sudo chown -R circleci:circleci ./venv/bin
+      - run: sudo chown -R circleci:circleci ./venv/lib/python3.8/site-packages
+
+jobs:
+  build_dep:
+    executor: docker-executor
+    steps:
+      - build
+
+  run_python_tests:
+    executor: docker-executor
+    steps:
+      - checkout
+      - restore_cache_dep
       - run:
-          name: "Run Unit Tests"
+          name: "run pytest"
           command: |
-            source venv_test/bin/activate
+            . venv/bin/activate
             cd tests
             python -m unittest discover -v
+      - store_artifacts_test_results
+
+  run_notebook_test:
+    executor: docker-executor
+    steps:
+      - checkout
+      - restore_cache_dep
+      - run:
+          name: "run pytest"
+          command: |
+            . venv/bin/activate
+            jupytext ./getting_started/*.ipynb --update-metadata '{"kernelspec":null}'
+            jupytext ./getting_started/*.ipynb --update-metadata '{"kernelspec":{}}'
+            python -m pytest --nbmake -n=auto ./getting_started 
+      - store_artifacts_test_results
+
 workflows:
-    build_test:
-      jobs:
-        - run_tests
+  build_and_test:
+    jobs:
+      - build_dep
+
+      - run_python_tests:
+          requires:
+            - build_dep
+
+      - run_notebook_test:
+          requires:
+            - build_dep
+
