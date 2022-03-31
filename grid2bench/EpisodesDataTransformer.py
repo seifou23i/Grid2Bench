@@ -1,3 +1,9 @@
+# Copyright (C) 2022, IRT-SystemX (https://www.irt-systemx.fr), RTE (https://www.rte-france.com)
+# See authors in pyporject.toml
+# SPDX-License-Identifier: MPL-2.0
+"""
+
+"""
 import itertools
 import os
 from collections import Counter

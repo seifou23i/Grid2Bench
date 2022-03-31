@@ -1,5 +1,5 @@
 grid2bench
-===========
+==========
 
 .. toctree::
    :maxdepth: 4

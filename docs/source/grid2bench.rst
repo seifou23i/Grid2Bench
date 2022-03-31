@@ -1,23 +1,37 @@
-Grid2Bench package
-===================
+grid2bench package
+==================
 
-The ``AgentsAnalytics`` class
-***********************************
-.. autoclass:: grid2bench.AgentsAnalytics.AgentsAnalytics
+Submodules
+----------
+
+grid2bench.AgentsAnalytics module
+---------------------------------
+
+.. automodule:: grid2bench.AgentsAnalytics
    :members:
    :undoc-members:
    :show-inheritance:
 
-The ``EpisodeDataExtractor`` class
-***************************************
-.. autoclass:: grid2bench.EpisodeDataExtractor.EpisodeDataExtractor
+grid2bench.EpisodeDataExtractor module
+--------------------------------------
+
+.. automodule:: grid2bench.EpisodeDataExtractor
    :members:
    :undoc-members:
    :show-inheritance:
 
-The ``EpisodesDataTransformer`` class
-******************************************
-.. autoclass:: grid2bench.EpisodesDataTransformer.EpisodeDataExtractor
+grid2bench.EpisodesDataTransformer module
+-----------------------------------------
+
+.. automodule:: grid2bench.EpisodesDataTransformer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: grid2bench
    :members:
    :undoc-members:
    :show-inheritance:
