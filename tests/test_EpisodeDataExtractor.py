@@ -48,15 +48,15 @@ class TestEpisodeDataExtractor(unittest.TestCase):
     self.assertEqual(timestep, 0)
 
   def test_compute_actions_freq_by_timestamp(self):
-    list_actions_freq = self.episode_data.compute_actions_freq_by_timestamp()['NB action']
+    list_actions_freq = self.episode_data.actions_freq_by_timestamp()['NB action']
     self.assertListEqual(list_actions_freq.to_list(), [1, 4, 1, 1])
 
   def test_compute_actions_freq_by_type(self):
-    nb_switch_line = self.episode_data.compute_actions_freq_by_type()['NB line switched']
-    nb_topological_changes = self.episode_data.compute_actions_freq_by_type()['NB topological change']
-    nb_redispatch_changes = self.episode_data.compute_actions_freq_by_type()['NB redispatching']
-    nb_storage_changes = self.episode_data.compute_actions_freq_by_type()['NB storage changes']
-    nb_curtailment_changes = self.episode_data.compute_actions_freq_by_type()['NB curtailment']
+    nb_switch_line = self.episode_data.actions_freq_by_type()['NB line switched']
+    nb_topological_changes = self.episode_data.actions_freq_by_type()['NB topological change']
+    nb_redispatch_changes = self.episode_data.actions_freq_by_type()['NB redispatching']
+    nb_storage_changes = self.episode_data.actions_freq_by_type()['NB storage changes']
+    nb_curtailment_changes = self.episode_data.actions_freq_by_type()['NB curtailment']
 
     self.assertListEqual(nb_switch_line.to_list(), [0, 0, 0, 1])
     self.assertListEqual(nb_topological_changes.to_list(), [0, 4, 1, 0])
@@ -65,18 +65,18 @@ class TestEpisodeDataExtractor(unittest.TestCase):
     self.assertListEqual(nb_curtailment_changes.to_list(), [0, 0, 0, 0])
 
   def test_compute_actions_freq_by_station(self):
-    list_impacted_substations = self.episode_data.compute_actions_freq_by_station()
+    list_impacted_substations = self.episode_data.impacted_subs_by_timestamp()
     impacted_sub_stations = [list_impacted_substations[i]['subs_impacted'] for i in
                              range(len(list_impacted_substations))]
     self.assertListEqual(impacted_sub_stations, [{'sub_13'}, {'sub_12'}])
 
   def test_compute_overloaded_lines_by_timestamp(self):
-    list_overloaded_lines = self.episode_data.compute_overloaded_lines_by_timestamp()
+    list_overloaded_lines = self.episode_data.overloaded_lines_by_timestamp()
     overloaded_lines = [list_overloaded_lines[i]['Overloaded lines'] for i in range(len(list_overloaded_lines))]
     self.assertListEqual(overloaded_lines, [{5, 14}, {5, 14}, {8, 16}])
 
   def test_compute_disconnected_lines_by_timestamp(self):
-    list_disconnected_lines = self.episode_data.compute_disconnected_lines_by_timestamp()
+    list_disconnected_lines = self.episode_data.disconnected_lines_by_timestamp()
     disconnected_lines = [list_disconnected_lines[i]['Disconnected lines'] for i in
                           range(len(list_disconnected_lines))]
     self.assertListEqual(disconnected_lines, [{5, 14, 15}])

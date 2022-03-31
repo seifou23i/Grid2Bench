@@ -77,7 +77,7 @@ class EpisodesDataTransformer:
     df = pd.DataFrame()
     for episode_data in self.episodes_data:
       if episode_data.episode_name in episodes_names:
-        df = pd.concat([df, episode_data.compute_actions_freq_by_type()], axis=0)
+        df = pd.concat([df, episode_data.actions_freq_by_type()], axis=0)
 
     df_sum = pd.DataFrame({'Frequency': df.sum(axis=0)})
 
@@ -89,7 +89,7 @@ class EpisodesDataTransformer:
     actions_freq_by_station = []
     for episode_data in self.episodes_data:
       if episode_data.episode_name in episodes_names:
-        actions_freq_by_station.extend(episode_data.compute_actions_freq_by_station())
+        actions_freq_by_station.extend(episode_data.impacted_subs_by_timestamp())
 
     impacted_stations_flatten = []
 
@@ -249,7 +249,7 @@ class EpisodesDataTransformer:
 
     for episode_data in self.episodes_data:
       if episode_data.episode_name in episodes_names:
-        overloaded_lines_for_episode_i = episode_data.compute_overloaded_lines_by_timestamp()
+        overloaded_lines_for_episode_i = episode_data.overloaded_lines_by_timestamp()
         overloaded_lines_flatten = [list(item) for dict in overloaded_lines_for_episode_i for key, item in dict.items()
                                     if key == 'Overloaded lines']
         overloaded_lines = overloaded_lines + overloaded_lines_flatten
@@ -273,7 +273,7 @@ class EpisodesDataTransformer:
 
     for episode_data in self.episodes_data:
       if episode_data.episode_name in episodes_names:
-        disconnected_lines_for_episode_i = episode_data.compute_disconnected_lines_by_timestamp()
+        disconnected_lines_for_episode_i = episode_data.disconnected_lines_by_timestamp()
         disconnected_lines_flatten = [list(item) for dict in disconnected_lines_for_episode_i for key, item in
                                       dict.items() if key == 'Disconnected lines']
         disconnected_lines = disconnected_lines + disconnected_lines_flatten

@@ -17,8 +17,32 @@ by running the agent using the `Runner class
 
   .. code-block:: python
 
+    from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+    from datetime import datetime
+    import numpy as np
+
+    # import episode data
+    agent_log_path = '../data/input/Expert_Agent'
+    episode_name = 'dec16_1'
     episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
-    obs = get_observation_by_timestamp('2012-12-04 18:00:00')
+
+    date_time = datetime(year=2012, month=12, day=4, hour=7, minute=5)
+
+    act = episode_data.get_action_by_timestamp(date_time)
+    obs = episode_data.get_observation_by_timestamp(date_time)
+
+    line_statuses = obs.line_status
+    subs_on_bus_2 = np.repeat(False, obs.n_sub)
+    objs_on_bus_2 = {id: [] for id in range(obs.n_sub)}
+
+    distance, _, _, _ = episode_data.get_distance_from_obs(
+    act,
+    line_statuses,
+    subs_on_bus_2,
+    objs_on_bus_2,
+    obs)
+
+    print('Distance from initial topology of the second action is :', distance)
 """
 
 import os
@@ -32,7 +56,7 @@ from grid2op.Observation import BaseObservation
 
 
 class EpisodeDataExtractor:
-  """ This class is used to extract and transform data from agent evaluation
+  """This class is used to extract and transform data from agent evaluation
   results log files.
 
   Extract only the useful information for us from grid2op's
@@ -40,19 +64,21 @@ class EpisodeDataExtractor:
   to calculate evaluation metrics.
 
   Attributes:
-  ----------
-  agent_log_path:
-  agent_name:
-  episode_name:
-  observations:
-  actions:
-  n_observation:
-  n_action:
-  timestamps:
-  computation_times:
-  cum_reward:
-  nb_timestep_played:
-  max_timestep:
+
+  - agent_log_path: agent's log file path
+  - agent_name: agent's name, as the same name as the agent folder
+  - episode_name: episode name as the same name as the episode folder
+  - observations: list of observations in the episode
+  - actions: list of actions in the episode
+  - n_observation: number of observations in the episode
+  - n_action: number of actions in the episode, usually n_observation -1
+  - timestamps: list of episode timestamps
+  - computation_times: list of agent's action execution times
+  - cum_reward: cumulative reward of the episode
+  - max_timestep: maximum time steps in the episode
+  - nb_timestep_played: number of played time steps completed in the episode
+    before a game over.
+
   """
 
   def __init__(self, agent_log_path: str, episode_name: str):
@@ -69,9 +95,8 @@ class EpisodeDataExtractor:
     self.episode_name: str = episode_name
 
     try:
-      episode_data = EpisodeData.from_disk(
-        agent_path=self.agent_log_path,
-        name=self.episode_name)
+      episode_data = EpisodeData.from_disk(agent_path=self.agent_log_path,
+                                           name=self.episode_name)
 
     except (FileNotFoundError, IOError):
       print('Wrong episode name or agent path')
@@ -83,13 +108,13 @@ class EpisodeDataExtractor:
       self.n_observation: int = len(self.observations)
       self.n_action: int = len(self.actions)
 
-      self.timestamps: list[datetime] = \
-        [self.observations[i].get_time_stamp() for i in range(self.n_action)]
+      self.timestamps: list[datetime] = [self.observations[i].get_time_stamp()
+                                         for i in range(self.n_action)]
 
       self.computation_times: list[float] = episode_data.times
       self.cum_reward: list[float] = episode_data.meta['cumulative_reward']
-      self.nb_timestep_played: list[int] = \
-        episode_data.meta['nb_timestep_played']
+      self.nb_timestep_played: list[int] = episode_data.meta[
+        'nb_timestep_played']
 
       self.max_timestep: int = episode_data.meta['chronics_max_timestep']
 
@@ -103,50 +128,141 @@ class EpisodeDataExtractor:
       # clear memory
       del episode_data
 
-  def get_observation_by_timestamp(
-      self,
-      date_time: datetime) -> BaseObservation:
+  def get_observation_by_timestamp(self,
+                                   date_time: datetime) -> BaseObservation:
     """Get the grid2op observation object whose timestamp is date_time.
 
     :param date_time: the datetime sought
     :type date_time: datetime
     :return: Observation if exists otherwise raise Error
     :rtype: grid2op.BaseObservation object
+
+    Example of usage:
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+      from datetime import datetime
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      date_time = datetime(year=2012, month=12, day=4, hour=7, minute=0)
+      obs = episode_data.get_observation_by_timestamp(date_time)
+      print(obs.to_vect())
+
     """
     return self.observations[self.timestamps.index(date_time)]
 
-  def get_action_by_timestamp(
-      self,
-      date_time: datetime) -> BaseAction:
+  def get_action_by_timestamp(self, date_time: datetime) -> BaseAction:
     """Get the grid2op action object whose timestamp is date_time.
 
     :param date_time: the datetime sought
     :type date_time: datetime
     :return: Action if exists otherwise raise Error
     :rtype: grid2op.BaseAction object
+
+    Example of usage:
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+      from datetime import datetime
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      date_time = datetime(year=2012, month=12, day=4, hour=7, minute=0)
+      act = episode_data.get_observation_by_timestamp(date_time)
+      print(act)
+
     """
     return self.actions[self.timestamps.index(date_time)]
 
-  def get_computation_time_by_timestamp(self, date_time : datetime):
-    """
+  def get_computation_time_by_timestamp(self, date_time: datetime) -> float:
+    """Get agent action execution time at timestamp date_time.
 
-    :param date_time:
-    :return:
+    :param date_time: the datetime sought
+    :type date_time: datetime
+    :return: action execution time in seconds if found, raise an error otherwise
+    :rtype: float
+
+    Example of usage:
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+      from datetime import datetime
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      date_time = datetime(year=2012, month=12, day=4, hour=7, minute=0)
+      execution_time = episode_data.get_computation_time_by_timestamp(
+      date_time)
+      print(execution_time, 's')
+
+
     """
     return self.computation_times[self.timestamps.index(date_time)]
 
-  def get_timestep_by_datetime(self, date_time):
-    """
+  def get_timestep_by_datetime(self, date_time: datetime) -> int:
+    """Get the order of a given timestamp in the episode.
 
-    :param date_time:
-    :return:
+    :param date_time: datetime sought
+    :type date_time: datetime
+    :return: order of the date_time, raise an error otherwise
+    :rtype: int
+
+    Example of usage:
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+      from datetime import datetime
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      date_time = datetime(year=2012, month=12, day=4, hour=7, minute=10)
+      timestep = episode_data.get_timestep_by_datetime(date_time)
+      print('The timestep of {} is {}'.format(date_time, timestep))
+
     """
     return self.timestamps.index(date_time)
 
-  def compute_actions_freq_by_timestamp(self):
-    """
+  def actions_freq_by_timestamp(self) -> pd.DataFrame:
+    """Calculate the number of unit actions in the episode.
 
-    :return:
+    Unit actions including switched lines, topological impacts, redispatching,
+    storage and curtailment.
+
+    :return: a DataFrame time series with columns: Timestamp, nb of unit
+      actions, impacted substations and impacted lines.
+    :rtype: DataFrame
+
+    Example of usage:
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      df = episode_data.actions_freq_by_timestamp()
+      print(df)
+
     """
     action_freq = []
 
@@ -155,11 +271,9 @@ class EpisodeDataExtractor:
 
       if action_impact['has_impact']:
         nb_actions = (  # number of lines switched
-            action_impact['switch_line']['count']
-            +
-            # number of topological changes
-            len(action_impact['topology']['bus_switch'])
-            + len(
+            action_impact['switch_line'][
+              'count'] +  # number of topological changes
+            len(action_impact['topology']['bus_switch']) + len(
           action_impact['topology']['assigned_bus']) + len(
           action_impact['topology'][
             'disconnect_bus']) +  # number of redispatch changes
@@ -175,24 +289,88 @@ class EpisodeDataExtractor:
              'Impacted subs': self.impacted_subs(i),
              'Impacted lines': self.impacted_lines(i)})
 
-    return pd.DataFrame(
-      action_freq,
-      columns=['Timestamp', 'NB action', 'Impacted subs', 'Impacted lines'])
+    return pd.DataFrame(action_freq,
+                        columns=['Timestamp', 'NB action', 'Impacted subs',
+                                 'Impacted lines'])
 
-  def impacted_lines(self, timestep):
+  def impacted_lines(self, timestep: int) -> list[str]:
+    """Returns the lines impacted by an action with a given time step.
+
+    :param timestep: the time step in the episode
+    :type timestep: int
+    :return: list of impacted line names
+    :rtype: list of strings
+
+    Example of usage :
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      impacted_lines = episode_data.impacted_lines(timestep=0)
+      print(impacted_lines)
+    """
 
     lines_impacted = self.actions[timestep].get_topological_impact()[0]
     return self.actions[timestep].name_line[np.where(lines_impacted)].tolist()
 
-  def impacted_subs(self, timestep):
+  def impacted_subs(self, timestep: int) -> list[str]:
+    """Returns the substations impacted by an action with a given time step.
+
+    :param timestep: the time step in the episode
+    :type timestep: int
+    :return: list of impacted substation names
+    :rtype: list of strings
+
+    Example of usage :
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      impacted_subs = episode_data.impacted_subs(timestep=0)
+      print(impacted_subs)
+
+    """
 
     subs_impacted = self.actions[timestep].get_topological_impact()[1]
     return self.actions[timestep].name_sub[np.where(subs_impacted)].tolist()
 
-  def compute_actions_freq_by_type(self):
-    """
+  def actions_freq_by_type(self) -> pd.DataFrame:
+    """Returns the number of unit actions by type and at each timestamp in
+    the episode.
 
-    :return:
+    Unit actions including switched lines, topological impacts, redispatching,
+    storage and curtailment.
+
+    :return: a DataFrame time series with columns: Timestamp, NB line switched,
+      NB topological change, NB redispatching, NB storage changes, NB curtailment
+    :rtype: DataFrame
+
+    Example of usage :
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      df = episode_data.actions_freq_by_type()
+      print(df)
+
     """
     timestamps = []
     nb_switch_line = []
@@ -205,15 +383,21 @@ class EpisodeDataExtractor:
       action_impact = self.actions[i].impact_on_objects()
 
       if action_impact['has_impact']:
+        # timestamp
         timestamps.append(self.timestamps[i])
+        # number of switched lines
         nb_switch_line.append(action_impact['switch_line']['count'])
+        # number of topological changes
         nb_topological_changes.append(
           len(action_impact['topology']['bus_switch']) + len(
             action_impact['topology']['assigned_bus']) + len(
             action_impact['topology']['disconnect_bus']))
+        # number of redispatching
         nb_redispatch_changes.append(
           len(action_impact['redispatch']['generators']))
+        # number of storage changes
         nb_storage_changes.append(len(action_impact['storage']['capacities']))
+        # number of curtailment
         nb_curtailment_changes.append(
           len(action_impact['curtailment']['limit']))
 
@@ -226,16 +410,33 @@ class EpisodeDataExtractor:
 
     return pd.DataFrame(dict_actions_freq)
 
-  def compute_actions_freq_by_station(self):
-    """
+  def impacted_subs_by_timestamp(self) -> list[dict[str, datetime, set]]:
+    """Returns the impacted substations at each timestamp within the episode.
 
-    :return:
+    :return: substation impacted by agent actions
+    :rtype: a list of dictionaries {Timestamp, Sub impacted}
+
+    Example of usage :
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      dict_list = episode_data.impacted_subs_by_timestamp()
+      print(dict_list)
     """
     subs_impacted_by_timestamp = []
 
     for action, i in zip(self.actions, range(self.n_action - 1)):
+
       subs_impacted = action.get_topological_impact()[1]
       list_subs_impacted = action.name_sub[np.where(subs_impacted)]
+
       if len(list_subs_impacted) != 0:
         subs_impacted_by_timestamp.append({'Timestamp': self.timestamps[i],
                                            'subs_impacted': set(
@@ -243,48 +444,113 @@ class EpisodeDataExtractor:
 
     return subs_impacted_by_timestamp
 
-  def compute_overloaded_lines_by_timestamp(self):
-    """
+  def overloaded_lines_by_timestamp(self) -> list[dict[str, datetime, set]]:
+    """Returns overloaded lines at each episode timestamp
 
-    :return:
+    :return: overloaded lines impacted by agent actions
+    :rtype: a list of dictionaries {Timestamp, Overloaded lines}
+
+    Example of usage :
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      dict_list = episode_data.overloaded_lines_by_timestamp()
+      print(dict_list)
+
     """
 
     overloaded_lines = []
 
     for observation, i in zip(self.observations, range(self.n_action)):
+
       lines_id = np.where(observation.timestep_overflow != 0)[0]
+
       if len(lines_id) != 0:
         overloaded_lines.append(
           {'Timestamp': self.timestamps[i], 'Overloaded lines': set(lines_id)})
 
     return overloaded_lines
 
-  def compute_disconnected_lines_by_timestamp(self):
-    """
+  def disconnected_lines_by_timestamp(self) -> list[dict[str, datetime, set]]:
+    """Returns disconnected lines at each episode timestamp
 
-    :return:
+    :return: disconnected lines impacted by agent actions
+    :rtype: a list of dictionaries {Timestamp, Disconnected lines}
+
+    Example of usage :
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      dict_list = episode_data.disconnected_lines_by_timestamp()
+      print(dict_list)
     """
 
     disconnected_lines = []
 
     for observation, i in zip(self.observations, range(self.n_action)):
+
       lines_id = np.where(observation.line_status != True)[0]
+
       if len(lines_id) != 0:
         disconnected_lines.append({'Timestamp': self.timestamps[i],
                                    'Disconnected lines': set(lines_id)})
 
     return disconnected_lines
 
-  # TODO : optimize it
-  def compute_action_sequences_length(self):
+  def compute_action_sequences_length(self) -> pd.DataFrame:
+    """Calculate the length of action sequence in an episode.
+
+    A sequence of actions is defined by taking several actions in a
+    non-disconnected sequence of time steps. A non-disconnected sequence means
+    that there is no "do nothing" in the sequence.
+
+    Examples:
+
+    - Sequence 1 : Switch bus action, Topological changes, Do nothing
+      --> Sequence of length 2
+    - Sequence 2 : Switch bus action, Do nothing, Topological changes
+      --> not a sequence
+    - Sequence 3 : Switch bus action, Topological changes, Do nothing, Switch
+      bus action, Topological changes, Topological changes, Do nothing -->
+      two sequences, the first of length 2 and the second of length 3
+
+    :return: a DataFrame time series with columns: Timestamp, Sequence
+      length, NB line switched, NB topological change, NB redispatching,
+      NB storage changes, NB curtailment
+    :rtype: DataFrame
+
+    Example of usage :
+
+    .. code-block:: python
+
+      from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
+
+      # import episode data
+      agent_log_path = '../data/input/Expert_Agent'
+      episode_name = 'dec16_1'
+      episode_data = EpisodeDataExtractor(agent_log_path, episode_name)
+
+      df_actions_sequence = episode_data.compute_action_sequences_length()
+      print(df_actions_sequence)
     """
 
-    :return:
-    """
-    action_sequences_length = self.compute_actions_freq_by_timestamp().copy()
-    # columns = [x for x in action_sequences_length.columns
-    # if x not in ['Timestamp']]
-    # TODO : optimize
+    # action sequence length
+    action_sequences_length = self.actions_freq_by_timestamp().copy()
+
     columns = ['Sequence length']
     action_sequences_length.insert(1, 'Sequence length',
                                    action_sequences_length['NB action'])
@@ -304,23 +570,43 @@ class EpisodeDataExtractor:
 
     return action_sequences_length
 
-  def _n_lines(self):
-    """
+  def _n_lines(self) -> int:
+    """Returns the number of lines in the power grid.
 
-    :return:
+    :return: the line id if exists, raise an error otherwise
+    :rtype: int
     """
     return self.observations[0].n_line
 
-  def _name_of_lines(self, lines_id):
-    """
+  def _name_of_lines(self, lines_id: int) -> str:
+    """Returns the name of lines in the power grid.
 
-    :return:
+    :return: the line's name if exists, raise an error otherwise
+    :rtype: str
     """
     return self.actions[0].name_line[lines_id]
 
-  # Functions reused from Grid2Vis
+  # function reused from grid2vis, see https://github.com/rte-france/grid2viz
   def get_distance_from_obs(self, act, line_statuses, subs_on_bus_2,
                             objs_on_bus_2, obs):
+    """Calculate the number of changes compared to the initial topology
+
+    A function reused from grid2vis package (
+    https://github.com/rte-france/grid2viz)
+
+    :param act: the agent's action
+    :type act: grid2op.BaseAction object
+    :param line_statuses: line status (connected/disconnected)
+    :type line_statuses: list
+    :param subs_on_bus_2: substation connected on buses 2
+    :type subs_on_bus_2: list
+    :param objs_on_bus_2: objects connected on buses 2
+    :type objs_on_bus_2: list
+    :param obs: observation
+    :type obs: grid2op.BaseObservation
+    :return: distance, line_statuses, subs_on_bus_2, objs_on_bus_2
+    :rtype: tuple
+    """
 
     impact_on_objs = act.impact_on_objects()
 
@@ -356,6 +642,7 @@ class EpisodeDataExtractor:
     distance = len(line_statuses) - line_statuses.sum() + sum(subs_on_bus_2)
     return distance, line_statuses, subs_on_bus_2, objs_on_bus_2
 
+  # function reused from grid2vis, see https://github.com/rte-france/grid2viz
   def update_objs_on_bus(self, objs_on_bus_2, elem, topo_vect_dict, kind):
     for object_type, pos_topo_vect in topo_vect_dict.items():
       if elem['object_type'] == object_type and elem['bus']:
@@ -368,6 +655,7 @@ class EpisodeDataExtractor:
         break
     return objs_on_bus_2
 
+  # function reused from grid2vis, see https://github.com/rte-france/grid2viz
   @staticmethod
   def update_objs_on_bus_switch(objs_on_bus_2, elem, pos_topo_vect):
     if pos_topo_vect[elem['object_id']] in objs_on_bus_2[elem['substation']]:
@@ -380,6 +668,7 @@ class EpisodeDataExtractor:
       objs_on_bus_2[elem['substation']].append(pos_topo_vect[elem['object_id']])
     return objs_on_bus_2
 
+  # function reused from grid2vis, see https://github.com/rte-france/grid2viz
   @staticmethod
   def update_objs_on_bus_assign(objs_on_bus_2, elem, pos_topo_vect):
     if (pos_topo_vect[elem['object_id']] in objs_on_bus_2[
