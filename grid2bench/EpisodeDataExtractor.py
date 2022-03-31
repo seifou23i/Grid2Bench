@@ -47,7 +47,7 @@ by running the agent using the `Runner class
 
 import os
 from datetime import timedelta, datetime
-from typing import Union
+from typing import List
 
 import numpy as np
 import pandas as pd
@@ -294,7 +294,7 @@ class EpisodeDataExtractor:
                         columns=['Timestamp', 'NB action', 'Impacted subs',
                                  'Impacted lines'])
 
-  def impacted_lines(self, timestep: int) -> Union[list[str], None]:
+  def impacted_lines(self, timestep: int) -> List[str]:
     """Returns the lines impacted by an action with a given time step.
 
     :param timestep: the time step in the episode
@@ -320,7 +320,7 @@ class EpisodeDataExtractor:
     lines_impacted = self.actions[timestep].get_topological_impact()[0]
     return self.actions[timestep].name_line[np.where(lines_impacted)].tolist()
 
-  def impacted_subs(self, timestep: int) -> list[str]:
+  def impacted_subs(self, timestep: int) -> List[str]:
     """Returns the substations impacted by an action with a given time step.
 
     :param timestep: the time step in the episode
