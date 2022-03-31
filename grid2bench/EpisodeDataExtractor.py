@@ -47,7 +47,7 @@ by running the agent using the `Runner class
 
 import os
 from datetime import timedelta, datetime
-from typing import List
+from typing import List, Set, Tuple, Dict
 
 import numpy as np
 import pandas as pd
@@ -411,7 +411,7 @@ class EpisodeDataExtractor:
 
     return pd.DataFrame(dict_actions_freq)
 
-  def impacted_subs_by_timestamp(self) -> list[dict[str, datetime, set]]:
+  def impacted_subs_by_timestamp(self) -> List[Dict[datetime, Set]]:
     """Returns the impacted substations at each timestamp within the episode.
 
     :return: substation impacted by agent actions
@@ -445,7 +445,7 @@ class EpisodeDataExtractor:
 
     return subs_impacted_by_timestamp
 
-  def overloaded_lines_by_timestamp(self) -> list[dict[str, datetime, set]]:
+  def overloaded_lines_by_timestamp(self) -> List[Dict[datetime, Set]]:
     """Returns overloaded lines at each episode timestamp
 
     :return: overloaded lines impacted by agent actions
@@ -479,7 +479,7 @@ class EpisodeDataExtractor:
 
     return overloaded_lines
 
-  def disconnected_lines_by_timestamp(self) -> list[dict[str, datetime, set]]:
+  def disconnected_lines_by_timestamp(self) -> List[Dict[datetime, Set]]:
     """Returns disconnected lines at each episode timestamp
 
     :return: disconnected lines impacted by agent actions
