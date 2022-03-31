@@ -47,6 +47,7 @@ by running the agent using the `Runner class
 
 import os
 from datetime import timedelta, datetime
+from typing import Union
 
 import numpy as np
 import pandas as pd
@@ -293,7 +294,7 @@ class EpisodeDataExtractor:
                         columns=['Timestamp', 'NB action', 'Impacted subs',
                                  'Impacted lines'])
 
-  def impacted_lines(self, timestep: int) -> list[str]:
+  def impacted_lines(self, timestep: int) -> Union[list[str], None]:
     """Returns the lines impacted by an action with a given time step.
 
     :param timestep: the time step in the episode
