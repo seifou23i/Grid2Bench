@@ -46,7 +46,7 @@ class TestAgentsAnalytics(unittest.TestCase):
     AgentsAnalytics.plot_distance_from_initial_topology(agents_results=self.agents.agents_data)
 
   def test_plot_actions_sequence_length(self):
-    AgentsAnalytics.plot_actions_sequence_length(agents_data=self.agents.agents_data, sequence_range=range(0, 20))
+    AgentsAnalytics.plot_actions_sequence_length(agents_data=self.agents.agents_data)
 
   def test_plot_cumulative_reward(self):
     AgentsAnalytics.plot_cumulative_reward(agents_data=self.agents.agents_data)

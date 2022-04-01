@@ -2,8 +2,8 @@ import datetime
 import os
 import unittest
 
-from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
 from configmanager.configmanager import ConfigManager
+from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
 
 conf_path = os.path.abspath("../conf.ini")
 conf = ConfigManager(benchmark_name='Tests', path=conf_path)

@@ -47,7 +47,7 @@ by running the agent using the `Runner class
 
 import os
 from datetime import timedelta, datetime
-from typing import List, Set, Tuple, Dict
+from typing import List, Set, Dict
 
 import numpy as np
 import pandas as pd
@@ -348,14 +348,13 @@ class EpisodeDataExtractor:
     return self.actions[timestep].name_sub[np.where(subs_impacted)].tolist()
 
   def actions_freq_by_type(self) -> pd.DataFrame:
-    """Returns the number of unit actions by type and at each timestamp in
-    the episode.
+    """Returns the number of unit actions by type whitin the episode
 
     Unit actions including switched lines, topological impacts, redispatching,
     storage and curtailment.
 
-    :return: a DataFrame time series with columns: Timestamp, NB line switched,
-      NB topological change, NB redispatching, NB storage changes, NB curtailment
+    :return: Actions frequency of : NB line switched, NB topological change,
+             NB redispatching, NB storage changes, NB curtailment
     :rtype: DataFrame
 
     Example of usage :
@@ -530,8 +529,7 @@ class EpisodeDataExtractor:
       two sequences, the first of length 2 and the second of length 3
 
     :return: a DataFrame time series with columns: Timestamp, Sequence
-      length, NB line switched, NB topological change, NB redispatching,
-      NB storage changes, NB curtailment
+              length, NB action, Impacted subs, Impacted lines
     :rtype: DataFrame
 
     Example of usage :
