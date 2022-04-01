@@ -82,7 +82,16 @@ Getting_Started notebook contains simple examples to show how we use the functio
    
 
 # Documentation
-Under progress...
+The documentation is accessible via: [the link to readthedocs](readthedocs.org)
+
+To generate locally the documentation:
+```commandline
+pip install sphinx
+pip install sphinx-rtd-theme
+cd docs
+make clean
+make html
+```
 
 # To contribute
 * Supplementary features could be requested using github issues. 
