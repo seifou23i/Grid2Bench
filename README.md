@@ -41,27 +41,45 @@ pip3 install rlbenchplot
 ```
 
 # Main features of RLBenchPlot
-```diff  
-- Descirbe breifly the main features allowing to analyze and compare the agents...
-```
+This package allows to evaluate the performance of power grid agents from various point of views. 
+Hereafter, we introduce the main feeatures included in this package:
+
+- Cumulative rewards: 
+- Agent's alive time:
+- Action impacts
+   - Lines:  
+      - frequency per substation:
+      - frequency per overloaded lines:
+      - frequency per disconnected lines:
+   - Reference topology:
+   - Substations:    
+- Action Execution Time
+- Action Sequence length
+- Agents bahaviour analysis
 
 # Usage
 An example of how to use the library is provided below:
 
 ```python
-from grid2bench.AgentsAnalytics import AgentsAnalytics as agts
-from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer
+from grid2bench.AgentsAnalytics import AgentsAnalytics
 
 # parent directory for agents log files
 input_data_path = os.path.abspath("../data/input")
 
 # Loading agents and required episodes
-agents = agts(data_path=input_data_path, agents_names=["PPO_Agent", "MazeRL_Agent", "Expert_Agent"])
+agents = AgentsAnalytics(
+        data_path=input_data_path,
+        agents_names= ["PPO_Agent", "MazeRL_Agent"],
+    )
 
 # Visualize the cumulative reward for all agents
-agts.plot_cumulative_reward(agents)
-
+agents.plot_cumulative_reward(agents_results)
 ```
+
+A more complete example of all the functionalities could be seen in documentation: [Example](docs/source/examples.rst)
+
+# KPI
+A dedicated KPI page is provided at: [KPI page](docs/source/kpi.rst)
 
 # Getting Started
 Some Jupyter notebook are provided as tutorials for the RLBenchPlot package. They are located in the 
@@ -69,14 +87,14 @@ Some Jupyter notebook are provided as tutorials for the RLBenchPlot package. The
 
 Getting_Started notebook contains simple examples to show how we use the functions defined in the framework:
 
-   * Loading agent results- fot this part there are 2 options:
+<!--   * Loading agent results- fot this part there are 2 options:
       * First option: you can load agent's resulsts separately [using EpisodeData class]
       * Second Option: you can load all the agents' results at onece [using AgentsAnalytics class]
    * Action Frequency
    * Impact of actions on objects 
    * Action Execution Time
    * Action Sequence length
-   * Agents bahaviour analysis 
+   * Agents bahaviour analysis -->
 
 
    
