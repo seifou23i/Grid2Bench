@@ -28,10 +28,3 @@ grid2bench.EpisodesDataTransformer module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: grid2bench
-   :members:
-   :undoc-members:
-   :show-inheritance:
