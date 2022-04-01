@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>grid2bench package &mdash; Grid2Bench 0.2.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="KPI" href="kpi.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Grid2Bench
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kpi.html">KPI</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">grid2bench package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-grid2bench.AgentsAnalytics">grid2bench.AgentsAnalytics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-grid2bench.EpisodeDataExtractor">grid2bench.EpisodeDataExtractor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-grid2bench.EpisodesDataTransformer">grid2bench.EpisodesDataTransformer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-grid2bench">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Grid2Bench</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>grid2bench package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/grid2bench.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="grid2bench-package">
+<h1>grid2bench package<a class="headerlink" href="#grid2bench-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-grid2bench.AgentsAnalytics">
+<span id="grid2bench-agentsanalytics-module"></span><h2>grid2bench.AgentsAnalytics module<a class="headerlink" href="#module-grid2bench.AgentsAnalytics" title="Permalink to this headline"></a></h2>
+<p>This module allows to benchmark several agents in several scenarios
+through predefined KPIs (see KPI section).</p>
+<p>The module uses the <a class="reference external" href="https://plotly.com/">plotly package</a> to visualize
+these KPIs in the form of graphs.</p>
+<p>The modules load data in the forms <code class="xref py py-class docutils literal notranslate"><span class="pre">EpisodesDataTransformer</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">EpisodesDataExtractor</span></code> . You can access these objects like this:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.AgentsAnalytics</span> <span class="kn">import</span> <span class="n">AgentsAnalytics</span>
+
+<span class="n">input_data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../data/input&#39;</span><span class="p">)</span>
+<span class="n">agents_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Expert_Agent&#39;</span><span class="p">,</span> <span class="s1">&#39;IEE_PPO_Agent&#39;</span><span class="p">]</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading data</span>
+<span class="n">agents</span> <span class="o">=</span> <span class="n">AgentsAnalytics</span><span class="p">(</span>
+  <span class="n">data_path</span><span class="o">=</span><span class="n">input_data_path</span><span class="p">,</span>
+  <span class="n">agents_names</span><span class="o">=</span><span class="n">agents_names</span><span class="p">,</span>
+  <span class="n">episodes_names</span><span class="o">=</span><span class="n">episodes_names</span>
+<span class="p">)</span>
+
+<span class="c1"># get indexes</span>
+<span class="n">expert_agent_idx</span> <span class="o">=</span> <span class="n">agents</span><span class="o">.</span><span class="n">agents_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;Expert_Agent&#39;</span><span class="p">)</span>
+<span class="n">dec16_2_idx</span> <span class="o">=</span> <span class="n">agents</span><span class="o">.</span><span class="n">episodes_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;dec16_2&#39;</span><span class="p">)</span>
+
+<span class="c1"># access expert agent all episodes results --&gt; EpisodesDataTransformer class</span>
+<span class="n">episodes</span> <span class="o">=</span> <span class="n">agents</span><span class="o">.</span><span class="n">agents_data</span><span class="p">[</span><span class="n">expert_agent_idx</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loaded episodes for </span><span class="si">{}</span><span class="s1"> are : </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+  <span class="n">episodes</span><span class="o">.</span><span class="n">agent_name</span><span class="p">,</span>
+  <span class="n">episodes</span><span class="o">.</span><span class="n">episodes_names</span><span class="p">))</span>
+
+<span class="c1"># access expert agent dec16_2 episode results --&gt; EpisodeDataExtractor class</span>
+<span class="n">dec16_2</span> <span class="o">=</span> <span class="n">agents</span><span class="o">.</span><span class="n">agents_data</span><span class="p">[</span><span class="n">expert_agent_idx</span><span class="p">]</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">[</span><span class="n">dec16_2_idx</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Episode name: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dec16_2</span><span class="o">.</span><span class="n">episode_name</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+<dl class="py class">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">grid2bench.AgentsAnalytics.</span></span><span class="sig-name descname"><span class="pre">AgentsAnalytics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agents_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used to benchmark several agents in several scenarios.</p>
+<p>It is also used to store agents’ episode results via the agents_data attribute</p>
+<p>Attributes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>data_path: data folder path, parent directory path for agent log files</p></li>
+<li><p>agents_names: list of agents names with the same name as the agent’s
+data folders</p></li>
+<li><p>episodes_names: list of episode names with the same name as the episode
+data folders</p></li>
+<li><p>agents_data: list of <code class="xref py py-class docutils literal notranslate"><span class="pre">EpisodesDataTransformer</span></code></p></li>
+</ul>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.cumulative_reward">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cumulative_reward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.cumulative_reward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.cumulative_reward" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.load_agents_results">
+<span class="sig-name descname"><span class="pre">load_agents_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer" title="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer"><span class="pre">grid2bench.EpisodesDataTransformer.EpisodesDataTransformer</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.load_agents_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.load_agents_results" title="Permalink to this definition"></a></dt>
+<dd><p>Load agents’ episodes data from the episodes_names list.</p>
+<p>Each element of the list contains agent’s episodes data as
+<code class="xref py py-class docutils literal notranslate"><span class="pre">EpisodesDataTransformer</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list of agents’ episodes</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of <code class="xref py py-class docutils literal notranslate"><span class="pre">EpisodesDataTransformer</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_freq_by_station">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_actions_freq_by_station</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Frequency</span> <span class="pre">of</span> <span class="pre">actions</span> <span class="pre">by</span> <span class="pre">station'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fig_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.plot_actions_freq_by_station"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_freq_by_station" title="Permalink to this definition"></a></dt>
+<dd><p>Plot frequency of actions by station as a barchart for several agents
+and selected episodes_names</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents_results</strong> – list of agent objects of class ‘Agents_Evaluation ‘ or class ‘Episode_Plot’</p></li>
+<li><p><strong>episodes_names</strong> – filter some episodes, if empty it will show all loaded episodes</p></li>
+<li><p><strong>title</strong> – plot title, if empty it will return default value</p></li>
+<li><p><strong>fig_kwargs</strong> – keyword for plotly arguments, example: height= 700</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_freq_by_station_pie_chart">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_actions_freq_by_station_pie_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Frequency</span> <span class="pre">of</span> <span class="pre">actions</span> <span class="pre">by</span> <span class="pre">station'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fig_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.plot_actions_freq_by_station_pie_chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_freq_by_station_pie_chart" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents_results</strong> – list of agent objects of class ‘Agents_Evaluation ‘ or class ‘Episode_Plot’</p></li>
+<li><p><strong>episodes_names</strong> – filter some episodes, if empty it will show all loaded episodes</p></li>
+<li><p><strong>title</strong> – plot title, if empty it will return default value</p></li>
+<li><p><strong>row</strong> – number of rows in plotly subplot</p></li>
+<li><p><strong>col</strong> – number of cols in plotly subplot, need to be customized based on number of agents</p></li>
+<li><p><strong>fig_kwargs</strong> – keyword for plotly arguments, example: height= 700</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_freq_by_type">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_actions_freq_by_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Frequency</span> <span class="pre">of</span> <span class="pre">actions</span> <span class="pre">by</span> <span class="pre">type'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fig_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.plot_actions_freq_by_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_freq_by_type" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents_results</strong> – list of agent objects of class ‘Agents_Evaluation ‘ or class ‘Episode_Plot’</p></li>
+<li><p><strong>episodes_names</strong> – filter some episodes, if empty it will show all loaded episodes</p></li>
+<li><p><strong>title</strong> – plot title, if empty it will return default value</p></li>
+<li><p><strong>fig_kwargs</strong> – keyword for plotly arguments, example: height= 700</p></li>
+<li><p><strong>row</strong> – number of rows in plotly subplot</p></li>
+<li><p><strong>col</strong> – number of cols in plotly subplot, need to be customized based on number of agents</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_sequence_length">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_actions_sequence_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Sequence</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">actions'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fig_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.plot_actions_sequence_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_sequence_length" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.plot_computation_times">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_computation_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Action</span> <span class="pre">Execution</span> <span class="pre">Time'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fig_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.plot_computation_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_computation_times" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents_results</strong> – list of agent objects of class ‘Agents_Evaluation ‘ or class ‘Episode_Plot’</p></li>
+<li><p><strong>episodes_names</strong> – filter some episodes, if empty it will show all loaded episodes</p></li>
+<li><p><strong>title</strong> – plot title, if empty it will return default value</p></li>
+<li><p><strong>fig_kwargs</strong> – keyword for plotly arguments, example: height= 700</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.plot_cumulative_reward">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_cumulative_reward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CumReward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Cumulative</span> <span class="pre">reward</span> <span class="pre">per</span> <span class="pre">episode'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fig_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.plot_cumulative_reward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_cumulative_reward" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.plot_distance_from_initial_topology">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_distance_from_initial_topology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Distance</span> <span class="pre">from</span> <span class="pre">initial</span> <span class="pre">topology'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fig_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.plot_distance_from_initial_topology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_distance_from_initial_topology" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents_results</strong> – list of agent objects of class ‘Agents_Evaluation ‘ or class ‘Episode_Plot’</p></li>
+<li><p><strong>episodes_names</strong> – filter some episodes, if empty it will show all loaded episodes</p></li>
+<li><p><strong>title</strong> – plot title, if empty it will return default value</p></li>
+<li><p><strong>fig_kwargs</strong> – keyword for plotly arguments, example: height= 700</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.AgentsAnalytics.AgentsAnalytics.plot_lines_impact">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_lines_impact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agents_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Overloaded</span> <span class="pre">Lines</span> <span class="pre">by</span> <span class="pre">station'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'overloaded'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fig_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/AgentsAnalytics.html#AgentsAnalytics.plot_lines_impact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_lines_impact" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agents_results</strong> – list of agent objects of class ‘Agents_Evaluation ‘ or class ‘Episode_Plot’</p></li>
+<li><p><strong>episodes_names</strong> – filter some episodes, if empty it will show all loaded episodes</p></li>
+<li><p><strong>title</strong> – plot title, if empty it will return default value</p></li>
+</ul>
+</dd>
+</dl>
+<p>:param disconnected, if True plots disconnected lines, else draws overflowed lines
+:param fig_kwargs: keyword for plotly arguments, example: height= 700</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-grid2bench.EpisodeDataExtractor">
+<span id="grid2bench-episodedataextractor-module"></span><h2>grid2bench.EpisodeDataExtractor module<a class="headerlink" href="#module-grid2bench.EpisodeDataExtractor" title="Permalink to this headline"></a></h2>
+<p>This module is used to extract only the information we need from
+the agent log files generated by the <a class="reference external" href="https://github.com/rte-france/Grid2Op">grid2op package</a></p>
+<p>Log files are obtained either by evaluating agent performance using the
+<a class="reference external" href="https://grid2op.readthedocs.io/en/latest/utils.html">L2RPN score</a> or
+by running the agent using the <a class="reference external" href="https://grid2op.readthedocs.io/en/latest/runner.html">Runner class</a> in grid2op.</p>
+<blockquote>
+<div><p>Typical usage example of the module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2012</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">act</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">get_action_by_timestamp</span><span class="p">(</span><span class="n">date_time</span><span class="p">)</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">get_observation_by_timestamp</span><span class="p">(</span><span class="n">date_time</span><span class="p">)</span>
+
+<span class="n">line_statuses</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">line_status</span>
+<span class="n">subs_on_bus_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">obs</span><span class="o">.</span><span class="n">n_sub</span><span class="p">)</span>
+<span class="n">objs_on_bus_2</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">n_sub</span><span class="p">)}</span>
+
+<span class="n">distance</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">get_distance_from_obs</span><span class="p">(</span>
+<span class="n">act</span><span class="p">,</span>
+<span class="n">line_statuses</span><span class="p">,</span>
+<span class="n">subs_on_bus_2</span><span class="p">,</span>
+<span class="n">objs_on_bus_2</span><span class="p">,</span>
+<span class="n">obs</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Distance from initial topology of the second action is :&#39;</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<dl class="py class">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">grid2bench.EpisodeDataExtractor.</span></span><span class="sig-name descname"><span class="pre">EpisodeDataExtractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_log_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episode_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used to extract and transform data from agent evaluation
+results log files.</p>
+<p>Extract only the useful information for us from grid2op’s
+<code class="xref py py-class docutils literal notranslate"><span class="pre">EpisodeData</span></code> class to reduce memory size, then prepare this data
+to calculate evaluation metrics.</p>
+<p>Attributes:</p>
+<ul class="simple">
+<li><p>agent_log_path: agent’s log file path</p></li>
+<li><p>agent_name: agent’s name, as the same name as the agent folder</p></li>
+<li><p>episode_name: episode name as the same name as the episode folder</p></li>
+<li><p>observations: list of observations in the episode</p></li>
+<li><p>actions: list of actions in the episode</p></li>
+<li><p>n_observation: number of observations in the episode</p></li>
+<li><p>n_action: number of actions in the episode, usually n_observation -1</p></li>
+<li><p>timestamps: list of episode timestamps</p></li>
+<li><p>computation_times: list of agent’s action execution times</p></li>
+<li><p>cum_reward: cumulative reward of the episode</p></li>
+<li><p>max_timestep: maximum time steps in the episode</p></li>
+<li><p>nb_timestep_played: number of played time steps completed in the episode
+before a game over.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.actions_freq_by_timestamp">
+<span class="sig-name descname"><span class="pre">actions_freq_by_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.actions_freq_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.actions_freq_by_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the number of unit actions in the episode.</p>
+<p>Unit actions including switched lines, topological impacts, redispatching,
+storage and curtailment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a DataFrame time series with columns: Timestamp, nb of unit
+actions, impacted substations and impacted lines.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">actions_freq_by_timestamp</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.actions_freq_by_type">
+<span class="sig-name descname"><span class="pre">actions_freq_by_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.actions_freq_by_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.actions_freq_by_type" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the number of unit actions by type whitin the episode</p>
+<p>Unit actions including switched lines, topological impacts, redispatching,
+storage and curtailment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Actions frequency of : NB line switched, NB topological change,
+NB redispatching, NB storage changes, NB curtailment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+<p>Example of usage :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">actions_freq_by_type</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.compute_action_sequences_length">
+<span class="sig-name descname"><span class="pre">compute_action_sequences_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.compute_action_sequences_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.compute_action_sequences_length" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the length of action sequence in an episode.</p>
+<p>A sequence of actions is defined by taking several actions in a
+non-disconnected sequence of time steps. A non-disconnected sequence means
+that there is no “do nothing” in the sequence.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Sequence 1 : Switch bus action, Topological changes, Do nothing
+–&gt; Sequence of length 2</p></li>
+<li><p>Sequence 2 : Switch bus action, Do nothing, Topological changes
+–&gt; not a sequence</p></li>
+<li><p>Sequence 3 : Switch bus action, Topological changes, Do nothing, Switch
+bus action, Topological changes, Topological changes, Do nothing –&gt;
+two sequences, the first of length 2 and the second of length 3</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a DataFrame time series with columns: Timestamp, Sequence
+length, NB action, Impacted subs, Impacted lines</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+<p>Example of usage :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">df_actions_sequence</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">compute_action_sequences_length</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_actions_sequence</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_curtailment_df">
+<span class="sig-name descname"><span class="pre">create_curtailment_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.create_curtailment_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_curtailment_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_dispatch_df">
+<span class="sig-name descname"><span class="pre">create_dispatch_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.create_dispatch_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_dispatch_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_force_line_df">
+<span class="sig-name descname"><span class="pre">create_force_line_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.create_force_line_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_force_line_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_injection_df">
+<span class="sig-name descname"><span class="pre">create_injection_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.create_injection_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_injection_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_storage_df">
+<span class="sig-name descname"><span class="pre">create_storage_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.create_storage_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_storage_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_topology_df">
+<span class="sig-name descname"><span class="pre">create_topology_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.create_topology_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.create_topology_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.disconnected_lines_by_timestamp">
+<span class="sig-name descname"><span class="pre">disconnected_lines_by_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Set</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.disconnected_lines_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.disconnected_lines_by_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Returns disconnected lines at each episode timestamp</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>disconnected lines impacted by agent actions</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>a list of dictionaries {Timestamp, Disconnected lines}</p>
+</dd>
+</dl>
+<p>Example of usage :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">dict_list</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">disconnected_lines_by_timestamp</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dict_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_action_by_timestamp">
+<span class="sig-name descname"><span class="pre">get_action_by_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">grid2op.Action.BaseAction.BaseAction</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.get_action_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_action_by_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Get the grid2op action object whose timestamp is date_time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date_time</strong> (<em>datetime</em>) – the datetime sought</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Action if exists otherwise raise Error</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>grid2op.BaseAction object</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2012</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">act</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">get_observation_by_timestamp</span><span class="p">(</span><span class="n">date_time</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">act</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_action_id">
+<span class="sig-name descname"><span class="pre">get_action_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.get_action_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_action_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_computation_time_by_timestamp">
+<span class="sig-name descname"><span class="pre">get_computation_time_by_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.get_computation_time_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_computation_time_by_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Get agent action execution time at timestamp date_time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date_time</strong> (<em>datetime</em>) – the datetime sought</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>action execution time in seconds if found, raise an error otherwise</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2012</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">execution_time</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">get_computation_time_by_timestamp</span><span class="p">(</span>
+<span class="n">date_time</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">execution_time</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_distance_from_obs">
+<span class="sig-name descname"><span class="pre">get_distance_from_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">act</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_statuses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subs_on_bus_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objs_on_bus_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.get_distance_from_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_distance_from_obs" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the number of changes compared to the initial topology</p>
+<p>A function reused from grid2vis package (
+<a class="reference external" href="https://github.com/rte-france/grid2viz">https://github.com/rte-france/grid2viz</a>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>act</strong> (<em>grid2op.BaseAction object</em>) – the agent’s action</p></li>
+<li><p><strong>line_statuses</strong> (<em>list</em>) – line status (connected/disconnected)</p></li>
+<li><p><strong>subs_on_bus_2</strong> (<em>list</em>) – substation connected on buses 2</p></li>
+<li><p><strong>objs_on_bus_2</strong> (<em>list</em>) – objects connected on buses 2</p></li>
+<li><p><strong>obs</strong> (<em>grid2op.BaseObservation</em>) – observation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>distance, line_statuses, subs_on_bus_2, objs_on_bus_2</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_observation_by_timestamp">
+<span class="sig-name descname"><span class="pre">get_observation_by_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">grid2op.Observation.baseObservation.BaseObservation</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.get_observation_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_observation_by_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Get the grid2op observation object whose timestamp is date_time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date_time</strong> (<em>datetime</em>) – the datetime sought</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Observation if exists otherwise raise Error</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>grid2op.BaseObservation object</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2012</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">get_observation_by_timestamp</span><span class="p">(</span><span class="n">date_time</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">to_vect</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_timestep_by_datetime">
+<span class="sig-name descname"><span class="pre">get_timestep_by_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.get_timestep_by_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.get_timestep_by_datetime" title="Permalink to this definition"></a></dt>
+<dd><p>Get the order of a given timestamp in the episode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date_time</strong> (<em>datetime</em>) – datetime sought</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>order of the date_time, raise an error otherwise</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2012</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">timestep</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">get_timestep_by_datetime</span><span class="p">(</span><span class="n">date_time</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The timestep of </span><span class="si">{}</span><span class="s1"> is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date_time</span><span class="p">,</span> <span class="n">timestep</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.impacted_lines">
+<span class="sig-name descname"><span class="pre">impacted_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.impacted_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.impacted_lines" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the lines impacted by an action with a given time step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>timestep</strong> (<em>int</em>) – the time step in the episode</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of impacted line names</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of strings</p>
+</dd>
+</dl>
+<p>Example of usage :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">impacted_lines</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">impacted_lines</span><span class="p">(</span><span class="n">timestep</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">impacted_lines</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.impacted_subs">
+<span class="sig-name descname"><span class="pre">impacted_subs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.impacted_subs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.impacted_subs" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the substations impacted by an action with a given time step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>timestep</strong> (<em>int</em>) – the time step in the episode</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of impacted substation names</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of strings</p>
+</dd>
+</dl>
+<p>Example of usage :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">impacted_subs</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">impacted_subs</span><span class="p">(</span><span class="n">timestep</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">impacted_subs</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.impacted_subs_by_timestamp">
+<span class="sig-name descname"><span class="pre">impacted_subs_by_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Set</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.impacted_subs_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.impacted_subs_by_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the impacted substations at each timestamp within the episode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>substation impacted by agent actions</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>a list of dictionaries {Timestamp, Sub impacted}</p>
+</dd>
+</dl>
+<p>Example of usage :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">dict_list</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">impacted_subs_by_timestamp</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dict_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.overloaded_lines_by_timestamp">
+<span class="sig-name descname"><span class="pre">overloaded_lines_by_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Set</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.overloaded_lines_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.overloaded_lines_by_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Returns overloaded lines at each episode timestamp</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>overloaded lines impacted by agent actions</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>a list of dictionaries {Timestamp, Overloaded lines}</p>
+</dd>
+</dl>
+<p>Example of usage :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+
+<span class="c1"># import episode data</span>
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_name</span> <span class="o">=</span> <span class="s1">&#39;dec16_1&#39;</span>
+<span class="n">episode_data</span> <span class="o">=</span> <span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span>
+
+<span class="n">dict_list</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">overloaded_lines_by_timestamp</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dict_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.update_objs_on_bus">
+<span class="sig-name descname"><span class="pre">update_objs_on_bus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objs_on_bus_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo_vect_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.update_objs_on_bus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.update_objs_on_bus" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.update_objs_on_bus_assign">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_objs_on_bus_assign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objs_on_bus_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_topo_vect</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.update_objs_on_bus_assign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.update_objs_on_bus_assign" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.update_objs_on_bus_switch">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_objs_on_bus_switch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objs_on_bus_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_topo_vect</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodeDataExtractor.html#EpisodeDataExtractor.update_objs_on_bus_switch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor.update_objs_on_bus_switch" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-grid2bench.EpisodesDataTransformer">
+<span id="grid2bench-episodesdatatransformer-module"></span><h2>grid2bench.EpisodesDataTransformer module<a class="headerlink" href="#module-grid2bench.EpisodesDataTransformer" title="Permalink to this headline"></a></h2>
+<p>This module is used to transform data already extracted using the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">EpisodeDataExtractor</span></code> class, and to prepare it for visualization.</p>
+<p>The module is also used to store several episode information for later use,
+such as metrics evaluation</p>
+<blockquote>
+<div><p>Typical usage example of the module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># sequence actions for all loaded episodes</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">actions_freq_by_type_several_episodes</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Frequency of actions by type for all episodes </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+
+<span class="c1"># sequence actions for only selected episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">actions_freq_by_type_several_episodes</span><span class="p">(</span>
+      <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Frequency of actions by type for dec16_1 episode </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<dl class="py class">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">grid2bench.EpisodesDataTransformer.</span></span><span class="sig-name descname"><span class="pre">EpisodesDataTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used to load multiple episode data at once and then
+prepare it for analysis based to specific metrics.</p>
+<p>Attributes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>agent_path: agent’s log file path</p></li>
+<li><p>agent_name: agent’s name, as the same name as the agent folder</p></li>
+<li><p>episodes_names: list of episode names with the same name as the episode
+data folder</p></li>
+<li><p>episodes_data: list of <code class="xref py py-class docutils literal notranslate"><span class="pre">EpisodeDataExtractor</span></code></p></li>
+<li><p>n_lines: number lines in the power grid</p></li>
+<li><p>n_episode: number of episodes loaded in episodes_data</p></li>
+</ul>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.action_sequences_to_dict">
+<span class="sig-name descname"><span class="pre">action_sequences_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.action_sequences_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.action_sequences_to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Helper function to transform sequence of actions df to dict.</p>
+<p>Transform the data structure and prepare it for plotting with plotly’s
+gantt chart</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p></li>
+<li><p><strong>min_length</strong> (<em>int</em>) – minimum length of sequence</p></li>
+<li><p><strong>max_length</strong> (<em>int</em>) – maximum length of sequence</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a dictionary list of : Type, Start, Finish, Actions,</p>
+</dd>
+</dl>
+<p>Actions_percent.
+:rtype: dictionary list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.actions_freq_by_station_several_episodes">
+<span class="sig-name descname"><span class="pre">actions_freq_by_station_several_episodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.actions_freq_by_station_several_episodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.actions_freq_by_station_several_episodes" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the impacted substations at each timestamp for all episodes in
+episodes_names.</p>
+<p>If episodes_names=None, then returns the results of all loaded episodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>impacted substations by agent actions</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a list of dictionaries {Timestamp, Sub impacted}</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># all loaded episodes</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">actions_freq_by_station_several_episodes</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Frequency of actions by station for all episodes </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+
+<span class="c1"># selected episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">actions_freq_by_station_several_episodes</span><span class="p">(</span>
+          <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Frequency of actions by station for dec16_1 episode </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.actions_freq_by_type_several_episodes">
+<span class="sig-name descname"><span class="pre">actions_freq_by_type_several_episodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.actions_freq_by_type_several_episodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.actions_freq_by_type_several_episodes" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the number of unit actions by type for all episodes in
+episodes_names</p>
+<p>If episodes_names=None, then returns the results of all loaded episodes.</p>
+<p>Unit actions including switched lines, topological impacts, redispatching,
+storage and curtailment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Actions frequency of : NB line switched, NB topological change,
+NB redispatching, NB storage changes, NB curtailment</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># actions frequency by type for all loaded episodes</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">actions_freq_by_type_several_episodes</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Frequency of actions by type for all episodes </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+
+<span class="c1"># actions frequency for only selected episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">actions_freq_by_type_several_episodes</span><span class="p">(</span>
+          <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Frequency of actions by type for dec16_1 episode </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.computation_times_several_episodes">
+<span class="sig-name descname"><span class="pre">computation_times_several_episodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.computation_times_several_episodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.computation_times_several_episodes" title="Permalink to this definition"></a></dt>
+<dd><p>Action execution times at each timestamp for all episodes in
+episodes_names.</p>
+<p>If episodes_names=None, then returns the results of all loaded episodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a dataframe of execution times (s) at each timestamp</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># all loaded episodes</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">computation_times_several_episodes</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Actions execution times for all episodes </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+
+<span class="c1"># filter selected episodes, if episodes_names == default value then</span>
+<span class="c1"># return results from all loaded episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">computation_times_several_episodes</span><span class="p">(</span>
+          <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Actions execution times for dec16_1 episode </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.disconnected_lines_freq_several_episodes">
+<span class="sig-name descname"><span class="pre">disconnected_lines_freq_several_episodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.disconnected_lines_freq_several_episodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.disconnected_lines_freq_several_episodes" title="Permalink to this definition"></a></dt>
+<dd><p>Disconnected lines for all episodes in episodes_names.</p>
+<p>If episodes_names=None, then returns the results of all loaded episodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>frequency of disconnected lines</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dataframe</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># filter selected episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">disconnected_lines_freq_several_episodes</span><span class="p">(</span>
+  <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.display_detailed_action_type">
+<span class="sig-name descname"><span class="pre">display_detailed_action_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.display_detailed_action_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.display_detailed_action_type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.display_sequence_actions">
+<span class="sig-name descname"><span class="pre">display_sequence_actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.display_sequence_actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.display_sequence_actions" title="Permalink to this definition"></a></dt>
+<dd><p>Return sequence of actions as a flattened list for all episodes in
+episodes_names.</p>
+<p>If episodes_names=None, then returns the results of all loaded episodes.</p>
+<p>A sequence of actions is defined by taking several actions in a
+non-disconnected sequence of time steps. A non-disconnected sequence means
+that there is no “do nothing” in the sequence.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Sequence 1 : Switch bus action, Topological changes, Do nothing
+–&gt; Sequence of length 2</p></li>
+<li><p>Sequence 2 : Switch bus action, Do nothing, Topological changes
+–&gt; not a sequence</p></li>
+<li><p>Sequence 3 : Switch bus action, Topological changes, Do nothing, Switch
+bus action, Topological changes, Topological changes, Do nothing –&gt;
+two sequences, the first of length 2 and the second of length 3</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p></li>
+<li><p><strong>min_length</strong> (<em>int</em>) – minimum length of sequence</p></li>
+<li><p><strong>max_length</strong> (<em>int</em>) – maximum length of sequence</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a DataFrame with columns: Timestamp, Sequence start, Sequence end,
+Sequence length, NB actions, NB unitary actions, Impacted Subs,
+Impacted lines</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># filter selected episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">display_sequence_actions</span><span class="p">(</span>
+  <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">],</span>
+  <span class="n">min_length</span><span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">max_length</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sequence actions in dec16_1 episode </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.display_sequence_actions_filter">
+<span class="sig-name descname"><span class="pre">display_sequence_actions_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.display_sequence_actions_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.display_sequence_actions_filter" title="Permalink to this definition"></a></dt>
+<dd><p>Display sequence actions as separate dataframes for all episodes in
+episodes_names.</p>
+<p>If episodes_names=None, then returns the results of all loaded episodes.</p>
+<p>A sequence of actions is defined by taking several actions in a
+non-disconnected sequence of time steps. A non-disconnected sequence means
+that there is no “do nothing” in the sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p></li>
+<li><p><strong>min_length</strong> (<em>int</em>) – minimum length of sequence</p></li>
+<li><p><strong>max_length</strong> (<em>int</em>) – maximum length of sequence</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a DataFrame time series with columns: Timestamp, Sequence
+length, NB unitary actions, Impacted subs, Impacted lines</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># filter selected episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">expert_agent</span><span class="o">.</span><span class="n">display_sequence_actions_filter</span><span class="p">(</span>
+  <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">],</span>
+  <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+  <span class="n">max_length</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.distance_from_initial_topology">
+<span class="sig-name descname"><span class="pre">distance_from_initial_topology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.distance_from_initial_topology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.distance_from_initial_topology" title="Permalink to this definition"></a></dt>
+<dd><p>Number of changes compared to initial topology at each timestamp
+for all episodes in episodes_names.</p>
+<p>If episodes_names=None, then returns the results of all loaded episodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>distance from initial topology at each timestamp</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># filter selected episodes, if episodes_names == default value then</span>
+<span class="c1"># return results from all loaded episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">distance_from_initial_topology</span><span class="p">(</span>
+          <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Distance from initial topology for dec16_1 episode </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.get_action_by_timestamp">
+<span class="sig-name descname"><span class="pre">get_action_by_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">grid2op.Action.BaseAction.BaseAction</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.get_action_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.get_action_by_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Get the grid2op action object whose timestamp is date_time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>timestamp_str</strong> (<em>str</em>) – the datetime sought ‘%Y-%m-%d %H:%M:%S’</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Action if exists otherwise raise Error</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>grid2op.BaseAction object</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="n">str_date_time</span> <span class="o">=</span> <span class="s1">&#39;2012-12-04 07:10:00&#39;</span>
+<span class="n">act</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">get_action_by_timestamp</span><span class="p">(</span><span class="n">str_date_time</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">act</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.get_observation_by_timestamp">
+<span class="sig-name descname"><span class="pre">get_observation_by_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">grid2op.Observation.baseObservation.BaseObservation</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.get_observation_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.get_observation_by_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Get the grid2op Observation object whose timestamp is date_time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>timestamp_str</strong> (<em>str</em>) – the datetime sought ‘%Y-%m-%d %H:%M:%S’</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Observation if exists otherwise raise Error</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>grid2op.BaseObservation object</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="n">str_date_time</span> <span class="o">=</span> <span class="s1">&#39;2012-12-04 07:10:00&#39;</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">get_observation_by_timestamp</span><span class="p">(</span><span class="n">str_date_time</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.get_sequence_actions">
+<span class="sig-name descname"><span class="pre">get_sequence_actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame.groupby</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.get_sequence_actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.get_sequence_actions" title="Permalink to this definition"></a></dt>
+<dd><p>Return sequence actions as grouped dataframe for all episodes in
+episodes_names.</p>
+<p>If episodes_names=None, then returns the results of all loaded episodes.</p>
+<p>A sequence of actions is defined by taking several actions in a
+non-disconnected sequence of time steps. A non-disconnected sequence means
+that there is no “do nothing” in the sequence.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Sequence 1 : Switch bus action, Topological changes, Do nothing
+–&gt; Sequence of length 2</p></li>
+<li><p>Sequence 2 : Switch bus action, Do nothing, Topological changes
+–&gt; not a sequence</p></li>
+<li><p>Sequence 3 : Switch bus action, Topological changes, Do nothing, Switch
+bus action, Topological changes, Topological changes, Do nothing –&gt;
+two sequences, the first of length 2 and the second of length 3</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a DataFrame time series with columns: Timestamp, Sequence
+length, NB action, Impacted subs, Impacted lines</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+<p>Example of usage :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># filter selected episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">get_sequence_actions</span><span class="p">(</span>
+          <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;First sequence of actions in dec16_1 episode </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">first</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.load_all_episodes">
+<span class="sig-name descname"><span class="pre">load_all_episodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#grid2bench.EpisodeDataExtractor.EpisodeDataExtractor" title="grid2bench.EpisodeDataExtractor.EpisodeDataExtractor"><span class="pre">grid2bench.EpisodeDataExtractor.EpisodeDataExtractor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.load_all_episodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.load_all_episodes" title="Permalink to this definition"></a></dt>
+<dd><p>Load episodes data from the episodes_names list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list of EpisodeDataExtractor</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of EpisodeDataExtractor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.overloaded_lines_freq_several_episodes">
+<span class="sig-name descname"><span class="pre">overloaded_lines_freq_several_episodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episodes_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/grid2bench/EpisodesDataTransformer.html#EpisodesDataTransformer.overloaded_lines_freq_several_episodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.overloaded_lines_freq_several_episodes" title="Permalink to this definition"></a></dt>
+<dd><p>Overloaded lines for all episodes in episodes_names.</p>
+<p>If episodes_names=None, then returns the results of all loaded episodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>episodes_names</strong> (<em>list of str</em>) – filter specific episodes. If none, returns results
+for all loaded episodes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>frequency of overloaded lines</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dataframe</p>
+</dd>
+</dl>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+<span class="n">agent_log_path</span> <span class="o">=</span> <span class="s1">&#39;../data/input/Expert_Agent&#39;</span>
+<span class="n">episode_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dec16_2&#39;</span><span class="p">]</span>
+
+<span class="c1"># loading episodes data</span>
+<span class="n">expert_agent</span> <span class="o">=</span> <span class="n">EpisodesDataTransformer</span><span class="p">(</span><span class="n">agent_log_path</span><span class="p">,</span> <span class="n">episode_names</span><span class="p">)</span>
+
+<span class="c1"># filter selected episodes</span>
+<span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">expert_agent</span><span class="o">.</span><span class="n">overloaded_lines_freq_several_episodes</span><span class="p">(</span>
+  <span class="n">episodes_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dec16_1&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-grid2bench">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-grid2bench" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="kpi.html" class="btn btn-neutral float-left" title="KPI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Seif-Eddine ATTOUI, Milad LEYLI-ABADI, Fereshteh ASGARI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

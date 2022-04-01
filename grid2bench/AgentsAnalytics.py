@@ -75,8 +75,10 @@ class AgentsAnalytics:
 
     :param data_path: parent directory path for agent log files
     :param agents_names: a list of each agent repository name,
-    if empty (not recommended) it will load all repositories in the data path
-    :param episodes_names: a list of episode names, must be the same on all agents
+                         if empty (not recommended) it will load all
+                         repositories in the data path
+    :param episodes_names: list of episode names with the same name as the
+                           episode data folder
     """
     self.data_path = data_path
     self.agents_names = agents_names
@@ -84,10 +86,14 @@ class AgentsAnalytics:
 
     self.agents_data = self.load_agents_results()
 
-  def load_agents_results(self):
-    """
+  def load_agents_results(self) -> List[EpisodesDataTransformer]:
+    """Load agents' episodes data from the episodes_names list.
 
-    :return:
+    Each element of the list contains agent's episodes data as
+    :class:`EpisodesDataTransformer`
+
+    :return: list of agents' episodes
+    :rtype: list of :class:`EpisodesDataTransformer`
     """
     if not self.agents_names:
       self.agents_names = [name for name in os.listdir(self.data_path) if
@@ -103,10 +109,13 @@ class AgentsAnalytics:
       episodes_names=self.episodes_names) for agent_name in self.agents_names]
 
   @staticmethod
-  def plot_actions_freq_by_station(agents_results=[], episodes_names=[],
-                                   title='Frequency of actions by station',
-                                   **fig_kwargs):
-    """
+  def plot_actions_freq_by_station(
+      agents_results: Optional[List] = None,
+      episodes_names: Optional[List] = None,
+      title: Optional[str] = 'Frequency of actions by station',
+      **fig_kwargs):
+    """Plot frequency of actions by station as a barchart for several agents
+    and selected episodes_names
 
     :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
     :param episodes_names: filter some episodes, if empty it will show all loaded episodes
