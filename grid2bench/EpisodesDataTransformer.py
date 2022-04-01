@@ -59,7 +59,7 @@ class EpisodesDataTransformer:
     - agent_name: agent's name, as the same name as the agent folder
     - episodes_names: list of episode names with the same name as the episode
       data folder
-    - episodes_data: list of :class: EpisodeDataExtractor
+    - episodes_data: list of :class:`EpisodeDataExtractor`
     - n_lines: number lines in the power grid
     - n_episode: number of episodes loaded in episodes_data
 

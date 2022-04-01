@@ -2,7 +2,43 @@
 # IRT-SystemX (https://www.irt-systemx.fr), RTE (https://www.rte-france.com)
 # See authors in pyporject.toml
 # SPDX-License-Identifier: MPL-2.0
-"""
+"""This module allows to benchmark several agents in several scenarios
+through predefined KPIs (see KPI section).
+
+The module uses the `plotly package <https://plotly.com/>`_ to visualize
+these KPIs in the form of graphs.
+
+The modules load data in the forms :class:`EpisodesDataTransformer` and
+:class:`EpisodesDataExtractor` . You can access these objects like this:
+
+  .. code-block:: python
+
+    from grid2bench.AgentsAnalytics import AgentsAnalytics
+
+    input_data_path = os.path.abspath('../data/input')
+    agents_names = ['Expert_Agent', 'IEE_PPO_Agent']
+    episodes_names = ['dec16_1', 'dec16_2']
+
+    # loading data
+    agents = AgentsAnalytics(
+      data_path=input_data_path,
+      agents_names=agents_names,
+      episodes_names=episodes_names
+    )
+
+    # get indexes
+    expert_agent_idx = agents.agents_names.index('Expert_Agent')
+    dec16_2_idx = agents.episodes_names.index('dec16_2')
+
+    # access expert agent all episodes results --> EpisodesDataTransformer class
+    episodes = agents.agents_data[expert_agent_idx]
+    print('Loaded episodes for {} are : {}'.format(
+      episodes.agent_name,
+      episodes.episodes_names))
+
+    # access expert agent dec16_2 episode results --> EpisodeDataExtractor class
+    dec16_2 = agents.agents_data[expert_agent_idx].episodes_data[dec16_2_idx]
+    print('Episode name: {}'.format(dec16_2.episode_name))
 
 """
 import os
@@ -12,29 +48,43 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from typing import List, Optional, Dict
 
 from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer
 
 
 class AgentsAnalytics:
-  """
+  """This class is used to benchmark several agents in several scenarios.
+
+  It is also used to store agents' episode results via the agents_data attribute
+
+  Attributes:
+
+    - data_path: data folder path, parent directory path for agent log files
+    - agents_names: list of agents names with the same name as the agent's
+      data folders
+    - episodes_names: list of episode names with the same name as the episode
+      data folders
+    - agents_data: list of :class:`EpisodesDataTransformer`
 
   """
 
-  def __init__(self, data_path: str, agents_names=[], episodes_names=[]):
-    """
+  def __init__(self, data_path: str, agents_names: Optional[List] = None,
+               episodes_names: Optional[List] = None):
+    """Init and loading data for the class.
 
     :param data_path: parent directory path for agent log files
-    :param agents_names: a list of each agent repository name, if empty (not recommended) it will load all repositories in the data path
+    :param agents_names: a list of each agent repository name,
+    if empty (not recommended) it will load all repositories in the data path
     :param episodes_names: a list of episode names, must be the same on all agents
     """
     self.data_path = data_path
     self.agents_names = agents_names
     self.episodes_names = episodes_names
 
-    self.agents_data = self.load_agents_resutls()
+    self.agents_data = self.load_agents_results()
 
-  def load_agents_resutls(self):
+  def load_agents_results(self):
     """
 
     :return:
@@ -43,11 +93,14 @@ class AgentsAnalytics:
       self.agents_names = [name for name in os.listdir(self.data_path) if
                            os.path.isdir(os.path.join(self.data_path, name))]
 
-    return [
-      EpisodesDataTransformer(
-        agent_path=os.path.join(self.data_path, agent_name),
-        episodes_names=self.episodes_names)
-      for agent_name in self.agents_names]
+    if not self.episodes_names:
+      self.episodes_names = [name for name in os.listdir(
+        os.path.join(self.data_path, self.agents_names[0])) if os.path.isdir(
+        os.path.join(self.data_path, self.agents_names[0], name))]
+
+    return [EpisodesDataTransformer(
+      agent_path=os.path.join(self.data_path, agent_name),
+      episodes_names=self.episodes_names) for agent_name in self.agents_names]
 
   @staticmethod
   def plot_actions_freq_by_station(agents_results=[], episodes_names=[],
@@ -84,8 +137,8 @@ class AgentsAnalytics:
       y_list.append(df[agent_names[i]].to_list())
 
     fig = px.bar(x=df['Substation'].to_list(), y=y_list, text_auto='.2s',
-                 labels={'x': 'Station', 'value': 'Frequency'},
-                 barmode='group', title=title)
+                 labels={'x': 'Station', 'value': 'Frequency'}, barmode='group',
+                 title=title)
 
     fig.for_each_trace(
       lambda t: t.update(name=newnames[t.name], legendgroup=newnames[t.name],
@@ -171,8 +224,7 @@ class AgentsAnalytics:
           episodes_names)
         fig.add_trace(
           go.Pie(labels=data['Substation'], values=data['Frequency'],
-                 name=agent_names[i + j]), i + 1,
-          j + 1)
+                 name=agent_names[i + j]), i + 1, j + 1)
 
     fig.update_traces(textposition='inside')
     fig.update_layout(title_text=title, uniformtext_minsize=12,
@@ -198,10 +250,12 @@ class AgentsAnalytics:
     agent_names.append(agents_results[0].agent_name)
 
     if fig_type == 'overloaded':
-      df = agents_results[0].overloaded_lines_freq_several_episodes(episodes_names)
+      df = agents_results[0].overloaded_lines_freq_several_episodes(
+        episodes_names)
       df = df.rename(columns={'Overloaded': agents_results[0].agent_name})
     else:
-      df = agents_results[0].disconnected_lines_freq_several_episodes(episodes_names)
+      df = agents_results[0].disconnected_lines_freq_several_episodes(
+        episodes_names)
       df = df.rename(columns={'Disconnected': agents_results[0].agent_name})
       title = 'Disconnected Lines by station'
 
@@ -271,8 +325,7 @@ class AgentsAnalytics:
                    mode='lines+markers', name=agent_name))
 
     fig.update_layout(xaxis={'rangeslider': {'visible': True}}, title=title,
-                      xaxis_title='Timestamp',
-                      yaxis_title='Execution Time (s)')
+                      xaxis_title='Timestamp', yaxis_title='Execution Time (s)')
     fig.update_layout(**fig_kwargs)
 
     return fig
@@ -308,12 +361,10 @@ class AgentsAnalytics:
     for agent_name in agent_names:
       fig.add_trace(
         go.Scatter(x=df['Timestamp'].tolist(), y=df[agent_name].tolist(),
-                   mode='lines+markers', line_shape='hvh',
-                   name=agent_name))
+                   mode='lines+markers', line_shape='hvh', name=agent_name))
 
     fig.update_layout(xaxis={'rangeslider': {'visible': True}}, title=title,
-                      xaxis_title='Timestamp',
-                      yaxis_title='Distance')
+                      xaxis_title='Timestamp', yaxis_title='Distance')
     fig.update_layout(**fig_kwargs)
 
     return fig
@@ -321,20 +372,18 @@ class AgentsAnalytics:
   @staticmethod
   def plot_actions_sequence_length(agents_data, episodes_names=[],
                                    title='Sequence length of actions',
-                                   min_length: int = 0,
-                                   max_length: int = 400, **fig_kwargs):
+                                   min_length: int = 0, max_length: int = 400,
+                                   **fig_kwargs):
 
     plot_data = []
     for agent in agents_data:
-      plot_data.extend(agent.action_sequences_to_dict(episodes_names,
-                                                      min_length,
-                                                      max_length))
+      plot_data.extend(
+        agent.action_sequences_to_dict(episodes_names, min_length, max_length))
 
     fig = px.timeline(plot_data, x_start='Start', x_end='Finish', y='Type',
                       color='Actions',
                       labels={'Type': 'Agent ', 'Actions': 'Action Sequence'},
-                      title=title,
-                      color_continuous_scale=['green', 'red'], )
+                      title=title, color_continuous_scale=['green', 'red'], )
     fig.update_layout(xaxis={'rangeslider': {'visible': True}})
     fig.update_layout(**fig_kwargs)
 
@@ -389,8 +438,8 @@ class AgentsAnalytics:
       title = x_title = 'Accomplished time steps'
 
     fig = px.bar(x=agent_episodes, y=y_list, text_auto='.2s',
-                 labels={'x': 'Scenario', 'value': x_title},
-                 barmode='group', title=title)
+                 labels={'x': 'Scenario', 'value': x_title}, barmode='group',
+                 title=title)
 
     fig.for_each_trace(
       lambda t: t.update(name=new_names[t.name], legendgroup=new_names[t.name],
