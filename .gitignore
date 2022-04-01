@@ -131,3 +131,4 @@ dmypy.json
 .vscode
 /notebooks/.ipynb_checkpoints/
 /notebooks/.ipynb_checkpoints/
+/docs/build/
