@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>grid2bench.EpisodesDataTransformer &mdash; Grid2Bench 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Grid2Bench
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kpi.html">KPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../grid2bench.html">grid2bench package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Grid2Bench</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>grid2bench.EpisodesDataTransformer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for grid2bench.EpisodesDataTransformer</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2022,</span>
+<span class="c1"># IRT-SystemX (https://www.irt-systemx.fr), RTE (https://www.rte-france.com)</span>
+<span class="c1"># See authors in pyporject.toml</span>
+<span class="c1"># SPDX-License-Identifier: MPL-2.0</span>
+<span class="sd">&quot;&quot;&quot;This module is used to transform data already extracted using the</span>
+<span class="sd">:class:`EpisodeDataExtractor` class, and to prepare it for visualization.</span>
+
+<span class="sd">The module is also used to store several episode information for later use,</span>
+<span class="sd">such as metrics evaluation</span>
+
+<span class="sd">  Typical usage example of the module:</span>
+
+<span class="sd">  .. code-block:: python</span>
+
+<span class="sd">    from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">    agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">    episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">    # loading episodes data</span>
+<span class="sd">    expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">    # sequence actions for all loaded episodes</span>
+<span class="sd">    df1 = expert_agent.actions_freq_by_type_several_episodes()</span>
+<span class="sd">    print(&#39;Frequency of actions by type for all episodes \\n&#39;,df1)</span>
+
+<span class="sd">    # sequence actions for only selected episodes</span>
+<span class="sd">    episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">    df2 = expert_agent.actions_freq_by_type_several_episodes(</span>
+<span class="sd">          episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">    print(&#39;Frequency of actions by type for dec16_1 episode \\n&#39;, df2)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">qgrid</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">grid2op.Action</span> <span class="kn">import</span> <span class="n">BaseAction</span>
+<span class="kn">from</span> <span class="nn">grid2op.Observation</span> <span class="kn">import</span> <span class="n">BaseObservation</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span> <span class="nn">grid2bench.EpisodeDataExtractor</span> <span class="kn">import</span> <span class="n">EpisodeDataExtractor</span>
+
+
+<div class="viewcode-block" id="EpisodesDataTransformer"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer">[docs]</a><span class="k">class</span> <span class="nc">EpisodesDataTransformer</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;This class is used to load multiple episode data at once and then</span>
+<span class="sd">  prepare it for analysis based to specific metrics.</span>
+
+<span class="sd">  Attributes:</span>
+
+<span class="sd">    - agent_path: agent&#39;s log file path</span>
+<span class="sd">    - agent_name: agent&#39;s name, as the same name as the agent folder</span>
+<span class="sd">    - episodes_names: list of episode names with the same name as the episode</span>
+<span class="sd">      data folder</span>
+<span class="sd">    - episodes_data: list of :class:`EpisodeDataExtractor`</span>
+<span class="sd">    - n_lines: number lines in the power grid</span>
+<span class="sd">    - n_episode: number of episodes loaded in episodes_data</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Init and loading data for the class.</span>
+
+<span class="sd">    :param agent_path: agent log file path</span>
+<span class="sd">    :type agent_path: str</span>
+<span class="sd">    :param episodes_names: list of episode names to load, it must be the same</span>
+<span class="sd">     name as the episode folders</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">agent_path</span> <span class="o">=</span> <span class="n">agent_path</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span> <span class="o">=</span> <span class="n">episodes_names</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">agent_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">agent_path</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_all_episodes</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">n_lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_n_lines</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">n_episode</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span><span class="p">)</span>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.load_all_episodes"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.load_all_episodes">[docs]</a>  <span class="k">def</span> <span class="nf">load_all_episodes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodeDataExtractor</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Load episodes data from the episodes_names list.</span>
+
+<span class="sd">    :return: list of EpisodeDataExtractor</span>
+<span class="sd">    :rtype: list of EpisodeDataExtractor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_path</span><span class="p">)</span> <span class="k">if</span>
+                             <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_path</span><span class="p">,</span> <span class="n">name</span><span class="p">))]</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">EpisodeDataExtractor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_path</span><span class="p">,</span> <span class="n">episode_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">episode_name</span>
+            <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.get_action_by_timestamp"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.get_action_by_timestamp">[docs]</a>  <span class="k">def</span> <span class="nf">get_action_by_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseAction</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the grid2op action object whose timestamp is date_time.</span>
+
+<span class="sd">    :param timestamp_str: the datetime sought &#39;%Y-%m-%d %H:%M:%S&#39;</span>
+<span class="sd">    :type timestamp_str: str</span>
+<span class="sd">    :return: Action if exists otherwise raise Error</span>
+<span class="sd">    :rtype: grid2op.BaseAction object</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      str_date_time = &#39;2012-12-04 07:10:00&#39;</span>
+<span class="sd">      act = expert_agent.get_action_by_timestamp(str_date_time)</span>
+<span class="sd">      print(act)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+      <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">timestamp_str</span><span class="p">,</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">timestamp</span> <span class="ow">in</span> <span class="n">episode</span><span class="o">.</span><span class="n">timestamps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">episode</span><span class="o">.</span><span class="n">get_action_by_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.get_observation_by_timestamp"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.get_observation_by_timestamp">[docs]</a>  <span class="k">def</span> <span class="nf">get_observation_by_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseObservation</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the grid2op Observation object whose timestamp is date_time.</span>
+
+<span class="sd">    :param timestamp_str: the datetime sought &#39;%Y-%m-%d %H:%M:%S&#39;</span>
+<span class="sd">    :type timestamp_str: str</span>
+<span class="sd">    :return: Observation if exists otherwise raise Error</span>
+<span class="sd">    :rtype: grid2op.BaseObservation object</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      str_date_time = &#39;2012-12-04 07:10:00&#39;</span>
+<span class="sd">      obs = expert_agent.get_observation_by_timestamp(str_date_time)</span>
+<span class="sd">      print(obs)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+      <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">timestamp_str</span><span class="p">,</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">timestamp</span> <span class="ow">in</span> <span class="n">episode</span><span class="o">.</span><span class="n">timestamps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">episode</span><span class="o">.</span><span class="n">get_observation_by_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.actions_freq_by_type_several_episodes"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.actions_freq_by_type_several_episodes">[docs]</a>  <span class="k">def</span> <span class="nf">actions_freq_by_type_several_episodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+    <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns the number of unit actions by type for all episodes in</span>
+<span class="sd">    episodes_names</span>
+
+<span class="sd">    If episodes_names=None, then returns the results of all loaded episodes.</span>
+
+<span class="sd">    Unit actions including switched lines, topological impacts, redispatching,</span>
+<span class="sd">    storage and curtailment.</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :return: Actions frequency of : NB line switched, NB topological change,</span>
+<span class="sd">             NB redispatching, NB storage changes, NB curtailment</span>
+<span class="sd">    :rtype: DataFrame</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      # actions frequency by type for all loaded episodes</span>
+<span class="sd">      df1 = expert_agent.actions_freq_by_type_several_episodes()</span>
+<span class="sd">      print(&#39;Frequency of actions by type for all episodes \\n&#39;,df1)</span>
+
+<span class="sd">      # actions frequency for only selected episodes</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">      df2 = expert_agent.actions_freq_by_type_several_episodes(</span>
+<span class="sd">                episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">      print(&#39;Frequency of actions by type for dec16_1 episode \\n&#39;, df2)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">episodes_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">episode_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">episode_name</span> <span class="ow">in</span> <span class="n">episodes_names</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">actions_freq_by_type</span><span class="p">()],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">df_sum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Frequency&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)})</span>
+
+    <span class="k">return</span> <span class="n">df_sum</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.actions_freq_by_station_several_episodes"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.actions_freq_by_station_several_episodes">[docs]</a>  <span class="k">def</span> <span class="nf">actions_freq_by_station_several_episodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+    <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns the impacted substations at each timestamp for all episodes in</span>
+<span class="sd">    episodes_names.</span>
+
+<span class="sd">    If episodes_names=None, then returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :return: impacted substations by agent actions</span>
+<span class="sd">    :rtype: a list of dictionaries {Timestamp, Sub impacted}</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      # all loaded episodes</span>
+<span class="sd">      df1 = expert_agent.actions_freq_by_station_several_episodes()</span>
+<span class="sd">      print(&#39;Frequency of actions by station for all episodes \\n&#39;,df1)</span>
+
+<span class="sd">      # selected episodes</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">      df2 = expert_agent.actions_freq_by_station_several_episodes(</span>
+<span class="sd">                episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">      print(&#39;Frequency of actions by station for dec16_1 episode \\n&#39;, df2)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">episodes_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span>
+
+    <span class="n">actions_freq_by_station</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">episode_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">episode_name</span> <span class="ow">in</span> <span class="n">episodes_names</span><span class="p">:</span>
+        <span class="n">actions_freq_by_station</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+          <span class="n">episode_data</span><span class="o">.</span><span class="n">impacted_subs_by_timestamp</span><span class="p">())</span>
+
+    <span class="n">impacted_stations_flatten</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">actions_freq_by_station</span><span class="p">:</span>
+      <span class="n">impacted_stations_flatten</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;subs_impacted&#39;</span><span class="p">]))</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">impacted_stations_flatten</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">impacted_stations_flatten</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span>
+                      <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Substation&#39;</span><span class="p">,</span> <span class="s1">&#39;Frequency&#39;</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;Frequency&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.computation_times_several_episodes"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.computation_times_several_episodes">[docs]</a>  <span class="k">def</span> <span class="nf">computation_times_several_episodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+    <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Action execution times at each timestamp for all episodes in</span>
+<span class="sd">    episodes_names.</span>
+
+<span class="sd">    If episodes_names=None, then returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :return: a dataframe of execution times (s) at each timestamp</span>
+<span class="sd">    :rtype: DataFrame</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      # all loaded episodes</span>
+<span class="sd">      df1 = expert_agent.computation_times_several_episodes()</span>
+<span class="sd">      print(&#39;Actions execution times for all episodes \\n&#39;,df1)</span>
+
+<span class="sd">      # filter selected episodes, if episodes_names == default value then</span>
+<span class="sd">      # return results from all loaded episodes</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">      df2 = expert_agent.computation_times_several_episodes(</span>
+<span class="sd">                episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">      print(&#39;Actions execution times for dec16_1 episode \\n&#39;, df2)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">executions_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;Execution time&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">episodes_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span>
+
+    <span class="k">for</span> <span class="n">episode_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">episode_name</span> <span class="ow">in</span> <span class="n">episodes_names</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">episode_data</span><span class="o">.</span><span class="n">timestamps</span><span class="p">,</span>
+                                           <span class="n">episode_data</span><span class="o">.</span><span class="n">computation_times</span><span class="p">[</span>
+                                           <span class="p">:</span><span class="n">episode_data</span><span class="o">.</span><span class="n">n_action</span><span class="p">])),</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="n">executions_time</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="n">executions_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">executions_time</span><span class="p">,</span> <span class="n">df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">executions_time</span> <span class="o">=</span> <span class="n">executions_time</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span>
+                                                  <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">executions_time</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.distance_from_initial_topology"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.distance_from_initial_topology">[docs]</a>  <span class="k">def</span> <span class="nf">distance_from_initial_topology</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+    <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Number of changes compared to initial topology at each timestamp</span>
+<span class="sd">    for all episodes in episodes_names.</span>
+
+<span class="sd">    If episodes_names=None, then returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :return: distance from initial topology at each timestamp</span>
+<span class="sd">    :rtype: DataFrame</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      # filter selected episodes, if episodes_names == default value then</span>
+<span class="sd">      # return results from all loaded episodes</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">      df = expert_agent.distance_from_initial_topology(</span>
+<span class="sd">                episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">      print(&#39;Distance from initial topology for dec16_1 episode \\n&#39;, df)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">episodes_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">episode_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">episode_name</span> <span class="ow">in</span> <span class="n">episodes_names</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">episode_data</span><span class="o">.</span><span class="n">n_action</span><span class="p">):</span>
+          <span class="n">act</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">actions</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+          <span class="n">obs</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">observations</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+          <span class="n">line_statuses</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">observations</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">line_status</span>
+          <span class="c1"># True == sub has something on bus 2, False == everything on bus 1</span>
+          <span class="c1"># Distance for subs == subs_on_bus2.sum()</span>
+          <span class="n">subs_on_bus_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">observations</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">n_sub</span><span class="p">)</span>
+          <span class="c1"># objs_on_bus_2 will store the id of objects connected to bus 2</span>
+          <span class="n">objs_on_bus_2</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span>
+                           <span class="nb">range</span><span class="p">(</span><span class="n">episode_data</span><span class="o">.</span><span class="n">observations</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">n_sub</span><span class="p">)}</span>
+          <span class="n">distance</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">get_distance_from_obs</span><span class="p">(</span><span class="n">act</span><span class="p">,</span>
+                                                                 <span class="n">line_statuses</span><span class="p">,</span>
+                                                                 <span class="n">subs_on_bus_2</span><span class="p">,</span>
+                                                                 <span class="n">objs_on_bus_2</span><span class="p">,</span>
+                                                                 <span class="n">obs</span><span class="p">)</span>
+
+          <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">episode_data</span><span class="o">.</span><span class="n">timestamps</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+          <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+
+    <span class="n">df_distance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span>
+                               <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;Distance&#39;</span><span class="p">])</span>
+
+    <span class="n">df_distance</span> <span class="o">=</span> <span class="n">df_distance</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_distance</span> <span class="o">=</span> <span class="n">df_distance</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;Distance&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df_distance</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.get_sequence_actions"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.get_sequence_actions">[docs]</a>  <span class="k">def</span> <span class="nf">get_sequence_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+    <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">groupby</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return sequence actions as grouped dataframe for all episodes in</span>
+<span class="sd">    episodes_names.</span>
+
+<span class="sd">    If episodes_names=None, then returns the results of all loaded episodes.</span>
+
+<span class="sd">    A sequence of actions is defined by taking several actions in a</span>
+<span class="sd">    non-disconnected sequence of time steps. A non-disconnected sequence means</span>
+<span class="sd">    that there is no &quot;do nothing&quot; in the sequence.</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">    - Sequence 1 : Switch bus action, Topological changes, Do nothing</span>
+<span class="sd">      --&gt; Sequence of length 2</span>
+<span class="sd">    - Sequence 2 : Switch bus action, Do nothing, Topological changes</span>
+<span class="sd">      --&gt; not a sequence</span>
+<span class="sd">    - Sequence 3 : Switch bus action, Topological changes, Do nothing, Switch</span>
+<span class="sd">      bus action, Topological changes, Topological changes, Do nothing --&gt;</span>
+<span class="sd">      two sequences, the first of length 2 and the second of length 3</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :return: a DataFrame time series with columns: Timestamp, Sequence</span>
+<span class="sd">              length, NB action, Impacted subs, Impacted lines</span>
+<span class="sd">    :rtype: DataFrame</span>
+
+<span class="sd">    Example of usage :</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      # filter selected episodes</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">      df = expert_agent.get_sequence_actions(</span>
+<span class="sd">                episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">      print(&#39;First sequence of actions in dec16_1 episode \\n&#39;, df.first())</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">incremental_id</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">episodes_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span>
+
+    <span class="n">df_sequence_length</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">episode_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">episode_name</span> <span class="ow">in</span> <span class="n">episodes_names</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">compute_action_sequences_length</span><span class="p">()</span>
+        <span class="n">df_sequence_length</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_sequence_length</span><span class="p">,</span> <span class="n">df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                       <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">df_sequence_length</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Sequence ID&#39;</span><span class="p">,</span>
+                              <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">df_sequence_length</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">))</span>
+
+    <span class="k">while</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">df_sequence_length</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+
+      <span class="k">if</span> <span class="n">df_sequence_length</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Sequence length&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">df_sequence_length</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">incremental_id</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">df_sequence_length</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">df_sequence_length</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+          <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span> <span class="s1">&#39;Sequence length&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">df_sequence_length</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span> <span class="s1">&#39;Sequence ID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">incremental_id</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span>
+
+      <span class="n">incremental_id</span> <span class="o">=</span> <span class="n">incremental_id</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">df_sequence_length</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+      <span class="n">df_sequence_length</span><span class="p">[</span><span class="s1">&#39;Sequence ID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Sequence ID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">incremental_id</span>
+
+    <span class="n">grp</span> <span class="o">=</span> <span class="n">df_sequence_length</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Sequence ID&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">grp</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.display_sequence_actions"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.display_sequence_actions">[docs]</a>  <span class="k">def</span> <span class="nf">display_sequence_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                               <span class="n">min_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                               <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return sequence of actions as a flattened list for all episodes in</span>
+<span class="sd">    episodes_names.</span>
+
+<span class="sd">    If episodes_names=None, then returns the results of all loaded episodes.</span>
+
+<span class="sd">    A sequence of actions is defined by taking several actions in a</span>
+<span class="sd">    non-disconnected sequence of time steps. A non-disconnected sequence means</span>
+<span class="sd">    that there is no &quot;do nothing&quot; in the sequence.</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">    - Sequence 1 : Switch bus action, Topological changes, Do nothing</span>
+<span class="sd">      --&gt; Sequence of length 2</span>
+<span class="sd">    - Sequence 2 : Switch bus action, Do nothing, Topological changes</span>
+<span class="sd">      --&gt; not a sequence</span>
+<span class="sd">    - Sequence 3 : Switch bus action, Topological changes, Do nothing, Switch</span>
+<span class="sd">      bus action, Topological changes, Topological changes, Do nothing --&gt;</span>
+<span class="sd">      two sequences, the first of length 2 and the second of length 3</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param min_length: minimum length of sequence</span>
+<span class="sd">    :type min_length: int</span>
+<span class="sd">    :param max_length: maximum length of sequence</span>
+<span class="sd">    :type max_length: int</span>
+<span class="sd">    :return: a DataFrame with columns: Timestamp, Sequence start, Sequence end,</span>
+<span class="sd">     Sequence length, NB actions, NB unitary actions, Impacted Subs,</span>
+<span class="sd">     Impacted lines</span>
+<span class="sd">    :rtype: DataFrame</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      # filter selected episodes</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">      df = expert_agent.display_sequence_actions(</span>
+<span class="sd">        episodes_names=[&#39;dec16_1&#39;],</span>
+<span class="sd">        min_length= 0,</span>
+<span class="sd">        max_length=15)</span>
+<span class="sd">      print(&#39;Sequence actions in dec16_1 episode \\n&#39;, df)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">grp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sequence_actions</span><span class="p">(</span><span class="n">episodes_names</span><span class="o">=</span><span class="n">episodes_names</span><span class="p">)</span>
+
+    <span class="n">list_dict</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;Sequence start&#39;</span><span class="p">,</span> <span class="s1">&#39;Sequence end&#39;</span><span class="p">,</span> <span class="s1">&#39;Sequence length&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;NB actions&#39;</span><span class="p">,</span> <span class="s1">&#39;NB unitary actions&#39;</span><span class="p">,</span> <span class="s1">&#39;Impacted Subs&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;Impacted lines&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">grp</span><span class="p">:</span>
+
+      <span class="k">if</span> <span class="n">min_length</span> <span class="o">&lt;=</span> <span class="n">group</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">max_length</span><span class="p">:</span>
+        <span class="n">start_timestamp</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">end_timestamp</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">group</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">sequence_length</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># count total number of impacted subs</span>
+        <span class="n">nb_impacted_subs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
+          <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;Impacted subs&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">])</span>
+        <span class="c1"># count total number of impacted lines</span>
+        <span class="n">nb_impacted_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
+          <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;Impacted lines&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">])</span>
+        <span class="c1"># number of total actions</span>
+        <span class="n">nb_actions</span> <span class="o">=</span> <span class="n">nb_impacted_subs</span> <span class="o">+</span> <span class="n">nb_impacted_lines</span>
+
+        <span class="n">nb_unitary_actions</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;NB action&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="n">impacted_subs</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;Impacted subs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">impacted_lines</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;Impacted lines&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="n">dict_row</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">:</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                    <span class="s1">&#39;Sequence start&#39;</span><span class="p">:</span> <span class="n">start_timestamp</span><span class="p">,</span>
+                    <span class="s1">&#39;Sequence end&#39;</span><span class="p">:</span> <span class="n">end_timestamp</span><span class="p">,</span>
+                    <span class="s1">&#39;Sequence length&#39;</span><span class="p">:</span> <span class="n">sequence_length</span><span class="p">,</span>
+                    <span class="s1">&#39;NB actions&#39;</span><span class="p">:</span> <span class="n">nb_actions</span><span class="p">,</span>
+                    <span class="s1">&#39;NB unitary actions&#39;</span><span class="p">:</span> <span class="n">nb_unitary_actions</span><span class="p">,</span>
+                    <span class="s1">&#39;Impacted Subs&#39;</span><span class="p">:</span> <span class="n">impacted_subs</span><span class="p">,</span>
+                    <span class="s1">&#39;Impacted lines&#39;</span><span class="p">:</span> <span class="n">impacted_lines</span><span class="p">}</span>
+        <span class="n">list_dict</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dict_row</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_dict</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.display_sequence_actions_filter"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.display_sequence_actions_filter">[docs]</a>  <span class="k">def</span> <span class="nf">display_sequence_actions_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                      <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                      <span class="n">min_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Display sequence actions as separate dataframes for all episodes in</span>
+<span class="sd">    episodes_names.</span>
+
+<span class="sd">    If episodes_names=None, then returns the results of all loaded episodes.</span>
+
+<span class="sd">    A sequence of actions is defined by taking several actions in a</span>
+<span class="sd">    non-disconnected sequence of time steps. A non-disconnected sequence means</span>
+<span class="sd">    that there is no &quot;do nothing&quot; in the sequence.</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param min_length: minimum length of sequence</span>
+<span class="sd">    :type min_length: int</span>
+<span class="sd">    :param max_length: maximum length of sequence</span>
+<span class="sd">    :type max_length: int</span>
+<span class="sd">    :return: a DataFrame time series with columns: Timestamp, Sequence</span>
+<span class="sd">              length, NB unitary actions, Impacted subs, Impacted lines</span>
+<span class="sd">    :rtype: DataFrame</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      # filter selected episodes</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">      expert_agent.display_sequence_actions_filter(</span>
+<span class="sd">        episodes_names=[&#39;dec16_1&#39;],</span>
+<span class="sd">        min_length=1,</span>
+<span class="sd">        max_length=15)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">grp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sequence_actions</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">grp</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">min_length</span> <span class="o">&lt;=</span> <span class="n">group</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">max_length</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Sequence ID&#39;</span><span class="p">,</span> <span class="s1">&#39;Sequence length&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;NB action&#39;</span><span class="p">:</span> <span class="s1">&#39;NB unitary actions&#39;</span><span class="p">})</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.action_sequences_to_dict"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.action_sequences_to_dict">[docs]</a>  <span class="k">def</span> <span class="nf">action_sequences_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                               <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                               <span class="n">min_length</span><span class="p">:</span>
+                               <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                               <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Helper function to transform sequence of actions df to dict.</span>
+
+<span class="sd">    Transform the data structure and prepare it for plotting with plotly&#39;s</span>
+<span class="sd">    gantt chart</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param min_length: minimum length of sequence</span>
+<span class="sd">    :type min_length: int</span>
+<span class="sd">    :param max_length: maximum length of sequence</span>
+<span class="sd">    :type max_length: int</span>
+<span class="sd">    :return: a dictionary list of : Type, Start, Finish, Actions,</span>
+<span class="sd">    Actions_percent.</span>
+<span class="sd">    :rtype: dictionary list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_sequence_actions</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">,</span> <span class="n">min_length</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Sequence length&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">dict_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+      <span class="n">dict_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">Type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">agent_name</span><span class="p">,</span>
+             <span class="n">Start</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;Sequence start&#39;</span><span class="p">]),</span>
+             <span class="n">Finish</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;Sequence end&#39;</span><span class="p">]),</span>
+             <span class="n">Actions</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;Sequence length&#39;</span><span class="p">],</span>
+             <span class="n">Actions_percent</span>
+             <span class="o">=</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;NB unitary actions&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">max_length</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">dict_list</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.overloaded_lines_freq_several_episodes"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.overloaded_lines_freq_several_episodes">[docs]</a>  <span class="k">def</span> <span class="nf">overloaded_lines_freq_several_episodes</span><span class="p">(</span>
+      <span class="bp">self</span><span class="p">,</span>
+      <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Overloaded lines for all episodes in episodes_names.</span>
+
+<span class="sd">    If episodes_names=None, then returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :return: frequency of overloaded lines</span>
+<span class="sd">    :rtype: Dataframe</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      # filter selected episodes</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">      df = expert_agent.overloaded_lines_freq_several_episodes(</span>
+<span class="sd">        episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">      print(df)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">episodes_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span>
+
+    <span class="n">overloaded_lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">episode_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">episode_name</span> <span class="ow">in</span> <span class="n">episodes_names</span><span class="p">:</span>
+        <span class="n">overloaded_lines_for_episode_i</span> \
+          <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">overloaded_lines_by_timestamp</span><span class="p">()</span>
+
+        <span class="n">overloaded_lines_flatten</span> <span class="o">=</span> <span class="p">[</span>
+          <span class="nb">list</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="nb">dict</span> <span class="ow">in</span> <span class="n">overloaded_lines_for_episode_i</span>
+          <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;Overloaded lines&#39;</span><span class="p">]</span>
+
+        <span class="n">overloaded_lines</span> <span class="o">=</span> <span class="n">overloaded_lines</span> <span class="o">+</span> <span class="n">overloaded_lines_flatten</span>
+
+    <span class="n">overloaded_lines_flatten</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">overloaded_lines</span><span class="p">))</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">overloaded_lines_flatten</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+            <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_n_lines</span><span class="p">())]</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+      <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_name_of_lines</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))),</span>
+       <span class="n">data</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Line&#39;</span><span class="p">,</span> <span class="s1">&#39;Overloaded&#39;</span><span class="p">])</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;Line&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;Overloaded&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Overloaded&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.disconnected_lines_freq_several_episodes"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.disconnected_lines_freq_several_episodes">[docs]</a>  <span class="k">def</span> <span class="nf">disconnected_lines_freq_several_episodes</span><span class="p">(</span>
+      <span class="bp">self</span><span class="p">,</span>
+      <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Disconnected lines for all episodes in episodes_names.</span>
+
+<span class="sd">    If episodes_names=None, then returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :return: frequency of disconnected lines</span>
+<span class="sd">    :rtype: Dataframe</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer</span>
+
+<span class="sd">      agent_log_path = &#39;../data/input/Expert_Agent&#39;</span>
+<span class="sd">      episode_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading episodes data</span>
+<span class="sd">      expert_agent = EpisodesDataTransformer(agent_log_path, episode_names)</span>
+
+<span class="sd">      # filter selected episodes</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;]</span>
+<span class="sd">      df = expert_agent.disconnected_lines_freq_several_episodes(</span>
+<span class="sd">        episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">      print(df)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">episodes_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span>
+
+    <span class="n">disconnected_lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">episode_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+
+      <span class="k">if</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">episode_name</span> <span class="ow">in</span> <span class="n">episodes_names</span><span class="p">:</span>
+        <span class="n">disconnected_lines_for_episode_i</span> \
+          <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">disconnected_lines_by_timestamp</span><span class="p">()</span>
+        <span class="n">disconnected_lines_flatten</span> <span class="o">=</span> <span class="p">[</span>
+          <span class="nb">list</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="nb">dict</span> <span class="ow">in</span> <span class="n">disconnected_lines_for_episode_i</span>
+          <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;Disconnected lines&#39;</span><span class="p">]</span>
+
+        <span class="n">disconnected_lines</span> <span class="o">=</span> <span class="n">disconnected_lines</span> <span class="o">+</span> <span class="n">disconnected_lines_flatten</span>
+
+    <span class="n">disconnected_lines_flatten</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">disconnected_lines</span><span class="p">))</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">disconnected_lines_flatten</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+            <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_n_lines</span><span class="p">())]</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_name_of_lines</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))),</span>
+                <span class="n">data</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Line&#39;</span><span class="p">,</span> <span class="s1">&#39;Disconnected&#39;</span><span class="p">])</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;Line&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;Disconnected&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Disconnected&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+  <span class="c1"># TODO docstings --&gt; Fereshteh</span>
+
+<div class="viewcode-block" id="EpisodesDataTransformer.display_detailed_action_type"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.EpisodesDataTransformer.EpisodesDataTransformer.display_detailed_action_type">[docs]</a>  <span class="k">def</span> <span class="nf">display_detailed_action_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">data_display</span> <span class="o">=</span> <span class="n">display</span><span class="p">(</span><span class="n">display_id</span><span class="o">=</span><span class="s1">&#39;data_display&#39;</span><span class="p">)</span>
+    <span class="n">output_display</span> <span class="o">=</span> <span class="n">display</span><span class="p">(</span><span class="n">display_id</span><span class="o">=</span><span class="s1">&#39;output_display&#39;</span><span class="p">)</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">qgrid</span><span class="o">.</span><span class="n">QGridWidget</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">())</span>
+
+    <span class="n">w</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+      <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Select&#39;</span><span class="p">,</span> <span class="s1">&#39;Tolopology&#39;</span><span class="p">,</span> <span class="s1">&#39;Force_line&#39;</span><span class="p">,</span> <span class="s1">&#39;Redispatching&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;Injection&#39;</span><span class="p">,</span> <span class="s1">&#39;Curtailment&#39;</span><span class="p">,</span> <span class="s1">&#39;Storage&#39;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;Select&#39;</span><span class="p">,</span>
+      <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Table&#39;</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">on_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;change&#39;</span> <span class="ow">and</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">episode_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+          <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">len</span><span class="p">(</span>
+              <span class="n">episodes_names</span><span class="p">))</span> <span class="ow">or</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">episode_name</span> <span class="ow">in</span> <span class="n">episodes_names</span><span class="p">:</span>
+            <span class="n">functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Tolopology&#39;</span><span class="p">:</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">create_topology_df</span><span class="p">,</span>
+                         <span class="s1">&#39;Force_line&#39;</span><span class="p">:</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">create_force_line_df</span><span class="p">,</span>
+                         <span class="s1">&#39;Redispatching&#39;</span><span class="p">:</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">create_dispatch_df</span><span class="p">,</span>
+                         <span class="s1">&#39;Injection&#39;</span><span class="p">:</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">create_injection_df</span><span class="p">,</span>
+                         <span class="s1">&#39;Curtailment&#39;</span><span class="p">:</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">create_curtailment_df</span><span class="p">,</span>
+                         <span class="s1">&#39;Storage&#39;</span><span class="p">:</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">create_storage_df</span><span class="p">}</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">functions</span><span class="p">[</span><span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]]()</span>
+            <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;episode_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">episode_data</span><span class="o">.</span><span class="n">episode_name</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">result</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">c</span> <span class="o">+=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">output_display</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+          <span class="s1">&#39;total Number of &#39;</span> <span class="o">+</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; changes:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">result</span>
+
+    <span class="n">w</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_change</span><span class="p">)</span>
+    <span class="c1">#         ouptup_display = display(display_id=&#39;ouptup_display&#39;)</span>
+
+    <span class="n">display</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="n">output_display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">data_display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Seif-Eddine ATTOUI, Milad LEYLI-ABADI, Fereshteh ASGARI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
