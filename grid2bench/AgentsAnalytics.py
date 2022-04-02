@@ -244,15 +244,21 @@ class AgentsAnalytics:
   def plot_lines_impact(agents_results=[], episodes_names=[],
                         title='Overloaded Lines by station',
                         fig_type='overloaded', **fig_kwargs):
-    """
-    :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
-    :param episodes_names: filter some episodes, if empty it will show all loaded episodes
-    :param title: plot title, if empty it will return default value
-    :param disconnected, if True plots disconnected lines, else draws overflowed lines
-    :param fig_kwargs: keyword for plotly arguments, example: height= 700
+    """Visualize the impact of actions on power system lines
 
+    :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot', defaults to []
+    :type agents_results: list, optional
+    :param episodes_names: filter some episodes, if empty it will show all loaded episodes, defaults to []
+    :type episodes_names: list, optional
+    :param title: plot title, if empty it will return default value, defaults to 'Overloaded Lines by station'
+    :type title: str, optional
+    :param fig_type: disconnected, if True plots disconnected lines, else draws overflowed lines, defaults to 'overloaded'
+    :type fig_type: str, optional
+    :param fig_kwargs: keyword for plotly arguments, example: height= 700, defaults to {}
+    :type fig_kwargs: dict, optional
+    :return: fig object
+    :rtype: fig, px.bar
     """
-
     agent_names = []
 
     # for the first agent
