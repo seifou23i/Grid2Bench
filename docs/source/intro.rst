@@ -4,6 +4,10 @@ The benchmarking platform Grid2Bench helps the power grid community to evaluate
 their operating agents and to compare their performances, which in turn helps in
 decision-making.
 
+.. image:: imgs/Benchmarking_Scheme.jpg
+    :align: center
+    :alt: Platform Scheme
+
 This package allows to evaluate the performance of power grid agents from various point of views.
 Hereafter, we introduce the main feeatures included in this package:
 
