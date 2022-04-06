@@ -109,20 +109,61 @@ class AgentsAnalytics:
       episodes_names=self.episodes_names) for agent_name in self.agents_names]
 
   @staticmethod
-  def plot_actions_freq_by_station(
-      agents_results: Optional[List] = None,
-      episodes_names: Optional[List] = None,
-      title: Optional[str] = 'Frequency of actions by station',
-      **fig_kwargs):
-    """Plot frequency of actions by station as a barchart for several agents
-    and selected episodes_names
+  def plot_actions_freq_by_station(agents_results: Optional[List] = None,
+                                   episodes_names: Optional[List] = None,
+                                   title: Optional[
+                                     str] = 'Frequency of actions by station',
+                                   **fig_kwargs):
+    """A bar chart representing the number of actions impacting each station
+    and for each agent.
 
-    :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
-    :param episodes_names: filter some episodes, if empty it will show all loaded episodes
-    :param title: plot title, if empty it will return default value
-    :param fig_kwargs: keyword for plotly arguments, example: height= 700
-    :return:
+    You can filter the agents to display by giving the list "agents_results"
+    only to the desired agents.
+
+    Similarly, you can filter the episodes by giving the "episode_names" list
+    only to the episodes you want to display. If episodes_names=None,
+    then  returns the results of all loaded episodes.
+
+    :param agents_results: list of agents episodes log, each item is a list
+           of episode logs for an agent.
+    :type agents_results: list of :class:`EpisodeDataTransformer`
+    :param episodes_names: filter specific episodes. If none, returns results
+           for all loaded episodes.
+    :type episodes_names: list of str
+    :param title: bar chart title, bar chart title, default value =
+                  'Frequency of actions by station'
+    :type title: str
+    :param fig_kwargs: keyword arguments from the plotly library. Example:
+                       height= 700. For more arguments vist the plotly
+                       documentation https://plotly.com/python/
+    :type fig_kwargs: **kwargs
+    :return: Barchart of frequency of impacted stations
+    :rtype: Plotly figure
+
+    Example of usage:
+
+    .. code-block:: python
+
+      import os
+      from grid2bench.AgentsAnalytics import AgentsAnalytics
+
+      input_data_path = os.path.abspath('../data/input')
+      agents_names = ['Expert_Agent', 'IEE_PPO_Agent']
+      episodes_names = ['dec16_1', 'dec16_2']
+
+      # loading data
+      agents = AgentsAnalytics(
+        data_path=input_data_path,
+        agents_names=agents_names,
+        episodes_names=episodes_names
+      )
+
+      agents_logs = agents.agents_data
+      fig = AgentsAnalytics.plot_actions_freq_by_station(agents_logs)
+
+      fig.show()
     """
+
     agent_names = []
 
     # for the first agent
@@ -141,6 +182,7 @@ class AgentsAnalytics:
 
     newnames = {}
     y_list = []
+
     for i in range(len(agent_names)):
       newnames['wide_variable_{}'.format(i)] = agent_names[i]
       y_list.append(df[agent_names[i]].to_list())
@@ -162,19 +204,67 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_actions_freq_by_type(agents_results=[], episodes_names=[],
-                                title='Frequency of actions by type', row=1,
-                                col=2, **fig_kwargs):
+  def plot_actions_freq_by_type(agents_results: Optional[List] = None,
+                                episodes_names: Optional[List] = None,
+                                title: str = 'Frequency of actions by type',
+                                row: int = 1, col: int = 2, **fig_kwargs):
+    """A pie chart representing the frequency of unit actions by type.
+
+    Unit actions can be of type : switched lines, topological impacts,
+    redispatching, storage and curtailment.
+
+    You can filter the agents to display by giving the list "agents_results"
+    only to the desired agents.
+
+    Similarly, you can filter the episodes by giving the "episode_names" list
+    only to the episodes you want to display. If episodes_names=None,
+    then  returns the results of all loaded episodes.
+
+
+    :param agents_results: list of agents episodes log, each item is a list
+           of episode logs for an agent.
+    :type agents_results: list of :class:`EpisodeDataTransformer`
+    :param episodes_names: filter specific episodes. If none, returns results
+           for all loaded episodes.
+    :type episodes_names: list of str
+    :param title: bar chart title, bar chart title, default value =
+                  'Frequency of actions by station'
+    :type title: str
+    :param row: number of rows in plotly subplot
+    :type row: int
+    :param col: number of columns in plotly subplot
+    :type col: int
+    :param fig_kwargs: keyword arguments from the plotly library. Example:
+                       height= 700. For more arguments vist the plotly
+                       documentation https://plotly.com/python/
+    :type fig_kwargs: **kwargs
+    :return: A pie chart of frequency of unit actions by type
+    :rtype: plotly figure
+
+    Example of usage:
+
+    .. code-block:: python
+
+      import os
+      from grid2bench.AgentsAnalytics import AgentsAnalytics
+
+      input_data_path = os.path.abspath('../data/input')
+      agents_names = ['Expert_Agent', 'IEE_PPO_Agent']
+      episodes_names = ['dec16_1', 'dec16_2']
+
+      # loading data
+      agents = AgentsAnalytics(
+        data_path=input_data_path,
+        agents_names=agents_names,
+        episodes_names=episodes_names
+      )
+
+      agents_logs = agents.agents_data
+      fig = AgentsAnalytics.plot_actions_freq_by_type(agents_logs)
+
+      fig.show()
     """
 
-    :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
-    :param episodes_names: filter some episodes, if empty it will show all loaded episodes
-    :param title: plot title, if empty it will return default value
-    :param fig_kwargs: keyword for plotly arguments, example: height= 700
-    :param row: number of rows in plotly subplot
-    :param col: number of cols in plotly subplot, need to be customized based on number of agents
-    :return:
-    """
     agent_names = []
     for agent in agents_results:
       agent_names.append(agent.agent_name)
@@ -201,19 +291,67 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_actions_freq_by_station_pie_chart(agents_results=[],
-                                             episodes_names=[],
-                                             title='Frequency of actions by station',
-                                             row=1, col=2, **fig_kwargs):
-    """
-    :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
-    :param episodes_names: filter some episodes, if empty it will show all loaded episodes
-    :param title: plot title, if empty it will return default value
+  def plot_actions_freq_by_station_pie_chart(
+      agents_results: Optional[List] = None,
+      episodes_names: Optional[List] = None,
+      title: str = 'Frequency of actions by station', row: int = 1,
+      col: int = 2, **fig_kwargs):
+
+    """A Pie chart representing the number of actions impacting each station
+    and for each agent. Similar to plot_actions_freq_by_station, but returns
+    a pie chart instead
+
+    You can filter the agents to display by giving the list "agents_results"
+    only to the desired agents.
+
+    Similarly, you can filter the episodes by giving the "episode_names" list
+    only to the episodes you want to display. If episodes_names=None,
+    then  returns the results of all loaded episodes.
+
+    :param agents_results: list of agents episodes log, each item is a list
+           of episode logs for an agent.
+    :type agents_results: list of :class:`EpisodeDataTransformer`
+    :param episodes_names: filter specific episodes. If none, returns results
+           for all loaded episodes.
+    :type episodes_names: list of str
+    :param title: bar chart title, bar chart title, default value =
+                  'Frequency of actions by station'
+    :type title: str
     :param row: number of rows in plotly subplot
-    :param col: number of cols in plotly subplot, need to be customized based on number of agents
-    :param fig_kwargs: keyword for plotly arguments, example: height= 700
-    :return:
+    :type row: int
+    :param col: number of columns in plotly subplot
+    :type col: int
+    :param fig_kwargs: keyword arguments from the plotly library. Example:
+                       height= 700. For more arguments vist the plotly
+                       documentation https://plotly.com/python/
+    :type fig_kwargs: **kwargs
+    :return: Barchart of frequency of impacted stations
+    :rtype: Plotly figure
+
+    Example of usage:
+
+    .. code-block:: python
+
+      import os
+      from grid2bench.AgentsAnalytics import AgentsAnalytics
+
+      input_data_path = os.path.abspath('../data/input')
+      agents_names = ['Expert_Agent', 'IEE_PPO_Agent']
+      episodes_names = ['dec16_1', 'dec16_2']
+
+      # loading data
+      agents = AgentsAnalytics(
+        data_path=input_data_path,
+        agents_names=agents_names,
+        episodes_names=episodes_names
+      )
+
+      agents_logs = agents.agents_data
+      fig = AgentsAnalytics.plot_actions_freq_by_station_pie_chart(agents_logs)
+
+      fig.show()
     """
+
     agent_names = []
     for agent in agents_results:
       agent_names.append(agent.agent_name)
@@ -241,23 +379,74 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_lines_impact(agents_results=[], episodes_names=[],
-                        title='Overloaded Lines by station',
-                        fig_type='overloaded', **fig_kwargs):
-    """Visualize the impact of actions on power system lines
+  def plot_lines_impact(agents_results: Optional[List] = None,
+                        episodes_names: Optional[List] = None,
+                        title: str = 'Overloaded Lines by station',
+                        fig_type: str = 'overloaded', **fig_kwargs):
+    """A bar chart representing the frequency of actions impacts on each power
+    lines and for each agent.
 
-    :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot', defaults to []
-    :type agents_results: list, optional
-    :param episodes_names: filter some episodes, if empty it will show all loaded episodes, defaults to []
-    :type episodes_names: list, optional
-    :param title: plot title, if empty it will return default value, defaults to 'Overloaded Lines by station'
-    :type title: str, optional
-    :param fig_type: disconnected, if True plots disconnected lines, else draws overflowed lines, defaults to 'overloaded'
-    :type fig_type: str, optional
-    :param fig_kwargs: keyword for plotly arguments, example: height= 700, defaults to {}
-    :type fig_kwargs: dict, optional
-    :return: fig object
-    :rtype: fig, px.bar
+    Two possible type of impacts : Line overflow impact, default value or
+    fig_type ='disconnected'. And line overflow impact, can be obtained by
+    giving fig_type ='disconnected'.
+
+    You can filter the agents to display by giving the list "agents_results"
+    only to the desired agents.
+
+    Similarly, you can filter the episodes by giving the "episode_names" list
+    only to the episodes you want to display. If episodes_names=None,
+    then  returns the results of all loaded episodes.
+
+    :param agents_results: list of agents episodes log, each item is a list
+                           of episode logs for an agent.
+    :type agents_results: list of :class:`EpisodeDataTransformer`
+    :param episodes_names: filter specific episodes. If none, returns results
+                           for all loaded episodes.
+    :type episodes_names: list of str
+    :param title: bar chart title, bar chart title, default value =
+                  'Frequency of actions by station'
+    :type title: str
+    :param fig_type: diagram type: frequency of overloaded lines or
+                     frequency of disconnected lines. Default = overloaded,
+                     else disconnected
+    :type fig_type: str
+    :param fig_kwargs: keyword arguments from the plotly library. Example:
+                       height= 700. For more arguments vist the plotly
+                       documentation https://plotly.com/python/
+    :type fig_kwargs: **kwargs
+    :return: Barchart of frequency of impacted lines
+    :rtype: plotly figure
+
+    Example of usage:
+
+    .. code-block:: python
+
+      import os
+      from grid2bench.AgentsAnalytics import AgentsAnalytics
+
+      input_data_path = os.path.abspath('../data/input')
+      agents_names = ['Expert_Agent', 'IEE_PPO_Agent']
+      episodes_names = ['dec16_1', 'dec16_2']
+
+      # loading data
+      agents = AgentsAnalytics(
+        data_path=input_data_path,
+        agents_names=agents_names,
+        episodes_names=episodes_names
+      )
+
+      agents_logs = agents.agents_data
+
+      # overflowed lines
+      fig_overflowed_lines = AgentsAnalytics.plot_lines_impact(agents_logs)
+      fig_overflowed_lines.show()
+
+      # disconnected lines
+      fig_disconnected_lines = AgentsAnalytics.plot_lines_impact(
+      agents_logs,
+      fig_type='disconnected')
+      fig_disconnected_lines.show()
+
     """
     agent_names = []
 
@@ -356,7 +545,6 @@ class AgentsAnalytics:
     :param fig_kwargs: keyword for plotly arguments, example: height= 700
     :return:
     """
-    # TODO : creating a function to reuse this
 
     # for the first agent
     agent_names = [agents_results[0].agent_name]
@@ -389,7 +577,6 @@ class AgentsAnalytics:
                                    title='Sequence length of actions',
                                    min_length: int = 0, max_length: int = 400,
                                    **fig_kwargs):
-
     plot_data = []
     for agent in agents_data:
       plot_data.extend(
@@ -407,7 +594,6 @@ class AgentsAnalytics:
   @staticmethod
   # cumulative reward extraction
   def cumulative_reward(agent_data, episodes_names):
-
     episode_names = list()
     cum_rewards = list()
     nb_time_steps = list()
