@@ -52,21 +52,22 @@ Create a virtual environment
     mkdir my-project-folder
     cd my-project-folder
     pip3 install -U virtualenv
-    python3 -m virtualenv venv_rlbench
+    python3 -m virtualenv venv_grid2bench
 
 
 Enter virtual environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: bash
 
-    source venv_grid2op/bin/activate
+    source venv_grid2bench/bin/activate
 
 Install using poetry
 **********************
 .. code-block:: bash
 
-    git clone https://github.com/seifou23i/RLBenchPlot.git
+    git clone https://github.com/seifou23i/Grid2Bench.git
     cd RLBenchPlot
+    pip install poetry
     poetry install
 
 
@@ -76,4 +77,4 @@ In future
 
 .. code-block:: bash
 
-    pip3 install rlbenchplot
+    pip3 install grid2bench
