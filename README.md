@@ -22,24 +22,25 @@ The benchmarking framework allows to evaluate the performances of power grid bas
 mkdir my-project-folder
 cd my-project-folder
 pip3 install -U virtualenv
-python3 -m virtualenv venv_rlbench
+python3 -m virtualenv venv_grid2bench
 ```
 ### Enter virtual environment
 ```commandline
-source venv_grid2op/bin/activate
+source venv_grid2bench/bin/activate
 ```
 
 ## Install using poetry
 ```commandline
-git clone https://github.com/seifou23i/RLBenchPlot.git
+git clone https://github.com/seifou23i/Grid2Bench.git
 cd RLBenchPlot
+pip install poetry
 poetry install
 ```
 
 ## Install from PyPI
 In future 
 ```commandline
-pip3 install rlbenchplot
+pip3 install grid2bench
 ```
 
 # Main features of RLBenchPlot
