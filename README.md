@@ -1,5 +1,7 @@
-# RLBenchPlot
-This is a repository to evaluate the agent under the grid2op framework
+# Grid2Bench
+The benchmarking framework allows to evaluate the performances of power grid based agents, from various point of views. The scheme of the framework is shown in Figure below. Different power grid episodes could be imported for the analysis purpose alongside the evaluation results of various agents. The KPIs (discussed [here](#main-features-of-rlbenchplot)) are computed which form a evaluation matrix or table. Finally, in order to facilitate the analysis and decision-making task, a series of visualization tools can be used to compare the performances.
+
+![Scheme](./docs/source/imgs/Benchmarking_Scheme.jpg)
 
 *   [1 Installation](#installation)
     *   [1.1 Setup a Virtualenv (optional)](#setup-a-virtualenv-optional)
