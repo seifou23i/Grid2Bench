@@ -100,7 +100,7 @@ jobs:
             . venv/bin/activate
             jupytext ./getting_started/*.ipynb --update-metadata '{"kernelspec":null}'
             jupytext ./getting_started/*.ipynb --update-metadata '{"kernelspec":{}}'
-            python -m pytest --nbmake -n=auto ./getting_started 
+            python -m pytest --nbmake -n=auto ./getting_started
       - store_artifacts_test_results
 
 workflows:
@@ -114,5 +114,5 @@ workflows:
 
       - run_notebook_test:
           requires:
-            - build_dep
+            - run_python_tests
 
