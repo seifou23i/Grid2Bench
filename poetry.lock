@@ -471,12 +471,6 @@ category = "main"
 optional = false
 python-versions = ">=3.6.1,<4.0"
 
-[package.extras]
-pipfile_deprecated_finder = ["pipreqs", "requirementslib"]
-requirements_deprecated_finder = ["pipreqs", "pip-api"]
-colors = ["colorama (>=0.4.3,<0.5.0)"]
-plugins = ["setuptools"]
-
 [[package]]
 name = "itsdangerous"
 version = "2.1.2"
