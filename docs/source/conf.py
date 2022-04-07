@@ -13,18 +13,7 @@
 import os
 import sys
 
-from unittest.mock import MagicMock
-
-class Mock(MagicMock):
-    @classmethod
-    def __getattr__(cls, name):
-        return MagicMock()
-
-MOCK_MODULES = ['numpy', 'pandas']
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
-
-sys.path.insert(0, os.path.abspath('../../grid2bench/'))
-
+sys.path.insert(0, os.path.abspath('../'))
 
 # -- Project information -----------------------------------------------------
 
@@ -34,7 +23,6 @@ author = 'Seif-Eddine ATTOUI, Milad LEYLI-ABADI, Fereshteh ASGARI'
 
 # The full version, including alpha/beta/rc tags
 release = '0.2.0'
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -52,7 +40,6 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
-
 
 # -- Options for HTML output -------------------------------------------------
 
