@@ -785,7 +785,7 @@ class EpisodesDataTransformer:
 
   # TODO docstings --> Fereshteh
 
-  def display_detailed_action_type(self, episodes_names: Optional[List] = None):
+  def display_detailed_action_type(self, episodes_names: List):
 
     data_display = display(display_id='data_display')
     output_display = display(display_id='output_display')
