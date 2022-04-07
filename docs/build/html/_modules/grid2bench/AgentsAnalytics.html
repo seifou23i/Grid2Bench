@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>grid2bench.AgentsAnalytics &mdash; Grid2Bench 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Grid2Bench
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kpi.html">KPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../grid2bench.html">grid2bench package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Grid2Bench</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>grid2bench.AgentsAnalytics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for grid2bench.AgentsAnalytics</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2022,</span>
+<span class="c1"># IRT-SystemX (https://www.irt-systemx.fr), RTE (https://www.rte-france.com)</span>
+<span class="c1"># See authors in pyporject.toml</span>
+<span class="c1"># SPDX-License-Identifier: MPL-2.0</span>
+<span class="sd">&quot;&quot;&quot;This module allows to benchmark several agents in several scenarios</span>
+<span class="sd">through predefined KPIs (see KPI section).</span>
+
+<span class="sd">The module uses the `plotly package &lt;https://plotly.com/&gt;`_ to visualize</span>
+<span class="sd">these KPIs in the form of graphs.</span>
+
+<span class="sd">The modules load data in the forms :class:`EpisodesDataTransformer` and</span>
+<span class="sd">:class:`EpisodesDataExtractor` . You can access these objects like this:</span>
+
+<span class="sd">  .. code-block:: python</span>
+
+<span class="sd">    from grid2bench.AgentsAnalytics import AgentsAnalytics</span>
+
+<span class="sd">    input_data_path = os.path.abspath(&#39;../data/input&#39;)</span>
+<span class="sd">    agents_names = [&#39;Expert_Agent&#39;, &#39;IEE_PPO_Agent&#39;]</span>
+<span class="sd">    episodes_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">    # loading data</span>
+<span class="sd">    agents = AgentsAnalytics(</span>
+<span class="sd">      data_path=input_data_path,</span>
+<span class="sd">      agents_names=agents_names,</span>
+<span class="sd">      episodes_names=episodes_names</span>
+<span class="sd">    )</span>
+
+<span class="sd">    # get indexes</span>
+<span class="sd">    expert_agent_idx = agents.agents_names.index(&#39;Expert_Agent&#39;)</span>
+<span class="sd">    dec16_2_idx = agents.episodes_names.index(&#39;dec16_2&#39;)</span>
+
+<span class="sd">    # access expert agent all episodes results --&gt; EpisodesDataTransformer class</span>
+<span class="sd">    episodes = agents.agents_data[expert_agent_idx]</span>
+<span class="sd">    print(&#39;Loaded episodes for {} are : {}&#39;.format(</span>
+<span class="sd">      episodes.agent_name,</span>
+<span class="sd">      episodes.episodes_names))</span>
+
+<span class="sd">    # access expert agent dec16_2 episode results --&gt; EpisodeDataExtractor class</span>
+<span class="sd">    dec16_2 = agents.agents_data[expert_agent_idx].episodes_data[dec16_2_idx]</span>
+<span class="sd">    print(&#39;Episode name: {}&#39;.format(dec16_2.episode_name))</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">from</span> <span class="nn">plotly.subplots</span> <span class="kn">import</span> <span class="n">make_subplots</span>
+
+<span class="kn">from</span> <span class="nn">grid2bench.EpisodesDataTransformer</span> <span class="kn">import</span> <span class="n">EpisodesDataTransformer</span>
+
+
+<div class="viewcode-block" id="AgentsAnalytics"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics">[docs]</a><span class="k">class</span> <span class="nc">AgentsAnalytics</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;This class is used to benchmark several agents in several scenarios.</span>
+
+<span class="sd">  It is also used to store agents&#39; episode results via the agents_data attribute</span>
+
+<span class="sd">  Attributes:</span>
+
+<span class="sd">    - data_path: data folder path, parent directory path for agent log files</span>
+<span class="sd">    - agents_names: list of agents names with the same name as the agent&#39;s</span>
+<span class="sd">      data folders</span>
+<span class="sd">    - episodes_names: list of episode names with the same name as the episode</span>
+<span class="sd">      data folders</span>
+<span class="sd">    - agents_data: list of :class:`EpisodesDataTransformer`</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">agents_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Init and loading data for the class.</span>
+
+<span class="sd">    :param data_path: parent directory path for agent log files</span>
+<span class="sd">    :param agents_names: a list of each agent repository name,</span>
+<span class="sd">                         if empty (not recommended) it will load all</span>
+<span class="sd">                         repositories in the data path</span>
+<span class="sd">    :param episodes_names: list of episode names with the same name as the</span>
+<span class="sd">                           episode data folder</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">data_path</span> <span class="o">=</span> <span class="n">data_path</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">agents_names</span> <span class="o">=</span> <span class="n">agents_names</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span> <span class="o">=</span> <span class="n">episodes_names</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">agents_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_agents_results</span><span class="p">()</span>
+
+<div class="viewcode-block" id="AgentsAnalytics.load_agents_results"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.load_agents_results">[docs]</a>  <span class="k">def</span> <span class="nf">load_agents_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Load agents&#39; episodes data from the episodes_names list.</span>
+
+<span class="sd">    Each element of the list contains agent&#39;s episodes data as</span>
+<span class="sd">    :class:`EpisodesDataTransformer`</span>
+
+<span class="sd">    :return: list of agents&#39; episodes</span>
+<span class="sd">    :rtype: list of :class:`EpisodesDataTransformer`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents_names</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">agents_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_path</span><span class="p">)</span> <span class="k">if</span>
+                           <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_path</span><span class="p">,</span> <span class="n">name</span><span class="p">))]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">name</span><span class="p">))]</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">(</span>
+      <span class="n">agent_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_path</span><span class="p">,</span> <span class="n">agent_name</span><span class="p">),</span>
+      <span class="n">episodes_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes_names</span><span class="p">)</span> <span class="k">for</span> <span class="n">agent_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agents_names</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="AgentsAnalytics.plot_actions_freq_by_station"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_freq_by_station">[docs]</a>  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">plot_actions_freq_by_station</span><span class="p">(</span>
+      <span class="n">agents_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">],</span>
+      <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+      <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Frequency of actions by station&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A bar chart representing the number of actions impacting each station</span>
+<span class="sd">    and for each agent.</span>
+
+<span class="sd">    You can filter the agents to display by giving the list &quot;agents_results&quot;</span>
+<span class="sd">    only to the desired agents.</span>
+
+<span class="sd">    Similarly, you can filter the episodes by giving the &quot;episode_names&quot; list</span>
+<span class="sd">    only to the episodes you want to display. If episodes_names=None,</span>
+<span class="sd">    then  returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param agents_results: list of agents episodes log, each item is a list</span>
+<span class="sd">           of episode logs for an agent.</span>
+<span class="sd">    :type agents_results: list of :class:`EpisodeDataTransformer`</span>
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param title: bar chart title, bar chart title, default value =</span>
+<span class="sd">                  &#39;Frequency of actions by station&#39;</span>
+<span class="sd">    :type title: str</span>
+<span class="sd">    :param fig_kwargs: keyword arguments from the plotly library. Example:</span>
+<span class="sd">                       height= 700. For more arguments vist the plotly</span>
+<span class="sd">                       documentation https://plotly.com/python/</span>
+<span class="sd">    :type fig_kwargs: **kwargs</span>
+<span class="sd">    :return: Barchart of frequency of impacted stations</span>
+<span class="sd">    :rtype: Plotly figure</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      import os</span>
+<span class="sd">      from grid2bench.AgentsAnalytics import AgentsAnalytics</span>
+
+<span class="sd">      input_data_path = os.path.abspath(&#39;../data/input&#39;)</span>
+<span class="sd">      agents_names = [&#39;Expert_Agent&#39;, &#39;IEE_PPO_Agent&#39;]</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading data</span>
+<span class="sd">      agents = AgentsAnalytics(</span>
+<span class="sd">        data_path=input_data_path,</span>
+<span class="sd">        agents_names=agents_names,</span>
+<span class="sd">        episodes_names=episodes_names</span>
+<span class="sd">      )</span>
+
+<span class="sd">      agents_logs = agents.agents_data</span>
+<span class="sd">      fig = AgentsAnalytics.plot_actions_freq_by_station(agents_logs)</span>
+
+<span class="sd">      fig.show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">agent_names</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># for the first agent</span>
+    <span class="n">agent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">agent_name</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">actions_freq_by_station_several_episodes</span><span class="p">(</span>
+      <span class="n">episodes_names</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Frequency&#39;</span><span class="p">:</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+      <span class="n">agent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">)</span>
+
+      <span class="n">df2</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">actions_freq_by_station_several_episodes</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">)</span>
+      <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Frequency&#39;</span><span class="p">:</span> <span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+
+      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Substation&#39;</span><span class="p">),</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Substation&#39;</span><span class="p">)</span>
+
+    <span class="n">newnames</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">y_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">agent_names</span><span class="p">)):</span>
+      <span class="n">newnames</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;wide_variable_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+      <span class="n">y_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">agent_names</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Substation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span> <span class="n">y</span><span class="o">=</span><span class="n">y_list</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="s1">&#39;.2s&#39;</span><span class="p">,</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;Station&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;Frequency&#39;</span><span class="p">},</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">for_each_trace</span><span class="p">(</span>
+      <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">newnames</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">legendgroup</span><span class="o">=</span><span class="n">newnames</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
+                         <span class="n">hovertemplate</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">hovertemplate</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">newnames</span><span class="p">[</span>
+                           <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">])))</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textfont_size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">textangle</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;outside&#39;</span><span class="p">,</span>
+                      <span class="n">cliponaxis</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="o">**</span><span class="n">fig_kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="AgentsAnalytics.plot_actions_freq_by_type"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_freq_by_type">[docs]</a>  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">plot_actions_freq_by_type</span><span class="p">(</span><span class="n">agents_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">],</span>
+                                <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Frequency of actions &#39;</span>
+                                                       <span class="s1">&#39;by type&#39;</span><span class="p">,</span>
+                                <span class="n">row</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                                <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A pie chart representing the frequency of unit actions by type.</span>
+
+<span class="sd">    Unit actions can be of type : switched lines, topological impacts,</span>
+<span class="sd">    redispatching, storage and curtailment.</span>
+
+<span class="sd">    You can filter the agents to display by giving the list &quot;agents_results&quot;</span>
+<span class="sd">    only to the desired agents.</span>
+
+<span class="sd">    Similarly, you can filter the episodes by giving the &quot;episode_names&quot; list</span>
+<span class="sd">    only to the episodes you want to display. If episodes_names=None,</span>
+<span class="sd">    then  returns the results of all loaded episodes.</span>
+
+
+<span class="sd">    :param agents_results: list of agents episodes log, each item is a list</span>
+<span class="sd">           of episode logs for an agent.</span>
+<span class="sd">    :type agents_results: list of :class:`EpisodeDataTransformer`</span>
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param title: bar chart title, bar chart title, default value =</span>
+<span class="sd">                  &#39;Frequency of actions by type&#39;</span>
+<span class="sd">    :type title: str</span>
+<span class="sd">    :param row: number of rows in plotly subplot</span>
+<span class="sd">    :type row: int</span>
+<span class="sd">    :param col: number of columns in plotly subplot</span>
+<span class="sd">    :type col: int</span>
+<span class="sd">    :param fig_kwargs: keyword arguments from the plotly library. Example:</span>
+<span class="sd">                       height= 700. For more arguments vist the plotly</span>
+<span class="sd">                       documentation https://plotly.com/python/</span>
+<span class="sd">    :type fig_kwargs: **kwargs</span>
+<span class="sd">    :return: A pie chart of frequency of unit actions by type</span>
+<span class="sd">    :rtype: plotly figure</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      import os</span>
+<span class="sd">      from grid2bench.AgentsAnalytics import AgentsAnalytics</span>
+
+<span class="sd">      input_data_path = os.path.abspath(&#39;../data/input&#39;)</span>
+<span class="sd">      agents_names = [&#39;Expert_Agent&#39;, &#39;IEE_PPO_Agent&#39;]</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading data</span>
+<span class="sd">      agents = AgentsAnalytics(</span>
+<span class="sd">        data_path=input_data_path,</span>
+<span class="sd">        agents_names=agents_names,</span>
+<span class="sd">        episodes_names=episodes_names</span>
+<span class="sd">      )</span>
+
+<span class="sd">      agents_logs = agents.agents_data</span>
+<span class="sd">      fig = AgentsAnalytics.plot_actions_freq_by_type(agents_logs)</span>
+
+<span class="sd">      fig.show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">agent_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents_results</span><span class="p">:</span>
+      <span class="n">agent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">)</span>
+
+    <span class="n">list_i</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+      <span class="n">list_j</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="n">list_j</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;domain&#39;</span><span class="p">})</span>
+      <span class="n">list_i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_j</span><span class="p">)</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">specs</span><span class="o">=</span><span class="n">list_i</span><span class="p">,</span> <span class="n">subplot_titles</span><span class="o">=</span><span class="n">agent_names</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">agents_results</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">actions_freq_by_type_several_episodes</span><span class="p">(</span>
+          <span class="n">episodes_names</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Pie</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Frequency&#39;</span><span class="p">],</span>
+                             <span class="n">name</span><span class="o">=</span><span class="n">agent_names</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]),</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">uniformtext_minsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                      <span class="n">uniformtext_mode</span><span class="o">=</span><span class="s1">&#39;hide&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="AgentsAnalytics.plot_actions_freq_by_station_pie_chart"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_freq_by_station_pie_chart">[docs]</a>  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">plot_actions_freq_by_station_pie_chart</span><span class="p">(</span>
+      <span class="n">agents_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">],</span>
+      <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+      <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Frequency of actions by station&#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="n">col</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;A Pie chart representing the number of actions impacting each station</span>
+<span class="sd">    and for each agent. Similar to plot_actions_freq_by_station, but returns</span>
+<span class="sd">    a pie chart instead</span>
+
+<span class="sd">    You can filter the agents to display by giving the list &quot;agents_results&quot;</span>
+<span class="sd">    only to the desired agents.</span>
+
+<span class="sd">    Similarly, you can filter the episodes by giving the &quot;episode_names&quot; list</span>
+<span class="sd">    only to the episodes you want to display. If episodes_names=None,</span>
+<span class="sd">    then  returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param agents_results: list of agents episodes log, each item is a list</span>
+<span class="sd">           of episode logs for an agent.</span>
+<span class="sd">    :type agents_results: list of :class:`EpisodeDataTransformer`</span>
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param title: bar chart title, bar chart title, default value =</span>
+<span class="sd">                  &#39;Frequency of actions by station&#39;</span>
+<span class="sd">    :type title: str</span>
+<span class="sd">    :param row: number of rows in plotly subplot</span>
+<span class="sd">    :type row: int</span>
+<span class="sd">    :param col: number of columns in plotly subplot</span>
+<span class="sd">    :type col: int</span>
+<span class="sd">    :param fig_kwargs: keyword arguments from the plotly library. Example:</span>
+<span class="sd">                       height= 700. For more arguments vist the plotly</span>
+<span class="sd">                       documentation https://plotly.com/python/</span>
+<span class="sd">    :type fig_kwargs: **kwargs</span>
+<span class="sd">    :return: Barchart of frequency of impacted stations</span>
+<span class="sd">    :rtype: Plotly figure</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      import os</span>
+<span class="sd">      from grid2bench.AgentsAnalytics import AgentsAnalytics</span>
+
+<span class="sd">      input_data_path = os.path.abspath(&#39;../data/input&#39;)</span>
+<span class="sd">      agents_names = [&#39;Expert_Agent&#39;, &#39;IEE_PPO_Agent&#39;]</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading data</span>
+<span class="sd">      agents = AgentsAnalytics(</span>
+<span class="sd">        data_path=input_data_path,</span>
+<span class="sd">        agents_names=agents_names,</span>
+<span class="sd">        episodes_names=episodes_names</span>
+<span class="sd">      )</span>
+
+<span class="sd">      agents_logs = agents.agents_data</span>
+<span class="sd">      fig = AgentsAnalytics.plot_actions_freq_by_station_pie_chart(agents_logs)</span>
+
+<span class="sd">      fig.show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">agent_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents_results</span><span class="p">:</span>
+      <span class="n">agent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">)</span>
+
+    <span class="n">list_i</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+      <span class="n">list_j</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="n">list_j</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;domain&#39;</span><span class="p">})</span>
+      <span class="n">list_i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_j</span><span class="p">)</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">specs</span><span class="o">=</span><span class="n">list_i</span><span class="p">,</span> <span class="n">subplot_titles</span><span class="o">=</span><span class="n">agent_names</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">agents_results</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">actions_freq_by_station_several_episodes</span><span class="p">(</span>
+          <span class="n">episodes_names</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+          <span class="n">go</span><span class="o">.</span><span class="n">Pie</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Substation&#39;</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Frequency&#39;</span><span class="p">],</span>
+                 <span class="n">name</span><span class="o">=</span><span class="n">agent_names</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]),</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">uniformtext_minsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                      <span class="n">uniformtext_mode</span><span class="o">=</span><span class="s1">&#39;hide&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="AgentsAnalytics.plot_lines_impact"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_lines_impact">[docs]</a>  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">plot_lines_impact</span><span class="p">(</span><span class="n">agents_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">],</span>
+                        <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Overloaded Lines by station&#39;</span><span class="p">,</span>
+                        <span class="n">fig_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;overloaded&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A bar chart representing the frequency of actions impacts on each power</span>
+<span class="sd">    lines and for each agent.</span>
+
+<span class="sd">    Two possible type of impacts : Line overflow impact, default value or</span>
+<span class="sd">    fig_type =&#39;disconnected&#39;. And line overflow impact, can be obtained by</span>
+<span class="sd">    giving fig_type =&#39;disconnected&#39;.</span>
+
+<span class="sd">    You can filter the agents to display by giving the list &quot;agents_results&quot;</span>
+<span class="sd">    only to the desired agents.</span>
+
+<span class="sd">    Similarly, you can filter the episodes by giving the &quot;episode_names&quot; list</span>
+<span class="sd">    only to the episodes you want to display. If episodes_names=None,</span>
+<span class="sd">    then  returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param agents_results: list of agents episodes log, each item is a list</span>
+<span class="sd">                           of episode logs for an agent.</span>
+<span class="sd">    :type agents_results: list of :class:`EpisodeDataTransformer`</span>
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">                           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param title: bar chart title, bar chart title, default value =</span>
+<span class="sd">                  &#39;Overloaded Lines by station&#39;</span>
+<span class="sd">    :type title: str</span>
+<span class="sd">    :param fig_type: diagram type: frequency of overloaded lines or</span>
+<span class="sd">                     frequency of disconnected lines. Default = overloaded,</span>
+<span class="sd">                     else disconnected</span>
+<span class="sd">    :type fig_type: str</span>
+<span class="sd">    :param fig_kwargs: keyword arguments from the plotly library. Example:</span>
+<span class="sd">                       height= 700. For more arguments vist the plotly</span>
+<span class="sd">                       documentation https://plotly.com/python/</span>
+<span class="sd">    :type fig_kwargs: **kwargs</span>
+<span class="sd">    :return: Barchart of frequency of impacted lines</span>
+<span class="sd">    :rtype: plotly figure</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      import os</span>
+<span class="sd">      from grid2bench.AgentsAnalytics import AgentsAnalytics</span>
+
+<span class="sd">      input_data_path = os.path.abspath(&#39;../data/input&#39;)</span>
+<span class="sd">      agents_names = [&#39;Expert_Agent&#39;, &#39;IEE_PPO_Agent&#39;]</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading data</span>
+<span class="sd">      agents = AgentsAnalytics(</span>
+<span class="sd">        data_path=input_data_path,</span>
+<span class="sd">        agents_names=agents_names,</span>
+<span class="sd">        episodes_names=episodes_names</span>
+<span class="sd">      )</span>
+
+<span class="sd">      agents_logs = agents.agents_data</span>
+
+<span class="sd">      # overflowed lines</span>
+<span class="sd">      fig_overflowed_lines = AgentsAnalytics.plot_lines_impact(agents_logs)</span>
+<span class="sd">      fig_overflowed_lines.show()</span>
+
+<span class="sd">      # disconnected lines</span>
+<span class="sd">      fig_disconnected_lines = AgentsAnalytics.plot_lines_impact(</span>
+<span class="sd">      agents_logs,</span>
+<span class="sd">      fig_type=&#39;disconnected&#39;)</span>
+<span class="sd">      fig_disconnected_lines.show()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">agent_names</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># for the first agent</span>
+    <span class="n">agent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">agent_name</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">fig_type</span> <span class="o">==</span> <span class="s1">&#39;overloaded&#39;</span><span class="p">:</span>
+      <span class="n">df</span> <span class="o">=</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">overloaded_lines_freq_several_episodes</span><span class="p">(</span>
+        <span class="n">episodes_names</span><span class="p">)</span>
+      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Overloaded&#39;</span><span class="p">:</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">df</span> <span class="o">=</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">disconnected_lines_freq_several_episodes</span><span class="p">(</span>
+        <span class="n">episodes_names</span><span class="p">)</span>
+      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Disconnected&#39;</span><span class="p">:</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+      <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Disconnected Lines by station&#39;</span>
+
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+      <span class="n">agent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">fig_type</span> <span class="o">==</span> <span class="s1">&#39;overloaded&#39;</span><span class="p">:</span>
+        <span class="n">df2</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">overloaded_lines_freq_several_episodes</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">)</span>
+        <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Overloaded&#39;</span><span class="p">:</span> <span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">df2</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">disconnected_lines_freq_several_episodes</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">)</span>
+        <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Disconnected&#39;</span><span class="p">:</span> <span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+
+      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Line&#39;</span><span class="p">),</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Line&#39;</span><span class="p">)</span>
+
+    <span class="n">newnames</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">y_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">agent_names</span><span class="p">)):</span>
+      <span class="n">newnames</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;wide_variable_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+      <span class="n">y_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">agent_names</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Line&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_list</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="s1">&#39;.2s&#39;</span><span class="p">,</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;Line&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;Frequency&#39;</span><span class="p">},</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">for_each_trace</span><span class="p">(</span>
+      <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">newnames</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">legendgroup</span><span class="o">=</span><span class="n">newnames</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
+                         <span class="n">hovertemplate</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">hovertemplate</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">newnames</span><span class="p">[</span>
+                           <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">])))</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textfont_size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">textangle</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;outside&#39;</span><span class="p">,</span>
+                      <span class="n">cliponaxis</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="o">**</span><span class="n">fig_kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="AgentsAnalytics.plot_computation_times"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_computation_times">[docs]</a>  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">plot_computation_times</span><span class="p">(</span><span class="n">agents_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">],</span>
+                             <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                             <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Action Execution Time&#39;</span><span class="p">,</span>
+                             <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Time series line graph representing actions execution time at each</span>
+<span class="sd">    timestamp and for each agent.</span>
+
+<span class="sd">    You can filter the agents to display by giving the list &quot;agents_results&quot;</span>
+<span class="sd">    only to the desired agents.</span>
+
+<span class="sd">    Similarly, you can filter the episodes by giving the &quot;episode_names&quot; list</span>
+<span class="sd">    only to the episodes you want to display. If episodes_names=None,</span>
+<span class="sd">    then  returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param agents_results: list of agents episodes log, each item is a list</span>
+<span class="sd">                           of episode logs for an agent.</span>
+<span class="sd">    :type agents_results: list of :class:`EpisodeDataTransformer`</span>
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">                           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param title: bar chart title, bar chart title, default value =</span>
+<span class="sd">                  &#39;Action Execution Time&#39;</span>
+<span class="sd">    :type title: str</span>
+<span class="sd">    :param fig_kwargs: keyword arguments from the plotly library. Example:</span>
+<span class="sd">                       height= 700. For more arguments vist the plotly</span>
+<span class="sd">                       documentation https://plotly.com/python/</span>
+<span class="sd">    :type fig_kwargs: **kwargs</span>
+<span class="sd">    :return: Time series line graph of actions execution times</span>
+<span class="sd">    :rtype: plotly figure</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      import os</span>
+<span class="sd">      from grid2bench.AgentsAnalytics import AgentsAnalytics</span>
+
+<span class="sd">      input_data_path = os.path.abspath(&#39;../data/input&#39;)</span>
+<span class="sd">      agents_names = [&#39;Expert_Agent&#39;, &#39;IEE_PPO_Agent&#39;]</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading data</span>
+<span class="sd">      agents = AgentsAnalytics(</span>
+<span class="sd">        data_path=input_data_path,</span>
+<span class="sd">        agents_names=agents_names,</span>
+<span class="sd">        episodes_names=episodes_names</span>
+<span class="sd">      )</span>
+
+<span class="sd">      agents_logs = agents.agents_data</span>
+
+<span class="sd">      fig = AgentsAnalytics.plot_computation_times(</span>
+<span class="sd">            agents_logs,</span>
+<span class="sd">            episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">      fig.show()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">agent_names</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># for the first agent</span>
+    <span class="n">agent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">agent_name</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">computation_times_several_episodes</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Execution time&#39;</span><span class="p">:</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+      <span class="n">agent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">)</span>
+      <span class="n">df2</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">computation_times_several_episodes</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">)</span>
+      <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Execution time&#39;</span><span class="p">:</span> <span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">),</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create traces</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">agent_name</span> <span class="ow">in</span> <span class="n">agent_names</span><span class="p">:</span>
+      <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">agent_name</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                   <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines+markers&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">agent_name</span><span class="p">))</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">xaxis</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rangeslider&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;visible&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}},</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                      <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;Execution Time (s)&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="o">**</span><span class="n">fig_kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="AgentsAnalytics.plot_distance_from_initial_topology"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_distance_from_initial_topology">[docs]</a>  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">plot_distance_from_initial_topology</span><span class="p">(</span>
+      <span class="n">agents_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">],</span>
+      <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+      <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Distance from initial topology&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;line chart representing the number of changes compared to the initial</span>
+<span class="sd">    topology at each timestamp and for each agent.</span>
+
+<span class="sd">    You can filter the agents to display by giving the list &quot;agents_results&quot;</span>
+<span class="sd">    only to the desired agents.</span>
+
+<span class="sd">    Similarly, you can filter the episodes by giving the &quot;episode_names&quot; list</span>
+<span class="sd">    only to the episodes you want to display. If episodes_names=None,</span>
+<span class="sd">    then  returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param agents_results: list of agents episodes log, each item is a list</span>
+<span class="sd">                           of episode logs for an agent.</span>
+<span class="sd">    :type agents_results: list of :class:`EpisodeDataTransformer`</span>
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">                           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param title: bar chart title, bar chart title, default value =</span>
+<span class="sd">                  &#39;Distance from initial topology&#39;</span>
+<span class="sd">    :type title: str</span>
+<span class="sd">    :param fig_kwargs: keyword arguments from the plotly library. Example:</span>
+<span class="sd">                       height= 700. For more arguments vist the plotly</span>
+<span class="sd">                       documentation https://plotly.com/python/</span>
+<span class="sd">    :type fig_kwargs: **kwargs</span>
+<span class="sd">    :return: Time series line graph of actions execution times</span>
+<span class="sd">    :rtype: plotly figure</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      import os</span>
+<span class="sd">      from grid2bench.AgentsAnalytics import AgentsAnalytics</span>
+
+<span class="sd">      input_data_path = os.path.abspath(&#39;../data/input&#39;)</span>
+<span class="sd">      agents_names = [&#39;Expert_Agent&#39;, &#39;IEE_PPO_Agent&#39;]</span>
+<span class="sd">      episodes_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">      # loading data</span>
+<span class="sd">      agents = AgentsAnalytics(</span>
+<span class="sd">        data_path=input_data_path,</span>
+<span class="sd">        agents_names=agents_names,</span>
+<span class="sd">        episodes_names=episodes_names</span>
+<span class="sd">      )</span>
+
+<span class="sd">      agents_logs = agents.agents_data</span>
+
+<span class="sd">      fig = AgentsAnalytics.plot_distance_from_initial_topology(</span>
+<span class="sd">            agents_logs,</span>
+<span class="sd">            episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">      fig.show()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># for the first agent</span>
+    <span class="n">agent_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">agent_name</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">distance_from_initial_topology</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Distance&#39;</span><span class="p">:</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents_results</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+      <span class="n">agent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">)</span>
+      <span class="n">df2</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">distance_from_initial_topology</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">)</span>
+      <span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Distance&#39;</span><span class="p">:</span> <span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span><span class="p">})</span>
+
+      <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">),</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create traces</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">agent_name</span> <span class="ow">in</span> <span class="n">agent_names</span><span class="p">:</span>
+      <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">agent_name</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                   <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines+markers&#39;</span><span class="p">,</span> <span class="n">line_shape</span><span class="o">=</span><span class="s1">&#39;hvh&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">agent_name</span><span class="p">))</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">xaxis</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rangeslider&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;visible&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}},</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                      <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;Distance&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="o">**</span><span class="n">fig_kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="AgentsAnalytics.plot_actions_sequence_length"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_actions_sequence_length">[docs]</a>  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">plot_actions_sequence_length</span><span class="p">(</span><span class="n">agents_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">],</span>
+                                   <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                   <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Sequence length of actions&#39;</span><span class="p">,</span>
+                                   <span class="n">min_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
+                                   <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gantt diagram representing sequence actions for each agent.</span>
+
+<span class="sd">    A sequence of actions is defined by taking several actions in a</span>
+<span class="sd">    non-disconnected sequence of time steps. A non-disconnected sequence means</span>
+<span class="sd">    that there is no &quot;do nothing&quot; in the sequence.</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">    - Sequence 1 : Switch bus action, Topological changes, Do nothing</span>
+<span class="sd">      --&gt; Sequence of length 2</span>
+<span class="sd">    - Sequence 2 : Switch bus action, Do nothing, Topological changes</span>
+<span class="sd">      --&gt; not a sequence</span>
+<span class="sd">    - Sequence 3 : Switch bus action, Topological changes, Do nothing, Switch</span>
+<span class="sd">      bus action, Topological changes, Topological changes, Do nothing --&gt;</span>
+<span class="sd">      two sequences, the first of length 2 and the second of length 3</span>
+
+<span class="sd">    You can filter the agents to display by giving the list &quot;agents_results&quot;</span>
+<span class="sd">    only to the desired agents.</span>
+
+<span class="sd">    Similarly, you can filter the episodes by giving the &quot;episode_names&quot; list</span>
+<span class="sd">    only to the episodes you want to display. If episodes_names=None,</span>
+<span class="sd">    then  returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param agents_data: list of agents episodes log, each item is a list</span>
+<span class="sd">                           of episode logs for an agent.</span>
+<span class="sd">    :type agents_data: list of :class:`EpisodeDataTransformer`</span>
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">                           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param title: bar chart title, bar chart title, default value =</span>
+<span class="sd">                  &#39;Distance from initial topology&#39;</span>
+<span class="sd">    :type title: str</span>
+<span class="sd">    :param min_length: filter only sequence actions greater than</span>
+<span class="sd">    :type min_length: int</span>
+<span class="sd">    :param max_length: filter only asequence actions less than</span>
+<span class="sd">    :type max_length: int</span>
+<span class="sd">    :param fig_kwargs: keyword arguments from the plotly library. Example:</span>
+<span class="sd">                       height= 700. For more arguments vist the plotly</span>
+<span class="sd">                       documentation https://plotly.com/python/</span>
+<span class="sd">    :type fig_kwargs: **kwargs</span>
+<span class="sd">    :return: gantt chart of actions sequence</span>
+<span class="sd">    :rtype: plotly figure</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">      .. code-block:: python</span>
+
+<span class="sd">        import os</span>
+<span class="sd">        from grid2bench.AgentsAnalytics import AgentsAnalytics</span>
+
+<span class="sd">        input_data_path = os.path.abspath(&#39;../data/input&#39;)</span>
+<span class="sd">        agents_names = [&#39;Expert_Agent&#39;, &#39;IEE_PPO_Agent&#39;]</span>
+<span class="sd">        episodes_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">        # loading data</span>
+<span class="sd">        agents = AgentsAnalytics(</span>
+<span class="sd">          data_path=input_data_path,</span>
+<span class="sd">          agents_names=agents_names,</span>
+<span class="sd">          episodes_names=episodes_names</span>
+<span class="sd">        )</span>
+
+<span class="sd">        agents_logs = agents.agents_data</span>
+
+<span class="sd">        fig = AgentsAnalytics.plot_actions_sequence_length(</span>
+<span class="sd">              agents_logs,</span>
+<span class="sd">              episodes_names=[&#39;dec16_1&#39;])</span>
+<span class="sd">        fig.show()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plot_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents_data</span><span class="p">:</span>
+      <span class="n">plot_data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">action_sequences_to_dict</span><span class="p">(</span><span class="n">episodes_names</span><span class="p">,</span> <span class="n">min_length</span><span class="p">,</span> <span class="n">max_length</span><span class="p">))</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">timeline</span><span class="p">(</span><span class="n">plot_data</span><span class="p">,</span> <span class="n">x_start</span><span class="o">=</span><span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="n">x_end</span><span class="o">=</span><span class="s1">&#39;Finish&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Type&#39;</span><span class="p">,</span>
+                      <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Actions&#39;</span><span class="p">,</span>
+                      <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Type&#39;</span><span class="p">:</span> <span class="s1">&#39;Agent &#39;</span><span class="p">,</span> <span class="s1">&#39;Actions&#39;</span><span class="p">:</span> <span class="s1">&#39;Action Sequence&#39;</span><span class="p">},</span>
+                      <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">color_continuous_scale</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">],</span> <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">xaxis</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rangeslider&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;visible&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}})</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="o">**</span><span class="n">fig_kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="AgentsAnalytics.cumulative_reward"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.cumulative_reward">[docs]</a>  <span class="nd">@staticmethod</span>
+  <span class="c1"># cumulative reward extraction</span>
+  <span class="k">def</span> <span class="nf">cumulative_reward</span><span class="p">(</span><span class="n">agent_data</span><span class="p">:</span> <span class="n">EpisodesDataTransformer</span><span class="p">,</span>
+                        <span class="n">episodes_names</span><span class="p">:</span> <span class="n">List</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper function to transform cumulative rewards and accomplished</span>
+<span class="sd">    time-steps into a data frame.</span>
+
+<span class="sd">    Extract cumulative rewards and completed time steps, then turn them into a</span>
+<span class="sd">    time-series data frame.</span>
+
+<span class="sd">    :param agent_data: agent&#39;s episodes log</span>
+<span class="sd">    :type agent_data: :class:`EpisodeDataTransformer`</span>
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">                           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :return: dataframe of cumulative reward and accomplished time-steps</span>
+<span class="sd">    :rtype: pandas dataframe</span>
+
+<span class="sd">    Example of usage:</span>
+
+<span class="sd">      .. code-block:: python</span>
+
+<span class="sd">        import os</span>
+<span class="sd">        from grid2bench.AgentsAnalytics import AgentsAnalytics</span>
+
+<span class="sd">        input_data_path = os.path.abspath(&#39;../data/input&#39;)</span>
+<span class="sd">        agents_names = [&#39;Expert_Agent&#39;, &#39;IEE_PPO_Agent&#39;]</span>
+<span class="sd">        episodes_names = [&#39;dec16_1&#39;, &#39;dec16_2&#39;]</span>
+
+<span class="sd">        # loading data</span>
+<span class="sd">        agents = AgentsAnalytics(</span>
+<span class="sd">          data_path=input_data_path,</span>
+<span class="sd">          agents_names=agents_names,</span>
+<span class="sd">          episodes_names=episodes_names</span>
+<span class="sd">        )</span>
+
+<span class="sd">        agents_logs = agents.agents_data</span>
+
+<span class="sd">        # get expert agent index</span>
+<span class="sd">        expert_agent_idx = agents.agents_names.index(&#39;Expert_Agent&#39;)</span>
+<span class="sd">        expert_agent = agents_logs[expert_agent_idx]</span>
+
+<span class="sd">        df = AgentsAnalytics.cumulative_reward(</span>
+<span class="sd">          expert_agent,</span>
+<span class="sd">          episodes_names=episodes_names)</span>
+<span class="sd">        df</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">episode_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cum_rewards</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">nb_time_steps</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="n">agent_data</span><span class="o">.</span><span class="n">episodes_data</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">episode</span><span class="o">.</span><span class="n">episode_name</span> <span class="ow">in</span> <span class="n">episodes_names</span><span class="p">:</span>
+        <span class="n">episode_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">episode</span><span class="o">.</span><span class="n">episode_name</span><span class="p">)</span>
+        <span class="n">cum_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">episode</span><span class="o">.</span><span class="n">cum_reward</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="n">nb_time_steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">episode</span><span class="o">.</span><span class="n">nb_timestep_played</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+      <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">episode_names</span><span class="p">,</span> <span class="n">nb_time_steps</span><span class="p">,</span> <span class="n">cum_rewards</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span>
+      <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Episode&#39;</span><span class="p">,</span> <span class="s1">&#39;Played timesteps&#39;</span><span class="p">,</span> <span class="s1">&#39;Cumulative reward&#39;</span><span class="p">],</span> <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+      <span class="p">{</span><span class="s1">&#39;Episode&#39;</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="s1">&#39;Played timesteps&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;Cumulative reward&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="AgentsAnalytics.plot_cumulative_reward"><a class="viewcode-back" href="../../grid2bench.html#grid2bench.AgentsAnalytics.AgentsAnalytics.plot_cumulative_reward">[docs]</a>  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">plot_cumulative_reward</span><span class="p">(</span><span class="n">agents_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EpisodesDataTransformer</span><span class="p">],</span>
+                             <span class="n">episodes_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                             <span class="n">fig_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;CumReward&#39;</span><span class="p">,</span>
+                             <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+                               <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Cumulative reward per episode&#39;</span><span class="p">,</span>
+                             <span class="o">**</span><span class="n">fig_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A bar graph representing the cumulative reward/accomplished time-steps</span>
+<span class="sd">    per episodes for each agent.</span>
+
+<span class="sd">    If fig_type is default, plot cumulative rewards. If</span>
+<span class="sd">    fig_type=&#39;Acctimesteps&#39;  then plot completed timesteps instead</span>
+
+<span class="sd">    You can filter the agents to display by giving the list &quot;agents_results&quot;</span>
+<span class="sd">    only to the desired agents.</span>
+
+<span class="sd">    Similarly, you can filter the episodes by giving the &quot;episode_names&quot; list</span>
+<span class="sd">    only to the episodes you want to display. If episodes_names=None,</span>
+<span class="sd">    then  returns the results of all loaded episodes.</span>
+
+<span class="sd">    :param agents_data: list of agents episodes log, each item is a list</span>
+<span class="sd">                           of episode logs for an agent.</span>
+<span class="sd">    :type agents_data: list of :class:`EpisodeDataTransformer`</span>
+<span class="sd">    :param episodes_names: filter specific episodes. If none, returns results</span>
+<span class="sd">                           for all loaded episodes.</span>
+<span class="sd">    :type episodes_names: list of str</span>
+<span class="sd">    :param title: bar chart title, bar chart title, default value =</span>
+<span class="sd">                  &#39;Overloaded Lines by station&#39;</span>
+<span class="sd">    :type title: str</span>
+<span class="sd">    :param fig_type: diagram type: cumulative reward per episode or</span>
+<span class="sd">                     accomplished time-steps per episode.</span>
+<span class="sd">                     Default = cumulative reward, else accomplished time-steps</span>
+<span class="sd">    :type fig_type: str</span>
+<span class="sd">    :param fig_kwargs: keyword arguments from the plotly library. Example:</span>
+<span class="sd">                       height= 700. For more arguments vist the plotly</span>
+<span class="sd">                       documentation https://plotly.com/python/</span>
+<span class="sd">    :type fig_kwargs: **kwargs</span>
+<span class="sd">    :return: Barchart of cumulative rewards/accomplished time-steps</span>
+<span class="sd">    :rtype: plotly figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">episodes_names</span><span class="p">:</span> <span class="n">episodes_names</span> <span class="o">=</span> <span class="n">agents_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">episodes_names</span>
+
+    <span class="n">new_names</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">y_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">agent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">agents_data</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">fig_type</span> <span class="o">==</span> <span class="s1">&#39;CumReward&#39;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">AgentsAnalytics</span><span class="o">.</span><span class="n">cumulative_reward</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Cumulative reward&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">AgentsAnalytics</span><span class="o">.</span><span class="n">cumulative_reward</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">episodes_names</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Played timesteps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+      <span class="n">agent_episodes</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Episode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+      <span class="n">new_names</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;wide_variable_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">agent_name</span>
+      <span class="n">y_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">fig_type</span> <span class="o">==</span> <span class="s1">&#39;CumReward&#39;</span><span class="p">:</span>
+      <span class="n">x_title</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">frac{Cumulative reward}</span><span class="si">{100}</span><span class="s1">$&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">title</span> <span class="o">=</span> <span class="n">x_title</span> <span class="o">=</span> <span class="s1">&#39;Accomplished time steps&#39;</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">agent_episodes</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_list</span><span class="p">,</span> <span class="n">text_auto</span><span class="o">=</span><span class="s1">&#39;.2s&#39;</span><span class="p">,</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;Scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">x_title</span><span class="p">},</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">for_each_trace</span><span class="p">(</span>
+      <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">new_names</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">legendgroup</span><span class="o">=</span><span class="n">new_names</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
+                         <span class="n">hovertemplate</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">hovertemplate</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                               <span class="n">new_names</span><span class="p">[</span>
+                                                                 <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">])))</span>
+
+    <span class="c1"># Set y-axes titles</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="o">**</span><span class="n">fig_kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Seif-Eddine ATTOUI, Milad LEYLI-ABADI, Fereshteh ASGARI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
