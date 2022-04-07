@@ -42,13 +42,13 @@ The modules load data in the forms :class:`EpisodesDataTransformer` and
 
 """
 import os
+from typing import List, Optional
 
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from typing import List, Optional, Dict
 
 from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer
 
@@ -109,11 +109,10 @@ class AgentsAnalytics:
       episodes_names=self.episodes_names) for agent_name in self.agents_names]
 
   @staticmethod
-  def plot_actions_freq_by_station(agents_results: Optional[List] = None,
-                                   episodes_names: Optional[List] = None,
-                                   title: Optional[
-                                     str] = 'Frequency of actions by station',
-                                   **fig_kwargs):
+  def plot_actions_freq_by_station(
+      agents_results: List[EpisodesDataTransformer],
+      episodes_names: Optional[List] = None,
+      title: Optional[str] = 'Frequency of actions by station', **fig_kwargs):
     """A bar chart representing the number of actions impacting each station
     and for each agent.
 
@@ -184,7 +183,7 @@ class AgentsAnalytics:
     y_list = []
 
     for i in range(len(agent_names)):
-      newnames['wide_variable_{}'.format(i)] = agent_names[i]
+      newnames[f'wide_variable_{i}'] = agent_names[i]
       y_list.append(df[agent_names[i]].to_list())
 
     fig = px.bar(x=df['Substation'].to_list(), y=y_list, text_auto='.2s',
@@ -204,10 +203,12 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_actions_freq_by_type(agents_results: Optional[List] = None,
+  def plot_actions_freq_by_type(agents_results: List[EpisodesDataTransformer],
                                 episodes_names: Optional[List] = None,
-                                title: str = 'Frequency of actions by type',
-                                row: int = 1, col: int = 2, **fig_kwargs):
+                                title: Optional[str] = 'Frequency of actions '
+                                                       'by type',
+                                row: Optional[int] = 1, col: Optional[int] = 2,
+                                **fig_kwargs):
     """A pie chart representing the frequency of unit actions by type.
 
     Unit actions can be of type : switched lines, topological impacts,
@@ -228,7 +229,7 @@ class AgentsAnalytics:
            for all loaded episodes.
     :type episodes_names: list of str
     :param title: bar chart title, bar chart title, default value =
-                  'Frequency of actions by station'
+                  'Frequency of actions by type'
     :type title: str
     :param row: number of rows in plotly subplot
     :type row: int
@@ -292,7 +293,7 @@ class AgentsAnalytics:
 
   @staticmethod
   def plot_actions_freq_by_station_pie_chart(
-      agents_results: Optional[List] = None,
+      agents_results: List[EpisodesDataTransformer],
       episodes_names: Optional[List] = None,
       title: str = 'Frequency of actions by station', row: int = 1,
       col: int = 2, **fig_kwargs):
@@ -379,7 +380,7 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_lines_impact(agents_results: Optional[List] = None,
+  def plot_lines_impact(agents_results: List[EpisodesDataTransformer],
                         episodes_names: Optional[List] = None,
                         title: str = 'Overloaded Lines by station',
                         fig_type: str = 'overloaded', **fig_kwargs):
@@ -404,7 +405,7 @@ class AgentsAnalytics:
                            for all loaded episodes.
     :type episodes_names: list of str
     :param title: bar chart title, bar chart title, default value =
-                  'Frequency of actions by station'
+                  'Overloaded Lines by station'
     :type title: str
     :param fig_type: diagram type: frequency of overloaded lines or
                      frequency of disconnected lines. Default = overloaded,
@@ -477,7 +478,7 @@ class AgentsAnalytics:
     newnames = {}
     y_list = []
     for i in range(len(agent_names)):
-      newnames['wide_variable_{}'.format(i)] = agent_names[i]
+      newnames[f'wide_variable_{i}'] = agent_names[i]
       y_list.append(df[agent_names[i]].to_list())
 
     fig = px.bar(df, x='Line', y=y_list, text_auto='.2s',
@@ -497,15 +498,61 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_computation_times(agents_results=[], episodes_names=[],
-                             title='Action Execution Time', **fig_kwargs):
-    """
+  def plot_computation_times(agents_results: List[EpisodesDataTransformer],
+                             episodes_names: Optional[List] = None,
+                             title: str = 'Action Execution Time',
+                             **fig_kwargs):
+    """Time series line graph representing actions execution time at each
+    timestamp and for each agent.
 
-    :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
-    :param episodes_names: filter some episodes, if empty it will show all loaded episodes
-    :param title: plot title, if empty it will return default value
-    :param fig_kwargs: keyword for plotly arguments, example: height= 700
-    :return:
+    You can filter the agents to display by giving the list "agents_results"
+    only to the desired agents.
+
+    Similarly, you can filter the episodes by giving the "episode_names" list
+    only to the episodes you want to display. If episodes_names=None,
+    then  returns the results of all loaded episodes.
+
+    :param agents_results: list of agents episodes log, each item is a list
+                           of episode logs for an agent.
+    :type agents_results: list of :class:`EpisodeDataTransformer`
+    :param episodes_names: filter specific episodes. If none, returns results
+                           for all loaded episodes.
+    :type episodes_names: list of str
+    :param title: bar chart title, bar chart title, default value =
+                  'Action Execution Time'
+    :type title: str
+    :param fig_kwargs: keyword arguments from the plotly library. Example:
+                       height= 700. For more arguments vist the plotly
+                       documentation https://plotly.com/python/
+    :type fig_kwargs: **kwargs
+    :return: Time series line graph of actions execution times
+    :rtype: plotly figure
+
+    Example of usage:
+
+    .. code-block:: python
+
+      import os
+      from grid2bench.AgentsAnalytics import AgentsAnalytics
+
+      input_data_path = os.path.abspath('../data/input')
+      agents_names = ['Expert_Agent', 'IEE_PPO_Agent']
+      episodes_names = ['dec16_1', 'dec16_2']
+
+      # loading data
+      agents = AgentsAnalytics(
+        data_path=input_data_path,
+        agents_names=agents_names,
+        episodes_names=episodes_names
+      )
+
+      agents_logs = agents.agents_data
+
+      fig = AgentsAnalytics.plot_computation_times(
+            agents_logs,
+            episodes_names=['dec16_1'])
+      fig.show()
+
     """
     agent_names = []
 
@@ -535,15 +582,61 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_distance_from_initial_topology(agents_results=[], episodes_names=[],
-                                          title='Distance from initial topology',
-                                          **fig_kwargs):
-    """
-    :param agents_results: list of agent objects of class 'Agents_Evaluation ' or class 'Episode_Plot'
-    :param episodes_names: filter some episodes, if empty it will show all loaded episodes
-    :param title: plot title, if empty it will return default value
-    :param fig_kwargs: keyword for plotly arguments, example: height= 700
-    :return:
+  def plot_distance_from_initial_topology(
+      agents_results: List[EpisodesDataTransformer],
+      episodes_names: Optional[List] = None,
+      title: str = 'Distance from initial topology', **fig_kwargs):
+    """line chart representing the number of changes compared to the initial
+    topology at each timestamp and for each agent.
+
+    You can filter the agents to display by giving the list "agents_results"
+    only to the desired agents.
+
+    Similarly, you can filter the episodes by giving the "episode_names" list
+    only to the episodes you want to display. If episodes_names=None,
+    then  returns the results of all loaded episodes.
+
+    :param agents_results: list of agents episodes log, each item is a list
+                           of episode logs for an agent.
+    :type agents_results: list of :class:`EpisodeDataTransformer`
+    :param episodes_names: filter specific episodes. If none, returns results
+                           for all loaded episodes.
+    :type episodes_names: list of str
+    :param title: bar chart title, bar chart title, default value =
+                  'Distance from initial topology'
+    :type title: str
+    :param fig_kwargs: keyword arguments from the plotly library. Example:
+                       height= 700. For more arguments vist the plotly
+                       documentation https://plotly.com/python/
+    :type fig_kwargs: **kwargs
+    :return: Time series line graph of actions execution times
+    :rtype: plotly figure
+
+    Example of usage:
+
+    .. code-block:: python
+
+      import os
+      from grid2bench.AgentsAnalytics import AgentsAnalytics
+
+      input_data_path = os.path.abspath('../data/input')
+      agents_names = ['Expert_Agent', 'IEE_PPO_Agent']
+      episodes_names = ['dec16_1', 'dec16_2']
+
+      # loading data
+      agents = AgentsAnalytics(
+        data_path=input_data_path,
+        agents_names=agents_names,
+        episodes_names=episodes_names
+      )
+
+      agents_logs = agents.agents_data
+
+      fig = AgentsAnalytics.plot_distance_from_initial_topology(
+            agents_logs,
+            episodes_names=['dec16_1'])
+      fig.show()
+
     """
 
     # for the first agent
@@ -573,10 +666,80 @@ class AgentsAnalytics:
     return fig
 
   @staticmethod
-  def plot_actions_sequence_length(agents_data, episodes_names=[],
-                                   title='Sequence length of actions',
+  def plot_actions_sequence_length(agents_data: List[EpisodesDataTransformer],
+                                   episodes_names: Optional[List] = None,
+                                   title: str = 'Sequence length of actions',
                                    min_length: int = 0, max_length: int = 400,
                                    **fig_kwargs):
+    """Gantt diagram representing sequence actions for each agent.
+
+    A sequence of actions is defined by taking several actions in a
+    non-disconnected sequence of time steps. A non-disconnected sequence means
+    that there is no "do nothing" in the sequence.
+
+    Examples:
+
+    - Sequence 1 : Switch bus action, Topological changes, Do nothing
+      --> Sequence of length 2
+    - Sequence 2 : Switch bus action, Do nothing, Topological changes
+      --> not a sequence
+    - Sequence 3 : Switch bus action, Topological changes, Do nothing, Switch
+      bus action, Topological changes, Topological changes, Do nothing -->
+      two sequences, the first of length 2 and the second of length 3
+
+    You can filter the agents to display by giving the list "agents_results"
+    only to the desired agents.
+
+    Similarly, you can filter the episodes by giving the "episode_names" list
+    only to the episodes you want to display. If episodes_names=None,
+    then  returns the results of all loaded episodes.
+
+    :param agents_data: list of agents episodes log, each item is a list
+                           of episode logs for an agent.
+    :type agents_data: list of :class:`EpisodeDataTransformer`
+    :param episodes_names: filter specific episodes. If none, returns results
+                           for all loaded episodes.
+    :type episodes_names: list of str
+    :param title: bar chart title, bar chart title, default value =
+                  'Distance from initial topology'
+    :type title: str
+    :param min_length: filter only sequence actions greater than
+    :type min_length: int
+    :param max_length: filter only asequence actions less than
+    :type max_length: int
+    :param fig_kwargs: keyword arguments from the plotly library. Example:
+                       height= 700. For more arguments vist the plotly
+                       documentation https://plotly.com/python/
+    :type fig_kwargs: **kwargs
+    :return: gantt chart of actions sequence
+    :rtype: plotly figure
+
+    Example of usage:
+
+      .. code-block:: python
+
+        import os
+        from grid2bench.AgentsAnalytics import AgentsAnalytics
+
+        input_data_path = os.path.abspath('../data/input')
+        agents_names = ['Expert_Agent', 'IEE_PPO_Agent']
+        episodes_names = ['dec16_1', 'dec16_2']
+
+        # loading data
+        agents = AgentsAnalytics(
+          data_path=input_data_path,
+          agents_names=agents_names,
+          episodes_names=episodes_names
+        )
+
+        agents_logs = agents.agents_data
+
+        fig = AgentsAnalytics.plot_actions_sequence_length(
+              agents_logs,
+              episodes_names=['dec16_1'])
+        fig.show()
+
+    """
     plot_data = []
     for agent in agents_data:
       plot_data.extend(
@@ -593,10 +756,54 @@ class AgentsAnalytics:
 
   @staticmethod
   # cumulative reward extraction
-  def cumulative_reward(agent_data, episodes_names):
-    episode_names = list()
-    cum_rewards = list()
-    nb_time_steps = list()
+  def cumulative_reward(agent_data: EpisodesDataTransformer,
+                        episodes_names: List):
+    """Helper function to transform cumulative rewards and accomplished
+    time-steps into a data frame.
+
+    Extract cumulative rewards and completed time steps, then turn them into a
+    time-series data frame.
+
+    :param agent_data: agent's episodes log
+    :type agent_data: :class:`EpisodeDataTransformer`
+    :param episodes_names: filter specific episodes. If none, returns results
+                           for all loaded episodes.
+    :type episodes_names: list of str
+    :return: dataframe of cumulative reward and accomplished time-steps
+    :rtype: pandas dataframe
+
+    Example of usage:
+
+      .. code-block:: python
+
+        import os
+        from grid2bench.AgentsAnalytics import AgentsAnalytics
+
+        input_data_path = os.path.abspath('../data/input')
+        agents_names = ['Expert_Agent', 'IEE_PPO_Agent']
+        episodes_names = ['dec16_1', 'dec16_2']
+
+        # loading data
+        agents = AgentsAnalytics(
+          data_path=input_data_path,
+          agents_names=agents_names,
+          episodes_names=episodes_names
+        )
+
+        agents_logs = agents.agents_data
+
+        # get expert agent index
+        expert_agent_idx = agents.agents_names.index('Expert_Agent')
+        expert_agent = agents_logs[expert_agent_idx]
+
+        df = AgentsAnalytics.cumulative_reward(
+          expert_agent,
+          episodes_names=episodes_names)
+        df
+    """
+    episode_names = []
+    cum_rewards = []
+    nb_time_steps = []
 
     for episode in agent_data.episodes_data:
       if episode.episode_name in episodes_names:
@@ -612,10 +819,45 @@ class AgentsAnalytics:
       {'Episode': 'str', 'Played timesteps': int, 'Cumulative reward': float})
 
   @staticmethod
-  def plot_cumulative_reward(agents_data=[], episodes_names=[],
-                             fig_type='CumReward',
-                             title='Cumulative reward per episode',
+  def plot_cumulative_reward(agents_data: List[EpisodesDataTransformer],
+                             episodes_names: Optional[List] = None,
+                             fig_type: Optional[str] = 'CumReward',
+                             title: Optional[
+                               str] = 'Cumulative reward per episode',
                              **fig_kwargs):
+    """A bar graph representing the cumulative reward/accomplished time-steps
+    per episodes for each agent.
+
+    If fig_type is default, plot cumulative rewards. If
+    fig_type='Acctimesteps'  then plot completed timesteps instead
+
+    You can filter the agents to display by giving the list "agents_results"
+    only to the desired agents.
+
+    Similarly, you can filter the episodes by giving the "episode_names" list
+    only to the episodes you want to display. If episodes_names=None,
+    then  returns the results of all loaded episodes.
+
+    :param agents_data: list of agents episodes log, each item is a list
+                           of episode logs for an agent.
+    :type agents_data: list of :class:`EpisodeDataTransformer`
+    :param episodes_names: filter specific episodes. If none, returns results
+                           for all loaded episodes.
+    :type episodes_names: list of str
+    :param title: bar chart title, bar chart title, default value =
+                  'Overloaded Lines by station'
+    :type title: str
+    :param fig_type: diagram type: cumulative reward per episode or
+                     accomplished time-steps per episode.
+                     Default = cumulative reward, else accomplished time-steps
+    :type fig_type: str
+    :param fig_kwargs: keyword arguments from the plotly library. Example:
+                       height= 700. For more arguments vist the plotly
+                       documentation https://plotly.com/python/
+    :type fig_kwargs: **kwargs
+    :return: Barchart of cumulative rewards/accomplished time-steps
+    :rtype: plotly figure
+    """
     if not episodes_names: episodes_names = agents_data[0].episodes_names
 
     new_names = {}
@@ -630,7 +872,7 @@ class AgentsAnalytics:
         y = df['Played timesteps'].tolist()
 
       agent_episodes = df['Episode'].tolist()
-      new_names['wide_variable_{}'.format(i)] = agent.agent_name
+      new_names[f'wide_variable_{i}'] = agent.agent_name
       y_list.append(y)
 
     if fig_type == 'CumReward':
