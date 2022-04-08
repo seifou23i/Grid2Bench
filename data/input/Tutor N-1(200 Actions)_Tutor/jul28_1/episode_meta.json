@@ -1,0 +1,11 @@
+{
+    "agent_seed": 12106084,
+    "backend_type": "LightSimBackend_l2rpn_neurips_2020_test",
+    "chronics_max_timestep": "2016",
+    "chronics_path": "/home/paspartout/work/l2rpn_binbinchen_iee/data/l2rpn_neurips_2020_test/chronics/jul28_1",
+    "cumulative_reward": 1957478.125,
+    "env_seed": 426117821,
+    "env_type": "Environment_l2rpn_neurips_2020_test",
+    "grid_path": "/home/paspartout/work/l2rpn_binbinchen_iee/data/l2rpn_neurips_2020_test/grid.json",
+    "nb_timestep_played": 2016
+}

@@ -1,0 +1,11 @@
+{
+    "agent_seed": 38488604,
+    "backend_type": "LightSimBackend_input_data_val",
+    "chronics_max_timestep": "2016",
+    "chronics_path": "/home/milad/PythonScripts/repos/2mg/data/input_data_val/chronics/feb20_1",
+    "cumulative_reward": 1382606.75,
+    "env_seed": 1542684098,
+    "env_type": "Environment_input_data_val",
+    "grid_path": "/home/milad/PythonScripts/repos/2mg/data/input_data_val/grid.json",
+    "nb_timestep_played": 1738
+}
