@@ -45,6 +45,7 @@ from IPython.display import display
 from grid2op.Action import BaseAction
 from grid2op.Observation import BaseObservation
 from tqdm import tqdm
+import plotly.express as px
 
 from grid2bench.EpisodeDataExtractor import EpisodeDataExtractor
 
@@ -787,14 +788,16 @@ class EpisodesDataTransformer:
 
   def display_detailed_action_type(self, episodes_names: List):
 
-    data_display = display(display_id='data_display')
-    output_display = display(display_id='output_display')
+    data_display = display(display_id="data_display")
+    output_display = display(display_id="output_display")
     grid = qgrid.QGridWidget(df=pd.DataFrame())
 
     w = widgets.Dropdown(
       options=['Select', 'Tolopology', 'Force_line', 'Redispatching',
-               'Injection', 'Curtailment', 'Storage'], value='Select',
-      description='Table', )
+               'Injection', 'Curtailment', 'Storage'],
+      value='Select',
+      description='Table',
+    )
 
     def on_change(change):
       if change['type'] == 'change' and change['name'] == 'value':
@@ -804,23 +807,79 @@ class EpisodesDataTransformer:
         for episode_data in self.episodes_data:
           if (not len(
               episodes_names)) or episode_data.episode_name in episodes_names:
-            functions = {'Tolopology': episode_data.create_topology_df,
-                         'Force_line': episode_data.create_force_line_df,
-                         'Redispatching': episode_data.create_dispatch_df,
-                         'Injection': episode_data.create_injection_df,
-                         'Curtailment': episode_data.create_curtailment_df,
-                         'Storage': episode_data.create_storage_df}
+            functions = {
+              'Tolopology': episode_data.create_topology_df,
+              'Force_line': episode_data.create_force_line_df,
+              'Redispatching': episode_data.create_dispatch_df,
+              'Injection': episode_data.create_injection_df,
+              'Curtailment': episode_data.create_curtailment_df,
+              'Storage': episode_data.create_storage_df
+            }
             r = functions[change['new']]()
             r[1]['episode_name'] = episode_data.episode_name
             result = pd.concat([result, r[1]])
             c += r[0]
         output_display.update(
-          'total Number of ' + change['new'] + ' changes:' + str(c))
+          "total Number of " + change['new'] + " changes:" + str(c))
         grid.df = result
 
     w.observe(on_change)
-    #         ouptup_display = display(display_id='ouptup_display')
+    #         ouptup_display = display(display_id="ouptup_display")
 
     display(w)
     output_display.display('')
     data_display.display(grid)
+
+  def get_actions_by_substation_by_id(self):
+    act_episodes = []
+    print('Calculating actions id')
+    for i, episode_data in tqdm(enumerate(self.episodes_data)):
+      act_episodes.extend(episode_data.actions.objects)
+      if i == 0:
+        _, df = episode_data.create_topology_df()
+      else:
+        _, df2 = episode_data.create_topology_df()
+        df = pd.concat([df, df2], ignore_index=True)
+
+    def f(x):
+      episode_name = x['episode']
+      episode_idx = self.episodes_names.index(episode_name)
+      timestep = x['t_step']
+      action = self.episodes_data[episode_idx].actions[timestep]
+      return act_episodes.index(action)
+
+    df['action_id'] = df.apply(f, axis=1)
+
+    df['nb_action'] = np.ones(df.shape[0])
+    df['susbtation'] = df['susbtation'].apply(lambda x: f'sub_{x}')
+    df['action_id'] = df['action_id'].apply(lambda x: f'act_{x}')
+
+    return df
+
+  def get_action_by_id(self, action_id):
+    act_episodes = []
+    for i, episode_data in enumerate(self.episodes_data):
+      act_episodes.extend(episode_data.actions.objects)
+    return act_episodes[action_id]
+
+  @staticmethod
+  def plot_actions_by_station_by_id(
+      df,
+      title: Optional[str] = 'Frequency of actions by substation',
+      reverse: bool= False,
+      **fig_kwargs):
+
+    if reverse:
+      path = ['susbtation', 'action_id']
+    else:
+      path = ['action_id', 'susbtation']
+
+    fig = px.sunburst(
+      df,
+      path=path,
+      values='nb_action',
+      title=title,
+    )
+    fig.update_traces(**fig_kwargs)
+    return fig
+

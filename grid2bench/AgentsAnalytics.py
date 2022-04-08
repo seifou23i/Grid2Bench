@@ -894,3 +894,35 @@ class AgentsAnalytics:
     fig.update_layout(**fig_kwargs)
 
     return fig
+
+  @staticmethod
+  def plot_actions_freq_by_substation_by_id(
+      agents_results: List[EpisodesDataTransformer],
+      episodes_names: Optional[List] = None,
+      title: Optional[str] = 'Frequency of actions by type',
+      row: Optional[int] = 1, col: Optional[int] = 2,
+      **fig_kwargs):
+
+    agent_names = []
+    for agent in agents_results:
+      agent_names.append(agent.agent_name)
+
+    list_i = []
+    for i in range(row):
+      list_j = []
+      for j in range(col):
+        list_j.append({'type': 'domain'})
+      list_i.append(list_j)
+
+    fig = make_subplots(row, col, specs=list_i, subplot_titles=agent_names)
+
+    for i in range(row):
+      for j in range(col):
+        data = agents_results[i + j].get_actions_by_substation_by_id()
+        fig.add_trace(go.Pie(labels=data.index, values=data['Frequency'],
+                             name=agent_names[i + j]), i + 1, j + 1)
+
+    fig.update_traces(textposition='inside')
+    fig.update_layout(title_text=title, uniformtext_minsize=12,
+                      uniformtext_mode='hide', **fig_kwargs)
+    return fig

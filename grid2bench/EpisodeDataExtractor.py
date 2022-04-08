@@ -682,16 +682,17 @@ class EpisodeDataExtractor:
       objs_on_bus_2[elem['substation']].append(pos_topo_vect[elem['object_id']])
     return objs_on_bus_2
 
-  # TODO optimize --> Fereshteh
+    # TODO optimize --> Fereshteh
 
   def create_topology_df(self):
     c1 = 0
     c2 = 0
     c3 = 0
 
+    # topo_df = pd.DataFrame(columns= [ 't_step', 'time_stamp','action_id',
+    # 'type',  'object_type', 'object_id', 'susbtation'])
     topo_df = pd.DataFrame(
-      columns=['t_step', 'time_stamp', 'action_id', 'type', 'object_type',
-               'object_id', 'susbtation'])
+      columns=['t_step', 'time_stamp', 'action_id', 'susbtation'])
     for i in range(0, len(self.actions)):
 
       t = self.timestamps[i]
@@ -709,28 +710,32 @@ class EpisodeDataExtractor:
                   o_type = d['topology']['bus_switch'][n]['object_type']
                   o_id = d['topology']['bus_switch'][n]['object_id']
                   subs = d['topology']['bus_switch'][n]['substation']
-                  topo_df.loc[len(topo_df)] = [i, t, a_id, 'swithc_bus', o_type,
-                                               o_id, subs]
+                  # topo_df.loc[len(topo_df)]= [i,t,a_id, 'swithc_bus', o_type,
+                  # o_id, subs]
+                  topo_df.loc[len(topo_df)] = [i, t, a_id, subs]
 
               if d['topology']['assigned_bus']:
                 for n in range(0, len(d['topology']['assigned_bus'])):
                   # print(d['topology']['assigned_bus'][n])
-                  print('assigned_bus')
                   o_type = d['topology']['assigned_bus'][n]['object_type']
                   o_id = d['topology']['assigned_bus'][n]['object_id']
                   subs = d['topology']['assigned_bus'][n]['substation']
-                  topo_df.loc[len(topo_df)] = [i, t, a_id, 'assigned_bus',
-                                               o_type, o_id, subs]
+                  # topo_df.loc[len(topo_df)]= [i,t,a_id, 'assigned_bus',
+                  # o_type, o_id, subs]
+                  topo_df.loc[len(topo_df)] = [i, t, a_id, subs]
 
               if d['topology']['disconnect_bus']:
                 for n in range(0, len(d['topology']['disconnect_bus'])):
                   o_type = d['topology']['disconnect_bus'][n]['object_type']
                   o_id = d['topology']['disconnect_bus'][n]['object_id']
                   subs = d['topology']['disconnect_bus'][n]['substation']
-                  topo_df.loc[len(topo_df)] = [i, t, a_id, 'disconnect_bus',
-                                               o_type, o_id, subs]
+                  # topo_df.loc[len(topo_df)]= [i,t,a_id, 'disconnect_bus',
+                  # o_type, o_id, subs]
+                  topo_df.loc[len(topo_df)] = [i, t, a_id, subs]
 
-    return [c1 + c2 + c3, topo_df]
+    topology_df = topo_df.drop_duplicates().reset_index(drop=True)
+    topology_df['episode'] = self.episode_name
+    return [c1 + c2 + c3, topology_df]
 
   def create_injection_df(self):
     c = 0
@@ -778,6 +783,7 @@ class EpisodeDataExtractor:
   def create_force_line_df(self):
     c1 = 0
     c2 = 0
+    c3 = 0
     line_df = pd.DataFrame(
       columns=['t_step', 'time_stamp', 'action_id', 'type', 'powerline'])
     for i in range(0, len(self.actions)):
@@ -841,3 +847,4 @@ class EpisodeDataExtractor:
       if action == act_dict:
         return idx
     return None
+
