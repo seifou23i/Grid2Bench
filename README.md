@@ -103,7 +103,7 @@ Getting_Started notebook contains simple examples to show how we use the functio
    
 
 # Documentation
-The documentation is accessible via: [the link to readthedocs](readthedocs.org)
+The documentation is accessible from [here](https://grid2bench.readthedocs.io/en/latest/index.html).
 
 To generate locally the documentation:
 ```commandline
