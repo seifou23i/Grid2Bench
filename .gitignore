@@ -132,3 +132,5 @@ dmypy.json
 /notebooks/.ipynb_checkpoints/
 /notebooks/.ipynb_checkpoints/
 /docs/build/
+/notebooks/.ipynb_checkpoints/
+/notebooks/.ipynb_checkpoints/

@@ -880,6 +880,6 @@ class EpisodesDataTransformer:
       values='nb_action',
       title=title,
     )
-    fig.update_traces(**fig_kwargs)
+    fig.update_layout(**fig_kwargs)
     return fig
 
