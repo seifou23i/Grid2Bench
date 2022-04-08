@@ -43,7 +43,7 @@ In future
 pip3 install grid2bench
 ```
 
-# Main features of RLBenchPlot
+# Main features of Grid2Bench
 This package allows to evaluate the performance of power grid agents from various point of views. 
 Hereafter, we introduce the main feeatures included in this package:
 
@@ -85,7 +85,7 @@ A more complete example of all the functionalities could be seen in documentatio
 A dedicated KPI page is provided at: [KPI page](docs/source/kpi.rst)
 
 # Getting Started
-Some Jupyter notebook are provided as tutorials for the RLBenchPlot package. They are located in the 
+Some Jupyter notebook are provided as tutorials for the Grid2Bench package. They are located in the 
 [getting_started](getting_started) directories. 
 
 Getting_Started notebook contains simple examples to show how we use the functions defined in the framework:
