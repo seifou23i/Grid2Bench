@@ -21,6 +21,7 @@ Welcome to Grid2Bench's documentation!
 
    examples
    contrib
+   config
 
 Indices and tables
 ==================
