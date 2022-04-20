@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 # -- Project information -----------------------------------------------------
 
 project = 'Grid2Bench'
-copyright = '2022, Seif-Eddine ATTOUI, Milad LEYLI-ABADI, Fereshteh ASGARI'
+copyright = '2022, IRT SystemX' #Seif-Eddine ATTOUI, Milad LEYLI-ABADI, Fereshteh ASGARI'
 author = 'Seif-Eddine ATTOUI, Milad LEYLI-ABADI, Fereshteh ASGARI'
 
 # The full version, including alpha/beta/rc tags
