@@ -383,7 +383,7 @@ class AgentsAnalytics:
   def plot_lines_impact(agents_results: List[EpisodesDataTransformer],
                         episodes_names: Optional[List] = None,
                         title: str = 'Overloaded Lines by station',
-                        fig_type: str = 'overloaded', **fig_kwargs):
+                        overloaded: bool = True, **fig_kwargs):
     """A bar chart representing the frequency of actions impacts on each power
     lines and for each agent.
 
@@ -407,10 +407,10 @@ class AgentsAnalytics:
     :param title: bar chart title, bar chart title, default value =
                   'Overloaded Lines by station'
     :type title: str
-    :param fig_type: diagram type: frequency of overloaded lines or
+    :param overloaded: diagram type: frequency of overloaded lines or
                      frequency of disconnected lines. Default = overloaded,
                      else disconnected
-    :type fig_type: str
+    :type fig_type: bool
     :param fig_kwargs: keyword arguments from the plotly library. Example:
                        height= 700. For more arguments vist the plotly
                        documentation https://plotly.com/python/
@@ -445,7 +445,7 @@ class AgentsAnalytics:
       # disconnected lines
       fig_disconnected_lines = AgentsAnalytics.plot_lines_impact(
       agents_logs,
-      fig_type='disconnected')
+      overloaded= False)
       fig_disconnected_lines.show()
 
     """
@@ -454,7 +454,7 @@ class AgentsAnalytics:
     # for the first agent
     agent_names.append(agents_results[0].agent_name)
 
-    if fig_type == 'overloaded':
+    if overloaded :
       df = agents_results[0].overloaded_lines_freq_several_episodes(
         episodes_names)
       df = df.rename(columns={'Overloaded': agents_results[0].agent_name})
@@ -466,7 +466,7 @@ class AgentsAnalytics:
 
     for agent in agents_results[1:]:
       agent_names.append(agent.agent_name)
-      if fig_type == 'overloaded':
+      if overloaded:
         df2 = agent.overloaded_lines_freq_several_episodes(episodes_names)
         df2 = df2.rename(columns={'Overloaded': agent.agent_name})
       else:
@@ -821,7 +821,7 @@ class AgentsAnalytics:
   @staticmethod
   def plot_cumulative_reward(agents_data: List[EpisodesDataTransformer],
                              episodes_names: Optional[List] = None,
-                             fig_type: Optional[str] = 'CumReward',
+                             CumReward: Optional[bool] = True,
                              title: Optional[
                                str] = 'Cumulative reward per episode',
                              **fig_kwargs):
@@ -847,10 +847,10 @@ class AgentsAnalytics:
     :param title: bar chart title, bar chart title, default value =
                   'Overloaded Lines by station'
     :type title: str
-    :param fig_type: diagram type: cumulative reward per episode or
+    :param CumReward: diagram type: cumulative reward per episode or
                      accomplished time-steps per episode.
                      Default = cumulative reward, else accomplished time-steps
-    :type fig_type: str
+    :type CumReward: bool
     :param fig_kwargs: keyword arguments from the plotly library. Example:
                        height= 700. For more arguments vist the plotly
                        documentation https://plotly.com/python/
@@ -864,7 +864,7 @@ class AgentsAnalytics:
     y_list = []
 
     for i, agent in enumerate(agents_data):
-      if fig_type == 'CumReward':
+      if CumReward:
         df = AgentsAnalytics.cumulative_reward(agent, episodes_names)
         y = df['Cumulative reward'].tolist()
       else:
@@ -875,7 +875,7 @@ class AgentsAnalytics:
       new_names[f'wide_variable_{i}'] = agent.agent_name
       y_list.append(y)
 
-    if fig_type == 'CumReward':
+    if CumReward:
       x_title = '$\\frac{Cumulative reward}{100}$'
     else:
       title = x_title = 'Accomplished time steps'

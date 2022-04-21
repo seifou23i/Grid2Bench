@@ -34,10 +34,12 @@ class TestAgentsAnalytics(unittest.TestCase):
     AgentsAnalytics.plot_actions_freq_by_station_pie_chart(agents_results=self.agents.agents_data)
 
   def test_plot_lines_impact(self):
-    AgentsAnalytics.plot_lines_impact(agents_results=self.agents.agents_data, fig_type='overloaded')
+    AgentsAnalytics.plot_lines_impact(agents_results=self.agents.agents_data,
+                                      overloaded=True)
 
   def test_plot_lines_impact(self):
-    AgentsAnalytics.plot_lines_impact(agents_results=self.agents.agents_data, fig_type='disconnected')
+    AgentsAnalytics.plot_lines_impact(agents_results=self.agents.agents_data,
+                                      overloaded= False)
 
   def test_plot_computation_times(self):
     AgentsAnalytics.plot_computation_times(agents_results=self.agents.agents_data)

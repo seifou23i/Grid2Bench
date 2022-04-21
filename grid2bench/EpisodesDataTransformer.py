@@ -624,11 +624,9 @@ class EpisodesDataTransformer:
         df = df.rename(columns={'NB action': 'NB unitary actions'})
         display(df)
 
-  def action_sequences_to_dict(self,
-                               episodes_names: Optional[List] = None,
-                               min_length:
-                               int = 0,
-                               max_length: int = 400) -> List[Dict]:
+  def action_sequences_to_dict(self, episodes_names: Optional[List] = None,
+                               min_length: int = 0, max_length: int = 400) -> \
+  List[Dict]:
     """Helper function to transform sequence of actions df to dict.
 
     Transform the data structure and prepare it for plotting with plotly's
@@ -652,17 +650,14 @@ class EpisodesDataTransformer:
 
     for i in range(df.shape[0]):
       dict_list.append(
-        dict(Type=self.agent_name,
-             Start=str(df.loc[i, 'Sequence start']),
+        dict(Type=self.agent_name, Start=str(df.loc[i, 'Sequence start']),
              Finish=str(df.loc[i, 'Sequence end']),
-             Actions=df.loc[i, 'Sequence length'],
-             Actions_percent
-             =(df.loc[i, 'NB unitary actions'] / max_length) * 100, ))
+             Actions=df.loc[i, 'Sequence length'], Actions_percent=(df.loc[
+                                                                      i, 'NB unitary actions'] / max_length) * 100, ))
 
     return dict_list
 
-  def overloaded_lines_freq_several_episodes(
-      self,
+  def overloaded_lines_freq_several_episodes(self,
       episodes_names: Optional[List] = None) -> pd.DataFrame:
     """Overloaded lines for all episodes in episodes_names.
 
@@ -700,12 +695,11 @@ class EpisodesDataTransformer:
 
     for episode_data in self.episodes_data:
       if episode_data.episode_name in episodes_names:
-        overloaded_lines_for_episode_i \
-          = episode_data.overloaded_lines_by_timestamp()
+        overloaded_lines_for_episode_i = episode_data.overloaded_lines_by_timestamp()
 
-        overloaded_lines_flatten = [
-          list(item) for dict in overloaded_lines_for_episode_i
-          for key, item in dict.items() if key == 'Overloaded lines']
+        overloaded_lines_flatten = [list(item) for dict in
+          overloaded_lines_for_episode_i for key, item in dict.items() if
+          key == 'Overloaded lines']
 
         overloaded_lines = overloaded_lines + overloaded_lines_flatten
 
@@ -723,8 +717,7 @@ class EpisodesDataTransformer:
 
     return df
 
-  def disconnected_lines_freq_several_episodes(
-      self,
+  def disconnected_lines_freq_several_episodes(self,
       episodes_names: Optional[List] = None) -> pd.DataFrame:
     """Disconnected lines for all episodes in episodes_names.
 
@@ -762,11 +755,10 @@ class EpisodesDataTransformer:
     for episode_data in self.episodes_data:
 
       if episode_data.episode_name in episodes_names:
-        disconnected_lines_for_episode_i \
-          = episode_data.disconnected_lines_by_timestamp()
-        disconnected_lines_flatten = [
-          list(item) for dict in disconnected_lines_for_episode_i
-          for key, item in dict.items() if key == 'Disconnected lines']
+        disconnected_lines_for_episode_i = episode_data.disconnected_lines_by_timestamp()
+        disconnected_lines_flatten = [list(item) for dict in
+          disconnected_lines_for_episode_i for key, item in dict.items() if
+          key == 'Disconnected lines']
 
         disconnected_lines = disconnected_lines + disconnected_lines_flatten
 
@@ -775,9 +767,9 @@ class EpisodesDataTransformer:
     data = [disconnected_lines_flatten.count(x) for x in
             range(self.episodes_data[0]._n_lines())]
 
-    df = pd.DataFrame(
-      np.array([self.episodes_data[0]._name_of_lines(range(len(data))),
-                data]).transpose(), columns=['Line', 'Disconnected'])
+    df = pd.DataFrame(np.array(
+      [self.episodes_data[0]._name_of_lines(range(len(data))),
+       data]).transpose(), columns=['Line', 'Disconnected'])
 
     df = df.astype({'Line': str, 'Disconnected': int}, errors='raise')
     df = df.loc[df['Disconnected'] != 0]
@@ -794,10 +786,8 @@ class EpisodesDataTransformer:
 
     w = widgets.Dropdown(
       options=['Select', 'Tolopology', 'Force_line', 'Redispatching',
-               'Injection', 'Curtailment', 'Storage'],
-      value='Select',
-      description='Table',
-    )
+               'Injection', 'Curtailment', 'Storage'], value='Select',
+      description='Table', )
 
     def on_change(change):
       if change['type'] == 'change' and change['name'] == 'value':
@@ -807,14 +797,12 @@ class EpisodesDataTransformer:
         for episode_data in self.episodes_data:
           if (not len(
               episodes_names)) or episode_data.episode_name in episodes_names:
-            functions = {
-              'Tolopology': episode_data.create_topology_df,
+            functions = {'Tolopology': episode_data.create_topology_df,
               'Force_line': episode_data.create_force_line_df,
               'Redispatching': episode_data.create_dispatch_df,
               'Injection': episode_data.create_injection_df,
               'Curtailment': episode_data.create_curtailment_df,
-              'Storage': episode_data.create_storage_df
-            }
+              'Storage': episode_data.create_storage_df}
             r = functions[change['new']]()
             r[1]['episode_name'] = episode_data.episode_name
             result = pd.concat([result, r[1]])
@@ -864,23 +852,11 @@ class EpisodesDataTransformer:
     return act_episodes[action_id]
 
   @staticmethod
-  def plot_actions_by_station_by_id(
-      df,
+  def plot_actions_by_station_by_id(df,
       title: Optional[str] = 'Frequency of actions by substation',
-      reverse: bool= False,
       **fig_kwargs):
 
-    if reverse:
-      path = ['susbtation', 'action_id']
-    else:
-      path = ['action_id', 'susbtation']
-
-    fig = px.sunburst(
-      df,
-      path=path,
-      values='nb_action',
-      title=title,
-    )
+    fig = px.sunburst(df, path=['susbtation', 'action_id'], values='nb_action',
+      title=title, )
     fig.update_layout(**fig_kwargs)
     return fig
-
