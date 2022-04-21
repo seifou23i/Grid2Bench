@@ -828,6 +828,7 @@ class EpisodesDataTransformer:
 
     display(w)
     output_display.display('')
+
     data_display.display(grid)
 
   def get_actions_by_substation_by_id(self):

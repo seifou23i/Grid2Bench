@@ -13,7 +13,6 @@ Welcome to Grid2Bench's documentation!
    intro
    kpi
    grid2bench
-   configmanager
 
 .. toctree::
    :maxdepth: 2

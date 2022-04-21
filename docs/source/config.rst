@@ -46,3 +46,11 @@ Once, the config file is imported correctly, its parameters could be accessed ea
     input_data_path = os.path.abspath(os.path.join('..', conf.get_option('data_path')))
     agents_names = conf.get_option_tolist('agents_names')
     episodes_names = conf.get_option_tolist('episodes_names')
+
+configmanager.configmanager class
+----------------------------------
+
+.. automodule:: configmanager.configmanager
+   :members:
+   :undoc-members:
+   :show-inheritance:
