@@ -9,7 +9,7 @@ code snippet to show different functionalities.
 
 Configuration and Inputs
 ========================
-The agents required for analysis should be imported at the first stage. 
+The agents required for analysis should be imported at the first stage.
 The following code snippet shows how to load different agents:
 
 .. code:: python
@@ -24,11 +24,11 @@ The following code snippet shows how to load different agents:
 Available KPI
 =============
 
-    
+
 Cumulative rewards and accomplished time steps
 ----------------------------------------------
-We can visualized for each agent and for each episode the cumulative reward and 
-total survival time step that the agent accomplished. Figure below present such 
+We can visualized for each agent and for each episode the cumulative reward and
+total survival time step that the agent accomplished. Figure below present such
 results for *PPO_agent* and *MazeRL_agent*
 
 .. code:: python
@@ -45,12 +45,13 @@ results for *PPO_agent* and *MazeRL_agent*
     agents.plot_cumulative_reward(agents_results, fig_type='AccTimeSteps')
 
 .. image:: imgs/CumRewAccTimeSteps.png
+    :width: 400px
     :align: center
     :alt: Cumulative Reward
 
 Action frequencies
 ------------------
-We can visualize the frequency of different actions for each agent. In figure below 
+We can visualize the frequency of different actions for each agent. In figure below
 we can see that in both agents below 100% of the actions are topology changes.
 
 .. code:: python
@@ -66,8 +67,8 @@ we can see that in both agents below 100% of the actions are topology changes.
     :align: center
     :alt: Cumulative Reward
 
-Also action frequency can be visualized based on the substations, 
-pi-chart below shows for each agent the share of each station in all the performed actions. 
+Also action frequency can be visualized based on the substations,
+pi-chart below shows for each agent the share of each station in all the performed actions.
 
 .. code:: python
 
@@ -82,15 +83,32 @@ pi-chart below shows for each agent the share of each station in all the perform
     :align: center
     :alt: Cumulative Reward
 
+Let's dig into more details about the impacted stations by viewing the id of the actions that impact these stations
+
+.. code:: python
+
+    # Select an agent to see its actions per substation
+    agent = agents.agent_data[agents.agents_names.index('Tutor_binbinchen')]
+    # Retrieve the corresponding dataframe for a given agent
+    df = tutor_binbinchen.get_actions_by_substation_by_id()
+    # Plot it
+    eps.plot_actions_by_station_by_id(
+        df,
+        title = 'Tutor Binbinchen : Frequency of actions by substation')
+
+.. image:: imgs/doublePieChart.png
+    :align: center
+    :alt: Cumulative Reward
+
 Impact of actions on objects
 ----------------------------
-We can visualize the impacts of actions on different objects: 
+We can visualize the impacts of actions on different objects:
 
-Impact on lines 
+Impact on lines
 ~~~~~~~~~~~~~~~~
-We can visualize overloaded lines and compare the results of different agents in a bar plot. 
-[Using function `plot_lines_impact()` if parameter `disconnected==False`, 
-then the function will plot overloaded lines]. 
+We can visualize overloaded lines and compare the results of different agents in a bar plot.
+[Using function `plot_lines_impact()` if parameter `disconnected==False`,
+then the function will plot overloaded lines].
 Figure below presents the result of above function for overloaded lines:
 
 .. code:: python
@@ -106,8 +124,8 @@ Figure below presents the result of above function for overloaded lines:
     :align: center
     :alt: Cumulative Reward
 
-And for the same function with parameter `disconnected = True`, 
-we can have the visualization of disconnected lines. 
+And for the same function with parameter `disconnected = True`,
+we can have the visualization of disconnected lines.
 
 .. code:: python
 
@@ -125,7 +143,7 @@ we can have the visualization of disconnected lines.
 
 Impact on reference topology
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-We can also compute and compare the distance from the initial topology at 
+We can also compute and compare the distance from the initial topology at
 each time step of selected episode.
 
 .. code:: python
@@ -133,16 +151,16 @@ each time step of selected episode.
     # python code snippet to reproduce the figure
     w = widgets.Dropdown(
             options=agents.episodes_names,
-            
+
             description='Episode',
         )
     def f(x):
-        display(AgentsAnalytics.plot_distance_from_initial_topology(agents_results, 
+        display(AgentsAnalytics.plot_distance_from_initial_topology(agents_results,
                                                                     episodes_names=[x]))
-        
+
     interact(f, x=w)
 
-    
+
 
 .. image:: imgs/ImpactTopo.png
     :align: center
@@ -151,9 +169,9 @@ each time step of selected episode.
 
 Impact on substations
 ~~~~~~~~~~~~~~~~~~~~~~
-In the same way as impact of actions on lines, we can visualized the impact 
-of actions on the substations. Figure below presents the frequency of action by 
-stations for two different agents. 
+In the same way as impact of actions on lines, we can visualized the impact
+of actions on the substations. Figure below presents the frequency of action by
+stations for two different agents.
 
 .. code:: python
 
@@ -167,3 +185,34 @@ stations for two different agents.
 .. image:: imgs/ImpactSubs.png
     :align: center
     :alt: Cumulative Reward
+
+Action sequence length
+----------------------
+We can visualize the action sequence length with a widget to select the episode that we want to analyze:
+
+.. code:: python
+
+    # Graphic parameters
+    min_length= 0
+    max_length= 15
+    bg = "rgba(0,0,0,0)"
+
+    # function allowing to plot the action sequence length interactively
+    def f(x):
+        if not type(x)==list : eps = [x]
+        else : eps =x
+
+        display(agents.plot_actions_sequence_length(
+            agents_results,
+            episodes_names=eps,
+            min_length=min_length,
+            max_length=max_length,
+            plot_bgcolor = bg
+        )
+            )
+
+    interact(f, x=w)
+
+.. image:: imgs/seqLenActions.png
+    :align: center
+    :alt: action sequence length
