@@ -2,49 +2,22 @@
 Performance Matrices
 ********************
 
-This section provides performance matrices (dataframes) which are used
-by visualisation tools to plot the required performance metrics.
+This section provides the details of two types of  matrices (dataframes):
+- Those which are used as the input for visualisation tools;
+- Those which include more rich and generic contents and could be used by the user interactively.
 
-Action identifier by substation
--------------------------------
-In addition, there are cases that we might be interested to verify which actions are mostly
-performed for specific substations. The two level Pychart provides this possibility to
-visualize the action_id for each substation. The corresponding dataframe can be retreived by:
+Dataframes as performance matrices
+----------------------------------
+This section present all the underlying tables (dataframes) which are required for generation
+of visulisation tools. The plots presented `here <kpi.rst>`_ are based on this performance
+matrices.
 
-.. code-block:: python
-
-    df = agent_example.get_actions_by_substation_by_id()
-
-.. image:: imgs/tables/doublePieChart.png
+.. image:: imgs/tables/tblGridView.png
     :align: center
     :alt: Double pie chart
-    :height: 300px
 
-
-
-
-Action sequence length
-----------------------
-We can also verify the sequence of actions as tabular data with the possibility of keeping
-only the sequences between 5 and 10 for example:
-
-.. code-block:: python
-
-    min_length= 5
-    max_length= 15
-
-    agent_example.display_sequence_actions(
-        min_length=min_length,
-        max_length=max_length,
-    )
-
-.. image:: imgs/tables/actionSeqLen.png
-    :align: center
-    :alt: Action sequence length
-
-
-Agent Behavior analysis
------------------------
+Interactive tables
+------------------
 To analyze the behavior of agents in more details, sometime we need to have a detailed list
 of different type of actions performed by the agent. Function ``get_detailed_action_types()``
 returns for each agent and for listed episodes these detailed information.
@@ -61,56 +34,113 @@ want to filter the results based on specific substation or action_id.
     :align: center
     :alt: Action sequence length
 
-Frequency of different action types
------------------------------------
 
-.. code-block:: python
+..
+    Action identifier by substation
+    -------------------------------
+    In addition, there are cases that we might be interested to verify which actions are mostly
+    performed for specific substations. The two level Pychart provides this possibility to
+    visualize the action_id for each substation. The corresponding dataframe can be retreived by:
 
-    agent.actions_freq_by_type_several_episodes()
+    .. code-block:: python
 
-.. image:: imgs/tables/freqActionTypes.png
-    :align: center
-    :alt: frequency of different action types
+        df = agent_example.get_actions_by_substation_by_id()
 
-Frequency of actions by substations
------------------------------------
-.. code-block:: python
+    .. image:: imgs/tables/doublePieChart.png
+        :align: center
+        :alt: Double pie chart
+        :height: 300px
 
-    agent.actions_freq_by_station_several_episodes()
 
-.. image:: imgs/tables/freqActionSubstations.png
-    :align: center
-    :alt: frequency of actions by substations
 
-Frequency of disconnected lines
--------------------------------
+    Action sequence length
+    ----------------------
+    We can also verify the sequence of actions as tabular data with the possibility of keeping
+    only the sequences between 5 and 10 for example:
 
-.. code-block:: python
+    .. code-block:: python
 
-    agent.disconnected_lines_freq_several_episodes()
+        min_length= 5
+        max_length= 15
 
-.. image:: imgs/tables/freqDiscLines.png
-    :align: center
-    :alt: frequency of disconnected lines
+        agent_example.display_sequence_actions(
+            min_length=min_length,
+            max_length=max_length,
+        )
 
-Agent execution time
--------------------------------
+    .. image:: imgs/tables/actionSeqLen.png
+        :align: center
+        :alt: Action sequence length
 
-.. code-block:: python
 
-    agent.computation_times_several_episodes()
+    Agent Behavior analysis
+    -----------------------
+    To analyze the behavior of agents in more details, sometime we need to have a detailed list
+    of different type of actions performed by the agent. Function ``get_detailed_action_types()``
+    returns for each agent and for listed episodes these detailed information.
 
-.. image:: imgs/tables/agentExecTime.png
-    :align: center
-    :alt: Agent execution time
+    .. code-block:: python
 
-Distance fom initial topology
--------------------------------
+        EpisodeDataTransformer.display_datiled_action_type(agent_result, ["dec16_2", "dec16_1"])
 
-.. code-block:: python
+    The widget provides the possibility to choose the action type to focus on all the actions of
+    the same type and also the columns of the results have the filtering possibility in case we
+    want to filter the results based on specific substation or action_id.
 
-    agent.distance_from_initial_topology()
+    .. image:: imgs/tables/agentBehaviorAnalysis.png
+        :align: center
+        :alt: Action sequence length
 
-.. image:: imgs/tables/distRefTopo.png
-    :align: center
-    :alt: Distance from initial topology
+    Frequency of different action types
+    -----------------------------------
+
+    .. code-block:: python
+
+        agent.actions_freq_by_type_several_episodes()
+
+    .. image:: imgs/tables/freqActionTypes.png
+        :align: center
+        :alt: frequency of different action types
+
+    Frequency of actions by substations
+    -----------------------------------
+    .. code-block:: python
+
+        agent.actions_freq_by_station_several_episodes()
+
+    .. image:: imgs/tables/freqActionSubstations.png
+        :align: center
+        :alt: frequency of actions by substations
+
+    Frequency of disconnected lines
+    -------------------------------
+
+    .. code-block:: python
+
+        agent.disconnected_lines_freq_several_episodes()
+
+    .. image:: imgs/tables/freqDiscLines.png
+        :align: center
+        :alt: frequency of disconnected lines
+
+    Agent execution time
+    -------------------------------
+
+    .. code-block:: python
+
+        agent.computation_times_several_episodes()
+
+    .. image:: imgs/tables/agentExecTime.png
+        :align: center
+        :alt: Agent execution time
+
+    Distance fom initial topology
+    -------------------------------
+
+    .. code-block:: python
+
+        agent.distance_from_initial_topology()
+
+    .. image:: imgs/tables/distRefTopo.png
+        :align: center
+        :alt: Distance from initial topology
