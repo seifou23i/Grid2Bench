@@ -5,7 +5,13 @@ KPI
 Introduction
 ============
 This section show how to use the KPI module. Various examples are provided with correspnding
-code snippet to show different functionalities.
+code snippet to show different functionalities. The figure below show all the capabilities at
+a glance.
+
+.. image:: imgs/gridView.png
+    :align: center
+    :alt: gridView
+
 
 Configuration and Inputs
 ========================
@@ -45,7 +51,6 @@ results for *PPO_agent* and *MazeRL_agent*
     agents.plot_cumulative_reward(agents_results, fig_type='AccTimeSteps')
 
 .. image:: imgs/CumRewAccTimeSteps.png
-    :width: 400px
     :align: center
     :alt: Cumulative Reward
 
@@ -83,7 +88,8 @@ pi-chart below shows for each agent the share of each station in all the perform
     :align: center
     :alt: Cumulative Reward
 
-Let's dig into more details about the impacted stations by viewing the id of the actions that impact these stations
+Let's dig into more details about the impacted stations by viewing the id of the actions
+that impact these stations
 
 .. code:: python
 
@@ -97,6 +103,7 @@ Let's dig into more details about the impacted stations by viewing the id of the
         title = 'Tutor Binbinchen : Frequency of actions by substation')
 
 .. image:: imgs/doublePieChart.png
+    :height: 400px
     :align: center
     :alt: Cumulative Reward
 
