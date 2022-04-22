@@ -49,6 +49,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import grid2op
+from grid2op.PlotGrid import PlotMatplot
 
 from grid2bench.EpisodesDataTransformer import EpisodesDataTransformer
 
@@ -454,7 +456,7 @@ class AgentsAnalytics:
     # for the first agent
     agent_names.append(agents_results[0].agent_name)
 
-    if overloaded :
+    if overloaded:
       df = agents_results[0].overloaded_lines_freq_several_episodes(
         episodes_names)
       df = df.rename(columns={'Overloaded': agents_results[0].agent_name})
@@ -821,10 +823,8 @@ class AgentsAnalytics:
   @staticmethod
   def plot_cumulative_reward(agents_data: List[EpisodesDataTransformer],
                              episodes_names: Optional[List] = None,
-                             CumReward: Optional[bool] = True,
-                             title: Optional[
-                               str] = 'Cumulative reward per episode',
-                             **fig_kwargs):
+                             CumReward: Optional[bool] = True, title: Optional[
+        str] = 'Cumulative reward per episode', **fig_kwargs):
     """A bar graph representing the cumulative reward/accomplished time-steps
     per episodes for each agent.
 
@@ -900,8 +900,7 @@ class AgentsAnalytics:
       agents_results: List[EpisodesDataTransformer],
       episodes_names: Optional[List] = None,
       title: Optional[str] = 'Frequency of actions by type',
-      row: Optional[int] = 1, col: Optional[int] = 2,
-      **fig_kwargs):
+      row: Optional[int] = 1, col: Optional[int] = 2, **fig_kwargs):
 
     agent_names = []
     for agent in agents_results:
@@ -926,3 +925,16 @@ class AgentsAnalytics:
     fig.update_layout(title_text=title, uniformtext_minsize=12,
                       uniformtext_mode='hide', **fig_kwargs)
     return fig
+
+  @staticmethod
+  def visualize_grid_state(env_name: str, agent: EpisodesDataTransformer,
+                           timestamp_str: str, **kwargs):
+
+    # uploading grid2op environment to get the observation_space
+    env = grid2op.make("l2rpn_neurips_2020_track1_small")
+    plot_helper = PlotMatplot(env.observation_space)
+
+    # get the observation
+    obs = agent.get_observation_by_timestamp(timestamp_str)
+
+    return plot_helper.plot_obs(obs)
