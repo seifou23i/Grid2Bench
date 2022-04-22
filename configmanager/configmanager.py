@@ -9,7 +9,8 @@ class ConfigManager(object):
   """
   This class facilitates the use of config parser for the benchmarking
 
-  It helps to create a config (section), add/modify/remove the properties (options)
+  It helps to create a config (section), add/modify/remove the properties
+  (options)
 
   args
   ----
@@ -20,15 +21,14 @@ class ConfigManager(object):
           a path where the config file should be saved for futher use
 
   """
-  def __init__(self,
-               benchmark_name: str,
-               path: Union[str, None] = None
-               ):
+
+  def __init__(self, benchmark_name: str, path: Union[str, None] = None):
 
     self.benchmark_name = benchmark_name
     self.path_config = None
     if path is None:
-      self.path_config = pathlib.Path(__file__).parent.absolute().joinpath("conf.ini")
+      self.path_config = pathlib.Path(__file__).parent.absolute().joinpath(
+        "conf.ini")
     else:
       self.path_config = path
 
@@ -37,7 +37,8 @@ class ConfigManager(object):
     if os.path.exists(self.path_config):
       self.config = self._read_config(self.path_config)
 
-  def create_config(self, scenario_name: Union[str, None] = None, path: Union[str, None] = None, **kwargs):
+  def create_config(self, scenario_name: Union[str, None] = None,
+                    path: Union[str, None] = None, **kwargs):
     """
     function to create a config file if it does not exist already
     """
@@ -52,7 +53,8 @@ class ConfigManager(object):
       self.config[scenario_name] = {}
     except KeyError:
       raise KeyError(
-        f"Invalid scenario_name {scenario_name}. A configuration with this name is already exists in config file.")
+        f"Invalid scenario_name {scenario_name}. A configuration with this "
+        f"name is already exists in config file.")
 
     for key, value in kwargs.items():
       self.config[scenario_name][key] = str(value)
@@ -78,7 +80,8 @@ class ConfigManager(object):
     """
     return dict(self.config[self.benchmark_name].items())
 
-  def edit_config_option(self, option: str, value: Union[str, None] = None, scenario_name: Union[str, None] = None):
+  def edit_config_option(self, option: str, value: Union[str, None] = None,
+                         scenario_name: Union[str, None] = None):
     """
     to add or edit an option for a scenario
     """
@@ -90,7 +93,8 @@ class ConfigManager(object):
     self.config.set(scenario_name, option, value)
     return self.config
 
-  def remove_config_option(self, option: Union[str, None], scenario_name: Union[str, None] = None):
+  def remove_config_option(self, option: Union[str, None],
+                           scenario_name: Union[str, None] = None):
     """
     to remove an option from a config
     """
