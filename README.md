@@ -1,7 +1,7 @@
 # Grid2Bench
 The benchmarking framework allows to evaluate the performances of power grid based agents, from various point of views. The scheme of the framework is shown in Figure below. Different power grid episodes could be imported for the analysis purpose alongside the evaluation results of various agents. The KPIs (discussed [here](#main-features-of-rlbenchplot)) are computed which form a evaluation matrix or table. Finally, in order to facilitate the analysis and decision-making task, a series of visualization tools can be used to compare the performances.
 
-![Scheme](./docs/source/imgs/Benchmarking_Scheme.jpg)
+![Scheme](./docs/source/imgs/grid2bench_scheme.jpg)
 
 *   [1 Installation](#installation)
     *   [1.1 Setup a Virtualenv (optional)](#setup-a-virtualenv-optional)
@@ -17,7 +17,7 @@ The benchmarking framework allows to evaluate the performances of power grid bas
 *   Python >= 3.7
 
 ## Setup a Virtualenv (optional)
-### Create a virtual environment 
+### Create a virtual environment
 ```commandline
 mkdir my-project-folder
 cd my-project-folder
@@ -38,24 +38,24 @@ poetry install
 ```
 
 ## Install from PyPI
-In future 
+In future
 ```commandline
 pip3 install grid2bench
 ```
 
 # Main features of Grid2Bench
-This package allows to evaluate the performance of power grid agents from various point of views. 
+This package allows to evaluate the performance of power grid agents from various point of views.
 Hereafter, we introduce the main feeatures included in this package:
 
-- Cumulative rewards: 
+- Cumulative rewards:
 - Agent's alive time:
 - Action impacts
-   - Lines:  
+   - Lines:
       - frequency per substation:
       - frequency per overloaded lines:
       - frequency per disconnected lines:
    - Reference topology:
-   - Substations:    
+   - Substations:
 - Action Execution Time
 - Action Sequence length
 - Agents bahaviour analysis
@@ -85,8 +85,8 @@ A more complete example of all the functionalities could be seen in documentatio
 A dedicated KPI page is provided at: [KPI page](docs/source/kpi.rst)
 
 # Getting Started
-Some Jupyter notebook are provided as tutorials for the Grid2Bench package. They are located in the 
-[getting_started](getting_started) directories. 
+Some Jupyter notebook are provided as tutorials for the Grid2Bench package. They are located in the
+[getting_started](getting_started) directories.
 
 Getting_Started notebook contains simple examples to show how we use the functions defined in the framework:
 
@@ -94,13 +94,13 @@ Getting_Started notebook contains simple examples to show how we use the functio
       * First option: you can load agent's resulsts separately [using EpisodeData class]
       * Second Option: you can load all the agents' results at onece [using AgentsAnalytics class]
    * Action Frequency
-   * Impact of actions on objects 
+   * Impact of actions on objects
    * Action Execution Time
    * Action Sequence length
    * Agents bahaviour analysis -->
 
 
-   
+
 
 # Documentation
 The documentation is accessible from [here](https://grid2bench.readthedocs.io/en/latest/index.html).
@@ -115,7 +115,7 @@ make html
 ```
 
 # To contribute
-* Supplementary features could be requested using github issues. 
+* Supplementary features could be requested using github issues.
 * Other contributions are welcomed and can be integrated using pull requests.
 
 # License information
@@ -124,5 +124,5 @@ Copyright 2022-2023 IRT SystemX & RTE
     IRT SystemX: https://www.irt-systemx.fr/
     RTE: https://www.rte-france.com/
 
-This Source Code is subject to the terms of the Mozilla Public License (MPL) v2 also available 
+This Source Code is subject to the terms of the Mozilla Public License (MPL) v2 also available
 [here](https://www.mozilla.org/en-US/MPL/2.0/)
