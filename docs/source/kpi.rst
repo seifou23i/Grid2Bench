@@ -1,6 +1,6 @@
-***
-KPI
-***
+*******************
+Visualisation tools
+*******************
 
 Introduction
 ============

@@ -11,8 +11,14 @@ Welcome to Grid2Bench's documentation!
    :caption: Contents:
 
    intro
-   kpi
    grid2bench
+
+.. toctree::
+   :maxdepth: 2
+   :caption: KPI
+
+   kpi
+   tables
 
 .. toctree::
    :maxdepth: 2
@@ -21,7 +27,6 @@ Welcome to Grid2Bench's documentation!
    examples
    contrib
    config
-   tables
 
 Indices and tables
 ==================
