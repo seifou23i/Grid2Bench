@@ -928,11 +928,11 @@ class AgentsAnalytics:
 
   @staticmethod
   def visualize_grid_state(observation_space, agent: EpisodesDataTransformer,
-                           timestamp_str: str, **kwargs):
+                           episode_name: str, timestamp_str: str, **kwargs):
 
     plot_helper = PlotMatplot(observation_space)
 
     # get the observation
-    obs = agent.get_observation_by_timestamp(timestamp_str)
+    obs = agent.get_observation_by_timestamp(episode_name, timestamp_str)
 
     return plot_helper.plot_obs(obs)
